@@ -1,4 +1,5 @@
 using System;
+using Gameplay.Data;
 using Global;
 using Global.Registries;
 using UI;
@@ -13,6 +14,7 @@ namespace Gameplay
     public struct PlayerStats
     {
         public float MovementSpeed;
+        public float PickupRange;
     }
     
     public class Player : MonoBehaviour, PlayerInput.IPlayerActions
@@ -21,13 +23,14 @@ namespace Gameplay
         [SerializeField] private Transform _skillSpawnPosition;
 
         [SerializeField] [RegistryDropdown(typeof(SkillRegistry))] private string _startingSkill;
-        
+
+        private ExperienceTracker _experienceTracker;
         private SkillSlot _skillSlot;
         private Vector2 _desiredDirection;
         
-        
         public IUIRoot UIRoot { set; private get; }
         public Vector3 SkillSpawnPosition => _skillSpawnPosition.position;
+        public PlayerStats Stats => _playerStats;
 
         public void OnMove(InputAction.CallbackContext context)
         {
@@ -59,8 +62,14 @@ namespace Gameplay
             
         }
 
+        private void OnLevelUp(int level)
+        {
+            
+        }
+
         private void Awake()
         {
+            _experienceTracker = new ExperienceTracker(100, 1.1f, OnLevelUp);
             _skillSlot = new SkillSlot(AllRegistries.Instance.Skills.GetByID(_startingSkill).CreateInstance());
         }
 
@@ -72,6 +81,11 @@ namespace Gameplay
             }
             
             _skillSlot.TryUseSkill(this);
+        }
+
+        public void GrantExperience(int experience)
+        {
+            _experienceTracker.AddExperience(experience);
         }
     }
 }

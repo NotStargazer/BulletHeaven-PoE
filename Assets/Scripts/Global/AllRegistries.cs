@@ -19,6 +19,7 @@ namespace Global
         public override void Instantiate()
         {
             Skills.CreateRegistry();
+            Collectables.Initialize();
         }
         public SkillRegistry Skills;
         public SupportRegistry Supports;

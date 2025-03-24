@@ -63,3 +63,5 @@ MonoBehaviour:
         _projectile: {fileID: 0}
         _projectileVelocity: 0
         _projectileDuration: 0
+  Collectables:
+    _experience: {fileID: 1380669470238152779, guid: dc348e75cdfdc794cb7252d1c225a686, type: 3}

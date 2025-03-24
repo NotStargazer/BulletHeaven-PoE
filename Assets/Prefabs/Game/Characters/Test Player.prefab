@@ -47,6 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerStats:
     MovementSpeed: 3
+    PickupRange: 4
   _skillSpawnPosition: {fileID: 4962846157581697459}
   _startingSkill: TestSkill
 --- !u!1 &4603852519080755832

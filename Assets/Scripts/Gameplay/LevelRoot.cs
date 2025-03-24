@@ -1,4 +1,4 @@
-using System;
+using Global;
 using UnityEngine;
 using Utility;
 
@@ -28,9 +28,10 @@ namespace Gameplay
             return enemy != null;
         }
 
-        public void DropItems()
+        public void DropItems(Vector3 position)
         {
-            
+            var experience = AllRegistries.Instance.Collectables.GetExperience(1);
+            experience.Drop(_activePlayer, position);
         }
     }
 }

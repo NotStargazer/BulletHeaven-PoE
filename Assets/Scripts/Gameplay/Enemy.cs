@@ -28,7 +28,7 @@ namespace Gameplay
 
         public void Kill()
         {
-            LevelRoot.Instance.DropItems();
+            LevelRoot.Instance.DropItems(transform.localPosition);
             gameObject.SetActive(false);
             Return(this);
         }

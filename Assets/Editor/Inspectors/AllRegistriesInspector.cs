@@ -31,6 +31,8 @@ namespace Editor.Inspectors
             }
             EditorGUILayout.EndScrollView();
 
+            EditorGUILayout.PropertyField(serializedObject.FindProperty("Collectables"));
+
             serializedObject.ApplyModifiedProperties();
         }
 

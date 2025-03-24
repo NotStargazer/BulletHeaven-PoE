@@ -3,32 +3,41 @@ using UnityEngine;
 
 namespace Gameplay
 {
-    public class Collectable : MonoBehaviour, IPoolInstance<Collectable>
+    public abstract class Collectable : MonoBehaviour, IPoolInstance<Collectable>
     {
         [SerializeField] private MeshFilter _meshFilter;
         [SerializeField] private MeshRenderer _meshRenderer;
         
-        private Player _player;
-        private Vector2 _dropPosition;
-        
-        private Vector2 PlayerPosition => new(_player.transform.localPosition.x, _player.transform.localPosition.z);
-        private float Distance => Vector2.Distance(_dropPosition, PlayerPosition);
-        
-        public void Drop(Player player)
+        protected Player _player;
+
+        protected Vector3 PlayerPosition => _player.transform.localPosition;
+        protected Vector3 CollectablePosition => transform.localPosition;
+        protected float Distance => Vector3.Distance(CollectablePosition, PlayerPosition);
+
+        private void Awake()
         {
-            var position = transform.localPosition;
-            _dropPosition = new Vector2(position.x, position.z);
-        }
-        
-        private void Collect()
-        {
+            gameObject.SetActive(false);
         }
 
-        private void Update()
+        protected abstract void OnDrop();
+        
+        public void Drop(Player player, Vector3 position)
         {
-            
+            _player = player;
+            gameObject.SetActive(true);
+            transform.localPosition = position;
+            OnDrop();
         }
 
+        protected abstract void OnCollect();
+        
+        protected void Collect()
+        {
+            OnCollect();
+            gameObject.SetActive(false);
+            Return(this);
+        }
+        
         public void OnRent()
         {
             
