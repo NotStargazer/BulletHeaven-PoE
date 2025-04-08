@@ -1,5 +1,6 @@
 ﻿using Gameplay;
 using Input;
+using UI.Components;
 using UnityEngine;
 
 namespace UI
@@ -8,6 +9,7 @@ namespace UI
     {
         CameraController GameCamera { get; }
         public void StartLevel();
+        public void SetExperience(float p);
     }
     
     public class UIRoot : MonoBehaviour, IUIRoot
@@ -16,6 +18,9 @@ namespace UI
         [SerializeField] private LevelManager _levelManager;
         [SerializeField] private SessionManager _sessionManager;
         [SerializeField] private DriverState _initialState;
+
+        [Header("Components")] 
+        [SerializeField] private PlayerStatsComponent _playerStats;
 
         public CameraController GameCamera => _gameCamera;
 
@@ -41,5 +46,9 @@ namespace UI
             });
         }
 
+        public void SetExperience(float p)
+        {
+            _playerStats.Experience(p);
+        }
     }
 }

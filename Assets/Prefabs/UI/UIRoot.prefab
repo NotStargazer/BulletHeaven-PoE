@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 3870071330879745439}
   - component: {fileID: 3638273336803126413}
   - component: {fileID: 6110534908046953036}
-  - component: {fileID: 4456010909099766748}
+  - component: {fileID: 7694255568368970129}
   m_Layer: 0
   m_Name: Experience Bar
   m_TagString: Untagged
@@ -179,23 +179,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!111 &4456010909099766748
-Animation:
+--- !u!114 &7694255568368970129
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3557558834191486012}
   m_Enabled: 1
-  serializedVersion: 4
-  m_Animation: {fileID: 0}
-  m_Animations:
-  - {fileID: 7400000, guid: 32cbdede8485c8d4f839833af92b851a, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_UpdateMode: 0
-  m_CullingType: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4eaf5784aab74854886ce34d3efb109a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animationClip: {fileID: 7400000, guid: 32cbdede8485c8d4f839833af92b851a, type: 2}
 --- !u!1 &3997118939608425045
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,7 +278,7 @@ GameObject:
   - component: {fileID: 5836606998677530750}
   - component: {fileID: 8021931972559030817}
   - component: {fileID: 3076688044461797897}
-  - component: {fileID: 3973249447453691002}
+  - component: {fileID: 9112370278879470575}
   m_Layer: 0
   m_Name: Health Bar
   m_TagString: Untagged
@@ -348,23 +344,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!111 &3973249447453691002
-Animation:
+--- !u!114 &9112370278879470575
+MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4013620614721832350}
   m_Enabled: 1
-  serializedVersion: 4
-  m_Animation: {fileID: 0}
-  m_Animations:
-  - {fileID: 7400000, guid: 32cbdede8485c8d4f839833af92b851a, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_UpdateMode: 0
-  m_CullingType: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4eaf5784aab74854886ce34d3efb109a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _animationClip: {fileID: 7400000, guid: 32cbdede8485c8d4f839833af92b851a, type: 2}
 --- !u!1 &5191895875332250986
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,8 +507,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcd0eb3b94554394db5d4fdd4f093fd5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthBar: {fileID: 3973249447453691002}
-  _experienceBar: {fileID: 4456010909099766748}
+  _healthBar: {fileID: 9112370278879470575}
+  _experienceBar: {fileID: 7694255568368970129}
 --- !u!114 &6938520041020010115
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -764,6 +756,7 @@ MonoBehaviour:
   _levelManager: {fileID: 1301067032332633722}
   _sessionManager: {fileID: 791283140646502604}
   _initialState: 0
+  _playerStats: {fileID: 7107095124570782432}
 --- !u!1001 &1575255323100841175
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -62,6 +62,11 @@ namespace Gameplay
             
         }
 
+        private void OnExperienceGain(int experience, float percentageExperience)
+        {
+            UIRoot.SetExperience(percentageExperience);
+        }
+        
         private void OnLevelUp(int level)
         {
             
@@ -69,7 +74,7 @@ namespace Gameplay
 
         private void Awake()
         {
-            _experienceTracker = new ExperienceTracker(100, 1.1f, OnLevelUp);
+            _experienceTracker = new ExperienceTracker(100, 1.1f, OnExperienceGain, OnLevelUp);
             _skillSlot = new SkillSlot(AllRegistries.Instance.Skills.GetByID(_startingSkill).CreateInstance());
         }
 

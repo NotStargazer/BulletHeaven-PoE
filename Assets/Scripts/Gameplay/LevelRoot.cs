@@ -30,7 +30,7 @@ namespace Gameplay
 
         public void DropItems(Vector3 position)
         {
-            var experience = AllRegistries.Instance.Collectables.GetExperience(1);
+            var experience = AllRegistries.Instance.Collectables.GetExperience(10);
             experience.Drop(_activePlayer, position);
         }
     }
