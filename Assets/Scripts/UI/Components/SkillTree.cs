@@ -5,7 +5,7 @@ namespace UI.Components
 {
     public class SkillTree : MonoBehaviour
     {
-        [SerializeField] private SkillNode _rootNode;
+        [SerializeField] private SkillNode[] _rootNodes;
 
         public void SelectSkill(SkillNode node)
         {

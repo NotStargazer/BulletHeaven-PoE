@@ -10,7 +10,17 @@ namespace Editor.Inspectors.SkillTree
     {
         public void OnDrawHandles()
         {
-            var middle = Vector3.zero;
+            CalculateMiddleAndSize(out var middle, out var size);
+            Handles.DrawWireCube(middle, size);
+        }
+        
+        
+
+        public override bool gridSnapEnabled => true;
+
+        private void CalculateMiddleAndSize(out Vector3 middle, out Vector3 size)
+        {
+            middle = Vector3.zero;
             var max = Vector2.negativeInfinity;
             var min = Vector2.positiveInfinity;
             var count = 0;
@@ -24,11 +34,7 @@ namespace Editor.Inspectors.SkillTree
                 count++;
             }
             middle /= count;
-            var size = new Vector2(Mathf.Abs(max.x - min.x), Mathf.Abs(max.y - min.y));
-
-            Handles.DrawWireCube(middle, size);
-            Handles.FreeMoveHandle(middle, 2, Vector3.one * 0.25f, Handles.RectangleHandleCap);
-            Handles.Label(middle, EditorGUIUtility.IconContent("MoveTool"));
+            size = new Vector2(Mathf.Abs(max.x - min.x), Mathf.Abs(max.y - min.y));
         }
     }
 }
