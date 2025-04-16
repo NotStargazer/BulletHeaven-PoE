@@ -3,6 +3,7 @@ using UI.Elements.Skill_Tree;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using Object = UnityEngine.Object;
 
 namespace Editor.Inspectors.SkillTree
 {
@@ -10,13 +11,86 @@ namespace Editor.Inspectors.SkillTree
     public class SkillTreeInspector : UnityEditor.Editor
     {
         private SkillNode _attachNode;
+        private SkillNode _selectedNode;
         private readonly HashSet<SkillNode> _calculatedNodes = new();
-        
+
+        private void DrawSelected()
+        {
+            var camera = SceneView.currentDrawingSceneView.camera;
+            var zoom = camera.pixelHeight / camera.orthographicSize;
+            var rt = _selectedNode.GetComponent<RectTransform>();
+            var nodeSize = rt.sizeDelta / 2;
+            var pos = camera.WorldToScreenPoint(_selectedNode.transform.position);
+            var basePos = new Vector2(pos.x, camera.pixelHeight - pos.y);
+            nodeSize.y = -nodeSize.y;
+
+            EditorGUI.BeginChangeCheck();
+            var offset = new Vector3(-nodeSize.x - 6, nodeSize.x / 2 + 5);
+            EditorSnapSettings.snapEnabled = true;
+            var newPos = Handles.FreeMoveHandle(rt.position + offset, 20, Vector3.zero, DoMoveHandle);
+            if (EditorGUI.EndChangeCheck())
+            {
+                Undo.RecordObject(rt, "Move Skill Node");
+                var delta = newPos - rt.position - offset;
+                rt.position += delta;
+                rt.position = Snapping.Snap(rt.position, new Vector3(10, 10, 10));
+            }
+
+            if (_selectedNode.NodeType == SkillType.Root)
+            {
+                return;
+            }
+            Handles.BeginGUI();
+            var normalStyle = new GUIStyle("ButtonMid");
+            GUI.backgroundColor = new Color(1, 0, 0);
+            if (GUI.Button(new Rect(new Vector2(basePos.x - (nodeSize.x / 2 + 3) * zoom, basePos.y + (nodeSize.x - 16) * zoom),
+                        new Vector2(10, 10) * zoom),
+                    EditorGUIUtility.Load("Cross.png") as Texture, normalStyle))
+            {
+                Undo.RecordObject(_selectedNode.gameObject, "Delete Node");
+                _selectedNode.RemoveConnections();
+                DestroyImmediate(_selectedNode.gameObject);
+                _selectedNode = null;
+            }
+        }
+
         public override void OnInspectorGUI()
         {
-            
+            base.OnInspectorGUI();
+            GUILayout.Space(10);
+            if (_selectedNode)
+            {
+                EditorGUILayout.BeginVertical(new GUIStyle("IN ThumbnailShadow"));
+                EditorGUILayout.LabelField("Selected Node", new GUIStyle("LargeBoldLabel"));
+                EditorGUI.BeginChangeCheck();
+                var nodeType = EditorGUILayout.EnumPopup("Node Type", _selectedNode.NodeType);
+                if (EditorGUI.EndChangeCheck())
+                {
+                    Undo.RecordObject(_selectedNode, "Change Node Type");
+                    _selectedNode.SetSkillType((SkillType)nodeType);
+                }
+                if (GUILayout.Button("Add Connecting Node"))
+                {
+                    var node = Instantiate(_selectedNode);
+                    node.SetSkillType(_selectedNode.NodeType == SkillType.Root ? SkillType.Travel : _selectedNode.NodeType);
+                    var transform = node.GetComponent<RectTransform>();
+                    ((UI.Components.SkillTree)target).AddNodeToTransform(transform);
+                    transform.anchoredPosition = _selectedNode.GetComponent<RectTransform>().anchoredPosition + new Vector2(10, 10);
+                    _selectedNode.Attach(node);
+                    node.Attach(_selectedNode);
+                    _selectedNode = node;
+                }
+                GUI.backgroundColor = Color.red;
+                GUILayout.Space(10);
+                if (GUILayout.Button("Remove Connections"))
+                {
+                    Undo.RecordObject(_selectedNode, "Remove All Connections");
+                    _selectedNode.RemoveConnections();
+                }
+                EditorGUILayout.EndVertical();
+            }
         }
-        
+
         private void OnSceneGUI()
         {
             var camera = SceneView.currentDrawingSceneView.camera;
@@ -32,12 +106,13 @@ namespace Editor.Inspectors.SkillTree
                 {
                     node.Tree = target as UI.Components.SkillTree;
                 }
+
                 var rt = node.GetComponent<RectTransform>();
                 var nodeSize = rt.sizeDelta / 2;
                 var pos = camera.WorldToScreenPoint(node.transform.position);
                 var basePos = new Vector2(pos.x, camera.pixelHeight - pos.y);
                 nodeSize.y = -nodeSize.y;
-                
+
                 Handles.color = Color.red;
                 foreach (var connection in node.Connections)
                 {
@@ -45,72 +120,89 @@ namespace Editor.Inspectors.SkillTree
                     {
                         continue;
                     }
+
                     Handles.DrawLine(rt.position, connection.GetComponent<RectTransform>().position);
                 }
 
                 _calculatedNodes.Add(node);
-                
+
                 Handles.color = Color.white;
                 Handles.DrawSolidDisc(rt.position, new Vector3(0, 0, 1), nodeSize.x);
                 Handles.color = Color.black;
                 Handles.DrawSolidDisc(rt.position, new Vector3(0, 0, 1), nodeSize.x * 0.75f);
-                Handles.color = Color.gray;
-                EditorGUI.BeginChangeCheck();
-                var offset = new Vector3(-nodeSize.x - 6, nodeSize.x / 2 + 5);
-                EditorSnapSettings.snapEnabled = true;
-                var newPos = Handles.FreeMoveHandle(rt.position + offset, 20, Vector3.zero, DoMoveHandle);
-                if (EditorGUI.EndChangeCheck())
-                {
-                    Undo.RecordObject(rt, "Move Skill Node");
-                    var delta = newPos - rt.position - offset;
-                    rt.position += delta;
-                    rt.position = Snapping.Snap(rt.position, new Vector3(10, 10, 10));
-                }
-                
-                var normalStyle = new GUIStyle("ButtonMid");
-                Handles.BeginGUI();
-                if (node != _attachNode && !node.HasConnection(_attachNode))
-                {
-                    if (_attachNode)
-                    {
-                        GUI.backgroundColor = new Color(1, 1, 0);
-                    }
 
-                    if (GUI.Button(new Rect(new Vector2(basePos.x + (nodeSize.x / 2 - 6) * zoom, basePos.y - (nodeSize.x - 6) * zoom),
-                            new Vector2(10, 10) * zoom),
-                            EditorGUIUtility.Load("Link.png") as Texture, normalStyle))
+                if (_selectedNode != node && !_attachNode)
+                {
+                    Handles.color = Color.yellow;
+                    if (Handles.Button(rt.position, Quaternion.identity, nodeSize.x, nodeSize.x, DoSelectionHandle))
                     {
-                        if (_attachNode)
-                        {
-                            Undo.RecordObjects(new Object[]{node, _attachNode}, "Link Skill Nodes");
-                            _attachNode.Attach(node);
-                            node.Attach(_attachNode);
-                            _attachNode = null;
-                        }
-                        else
-                        {
-                            _attachNode = node;
-                        }
+                        _selectedNode = node;
                     }
                 }
-                else if (node != _attachNode)
+
+                Handles.color = Color.gray;
+                var normalStyle = new GUIStyle("ButtonMid");
+                var linkTex = EditorGUIUtility.Load("Link.png") as Texture;
+
+                if (_attachNode == node)
+                {
+                    continue;
+                }
+
+                Handles.BeginGUI();
+                if (_attachNode)
+                {
+                    GUI.backgroundColor = new Color(2, 2, 0);
+                }
+
+                if (_attachNode && node.HasConnection(_attachNode))
                 {
                     GUI.backgroundColor = new Color(1, 0, 0);
-                    
-                    if (_attachNode)
+                }
+
+                if (GUI.Button(new Rect(new Vector2(basePos.x + (nodeSize.x / 2 - 6) * zoom, basePos.y - (nodeSize.x - 6) * zoom),
+                        new Vector2(10, 10) * zoom), linkTex, normalStyle))
+                {
+                    if (_attachNode && node.HasConnection(_attachNode))
                     {
-                        if (GUI.Button(new Rect(new Vector2(basePos.x + (nodeSize.x / 2 - 6) * zoom, basePos.y - (nodeSize.x - 6) * zoom),
-                                    new Vector2(10, 10) * zoom),
-                                EditorGUIUtility.Load("Cross.png") as Texture, normalStyle))
-                        {
-                            Undo.RecordObjects(new Object[]{node, _attachNode}, "Unlink Skill Nodes");
-                            _attachNode.Detach(node);
-                            node.Detach(_attachNode);
-                            _attachNode = null;
-                        }
+                        Undo.RecordObjects(new Object[] { node, _attachNode }, "Unlink Skill Nodes");
+                        _attachNode.Detach(node);
+                        node.Detach(_attachNode);
+                        _attachNode = null;
+                    }
+                    else if (_attachNode)
+                    {
+                        Undo.RecordObjects(new Object[] { node, _attachNode }, "Link Skill Nodes");
+                        _attachNode.Attach(node);
+                        node.Attach(_attachNode);
+                        _attachNode = null;
+                    }
+                    else
+                    {
+                        _attachNode = node;
                     }
                 }
+
                 Handles.EndGUI();
+            }
+
+            if (_selectedNode && !_attachNode)
+            {
+                DrawSelected();
+            }
+        }
+
+        private void DoSelectionHandle(int controlID, Vector3 position, Quaternion rotation, float size, EventType eventType)
+        {
+            switch (eventType)
+            {
+                case EventType.MouseMove:
+                case EventType.Layout:
+                    HandleUtility.AddControl(controlID, HandleUtility.DistanceToCircle(position, size));
+                    break;
+                case EventType.Repaint:
+                    Handles.DrawWireDisc(position, new Vector3(0, 0, 1), size, 5);
+                    break;
             }
         }
 
@@ -126,11 +218,6 @@ namespace Editor.Inspectors.SkillTree
                     Graphics.DrawTexture(new Rect(position, Vector2.one * size), EditorGUIUtility.Load("MoveTool.png") as Texture);
                     break;
             }
-        }
-
-
-        private void NodeUI()
-        {
         }
     }
 }
