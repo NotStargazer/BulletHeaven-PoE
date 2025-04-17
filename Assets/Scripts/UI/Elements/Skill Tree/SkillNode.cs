@@ -17,7 +17,6 @@ namespace UI.Elements.Skill_Tree
         Big,
         Power,
     }
-
     public class SkillNode : MonoBehaviour, IPointerClickHandler
     {
         private Modifier _modifier;
@@ -26,7 +25,7 @@ namespace UI.Elements.Skill_Tree
         [SerializeField] private SkillType _nodeType;
         [SerializeField] private SkillTree _tree;
         [SerializeField] private List<SkillNode> _adjacentNodes;
-        [FormerlySerializedAs("_node")] [SerializeField] private Image _nodeImage;
+        [SerializeField] private Image _nodeImage;
         public SkillNode[] Connections => _adjacentNodes.ToArray();
         public SkillType NodeType => _nodeType;
 
@@ -98,6 +97,14 @@ namespace UI.Elements.Skill_Tree
         private void OnValidate()
         {
             _rectTransform = GetComponent<RectTransform>();
+            if (!_nodeImage && TryGetComponent<Image>(out var image))
+            {
+                _nodeImage = image;
+            }
+            else if (!_nodeImage)
+            {
+                _nodeImage = gameObject.AddComponent<Image>();
+            }
         }
     }
 }

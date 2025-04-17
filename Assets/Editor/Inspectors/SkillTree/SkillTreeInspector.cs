@@ -23,11 +23,12 @@ namespace Editor.Inspectors.SkillTree
             var pos = camera.WorldToScreenPoint(_selectedNode.transform.position);
             var basePos = new Vector2(pos.x, camera.pixelHeight - pos.y);
             nodeSize.y = -nodeSize.y;
+            var btSize = new Vector2(nodeSize.x, nodeSize.x) * zoom;
 
             EditorGUI.BeginChangeCheck();
-            var offset = new Vector3(-nodeSize.x - 6, nodeSize.x / 2 + 5);
+            var offset = new Vector3(-nodeSize.x - nodeSize.x * 1.5f, nodeSize.x);
             EditorSnapSettings.snapEnabled = true;
-            var newPos = Handles.FreeMoveHandle(rt.position + offset, 20, Vector3.zero, DoMoveHandle);
+            var newPos = Handles.FreeMoveHandle(rt.position + offset, nodeSize.x * 2, Vector3.zero, DoMoveHandle);
             if (EditorGUI.EndChangeCheck())
             {
                 Undo.RecordObject(rt, "Move Skill Node");
@@ -43,8 +44,8 @@ namespace Editor.Inspectors.SkillTree
             Handles.BeginGUI();
             var normalStyle = new GUIStyle("ButtonMid");
             GUI.backgroundColor = new Color(1, 0, 0);
-            if (GUI.Button(new Rect(new Vector2(basePos.x - (nodeSize.x / 2 + 3) * zoom, basePos.y + (nodeSize.x - 16) * zoom),
-                        new Vector2(10, 10) * zoom),
+            if (GUI.Button(new Rect(new Vector2(basePos.x + nodeSize.x / 2 * zoom, basePos.y + nodeSize.x / 2 * zoom),
+                        btSize),
                     EditorGUIUtility.Load("Cross.png") as Texture, normalStyle))
             {
                 Undo.RecordObject(_selectedNode.gameObject, "Delete Node");
@@ -89,6 +90,19 @@ namespace Editor.Inspectors.SkillTree
                 }
                 EditorGUILayout.EndVertical();
             }
+            GUILayout.Space(10);
+            GUI.backgroundColor = Color.white;
+            if (GUILayout.Button("Refresh all nodes"))
+            {
+                var scene = PrefabStageUtility.GetCurrentPrefabStage().prefabContentsRoot;
+                var nodes = scene.GetComponentsInChildren<SkillNode>();
+
+                foreach (var node in nodes)
+                {
+                    node.Tree = (UI.Components.SkillTree)target;
+                    node.SetSkillType(node.NodeType);
+                }
+            }
         }
 
         private void OnSceneGUI()
@@ -125,12 +139,6 @@ namespace Editor.Inspectors.SkillTree
                 }
 
                 _calculatedNodes.Add(node);
-
-                Handles.color = Color.white;
-                Handles.DrawSolidDisc(rt.position, new Vector3(0, 0, 1), nodeSize.x);
-                Handles.color = Color.black;
-                Handles.DrawSolidDisc(rt.position, new Vector3(0, 0, 1), nodeSize.x * 0.75f);
-
                 if (_selectedNode != node && !_attachNode)
                 {
                     Handles.color = Color.yellow;
@@ -143,6 +151,7 @@ namespace Editor.Inspectors.SkillTree
                 Handles.color = Color.gray;
                 var normalStyle = new GUIStyle("ButtonMid");
                 var linkTex = EditorGUIUtility.Load("Link.png") as Texture;
+                var btSize = new Vector2(nodeSize.x, nodeSize.x) * zoom;
 
                 if (_attachNode == node)
                 {
@@ -159,9 +168,9 @@ namespace Editor.Inspectors.SkillTree
                 {
                     GUI.backgroundColor = new Color(1, 0, 0);
                 }
-
-                if (GUI.Button(new Rect(new Vector2(basePos.x + (nodeSize.x / 2 - 6) * zoom, basePos.y - (nodeSize.x - 6) * zoom),
-                        new Vector2(10, 10) * zoom), linkTex, normalStyle))
+                
+                if (GUI.Button(new Rect(new Vector2(basePos.x + nodeSize.x / 2 * zoom, basePos.y - btSize.y - nodeSize.x / 2 * zoom),
+                        btSize), linkTex, normalStyle))
                 {
                     if (_attachNode && node.HasConnection(_attachNode))
                     {
