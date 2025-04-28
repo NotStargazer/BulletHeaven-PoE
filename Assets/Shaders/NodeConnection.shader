@@ -47,6 +47,7 @@
             sampler2D _MainTex;
             float _WidthRatio;
             float _Radius;
+            float _Range;
 
             float easeInCirc(float t)
             {
@@ -63,15 +64,18 @@
                 float a = step(1 - _WidthRatio, l) - step(1, l);
 
                 float x = smoothstep(1 - _WidthRatio, 1, l);
-                float y = atan2(cx.x, cx.y) / UNITY_PI + 0.5f;
-                
-                if (_Radius == 0)
+                float y = y = i.uv.x;
+
+                if (_Radius != 0)
                 {
-                    y = i.uv.x;
+                    y = atan2(cx.x, lerp(cx.y, 1, f)) / UNITY_PI;
+                    y /= _Radius;
+                    y += 0.5f;
+                    y = lerp(1 - y, y, (sign(_Radius) + 1) / 2);
                 }
-                
-                float2 uv = float2(0, y);
-                return float4(uv, 0, 1);
+
+                float2 uv = float2(x, y);
+                //return float4(uv, 0, 1);
                 fixed4 col = tex2D(_MainTex, uv);
                 col.a *= a;
                 return col;
