@@ -127,17 +127,6 @@ namespace Editor.Inspectors.SkillTree
                 var basePos = new Vector2(pos.x, camera.pixelHeight - pos.y);
                 nodeSize.y = -nodeSize.y;
 
-                Handles.color = Color.red;
-                foreach (var connection in node.Connections)
-                {
-                    if (_calculatedNodes.Contains(connection))
-                    {
-                        continue;
-                    }
-
-                    Handles.DrawLine(rt.position, connection.GetComponent<RectTransform>().position);
-                }
-
                 _calculatedNodes.Add(node);
                 if (_selectedNode != node && !_attachNode)
                 {

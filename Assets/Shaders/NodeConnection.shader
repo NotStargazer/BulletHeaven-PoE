@@ -3,6 +3,7 @@
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _LitTex ("Lit Texture", 2D) = "white" {}
     }
     SubShader
     {
@@ -45,9 +46,10 @@
             }
 
             sampler2D _MainTex;
+            sampler2D _LitTex;
             float _WidthRatio;
             float _Radius;
-            float _Range;
+            float4 _Range;
 
             float easeInCirc(float t)
             {
@@ -71,12 +73,12 @@
                     y = atan2(cx.x, lerp(cx.y, 1, f)) / UNITY_PI;
                     y /= _Radius;
                     y += 0.5f;
-                    y = lerp(1 - y, y, (sign(_Radius) + 1) / 2);
                 }
 
                 float2 uv = float2(x, y);
-                //return float4(uv, 0, 1);
                 fixed4 col = tex2D(_MainTex, uv);
+                fixed4 lit = tex2D(_LitTex, uv);
+                col = lerp(col, lit, smoothstep(_Range.x + _Range.y, _Range.y, uv.y) + smoothstep(1-_Range.z-_Range.w, 1-_Range.w, uv.y));
                 col.a *= a;
                 return col;
             }

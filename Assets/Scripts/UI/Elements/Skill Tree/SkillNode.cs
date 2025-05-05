@@ -35,7 +35,6 @@ namespace UI.Elements.Skill_Tree
             set => _tree = value;
         }
 
-
         public void OnPointerClick(PointerEventData eventData)
         {
             if (!eventData.dragging)

@@ -26,6 +26,12 @@ namespace UI.Elements.Skill_Tree
             _image.material = _materialInstance;
         }
 
+        private void Connect(SkillNode a, SkillNode b)
+        {
+            _pointA = (RectTransform)a.transform;
+            _pointB = (RectTransform)b.transform;
+        }
+
         private void OnValidate()
         {
             if (!_transform)
