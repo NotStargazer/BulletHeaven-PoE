@@ -1,10 +1,9 @@
-using System;
-using System.Collections.Generic;
+using System.Linq;
+using AYellowpaper.SerializedCollections;
 using Gameplay.Modifiers;
 using UI.Components;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI.Elements.Skill_Tree
@@ -24,9 +23,12 @@ namespace UI.Elements.Skill_Tree
         [SerializeField] private Cluster _cluster;
         [SerializeField] private SkillType _nodeType;
         [SerializeField] private SkillTree _tree;
-        [SerializeField] private List<SkillNode> _adjacentNodes;
+        [SerializedDictionary("Adjacent Node", "Connection")]
+        [SerializeField] private SerializedDictionary<SkillNode, NodeConnection> _connections;
+        
         [SerializeField] private Image _nodeImage;
-        public SkillNode[] Connections => _adjacentNodes.ToArray();
+        public SkillNode[] AdjacentNodes => _connections.Keys.ToArray();
+        public NodeConnection[] Connections => _connections.Values.ToArray();
         public SkillType NodeType => _nodeType;
 
         public SkillTree Tree
@@ -45,20 +47,46 @@ namespace UI.Elements.Skill_Tree
 
         public void Attach(SkillNode node)
         {
-            if (!_adjacentNodes.Contains(node))
+            if (!_connections.ContainsKey(node))
             {
-                _adjacentNodes.Add(node);
+                var connection = _tree.CreateConnection(this, node);
+                _connections.Add(node, connection);
+                node.Attach(this, connection);
+            }
+        }
+        
+        private void Attach(SkillNode node, NodeConnection connection)
+        {
+            if (!_connections.ContainsKey(node))
+            {
+                _connections.Add(node, connection);
+                node.Attach(this, connection);
             }
         }
 
         public void Detach(SkillNode node)
         {
-            _adjacentNodes.Remove(node);
+            var connection = _connections[node];
+            _connections.Remove(node);
+            if (Application.isPlaying)
+            {
+                Destroy(connection.gameObject);
+            }
+            else
+            {
+                DestroyImmediate(connection.gameObject);
+            }
+            node.DetachData(this);
+        }
+
+        private void DetachData(SkillNode node)
+        {
+            _connections.Remove(node);
         }
 
         public bool HasConnection(SkillNode node)
         {
-            return _adjacentNodes.Contains(node);
+            return _connections.ContainsKey(node);
         }
 
         public void SetSkillType(SkillType type)
@@ -86,11 +114,12 @@ namespace UI.Elements.Skill_Tree
 
         public void RemoveConnections()
         {
-            foreach (var node in _adjacentNodes)
+            var keys = _connections.Keys.ToArray();
+            foreach (var node in keys)
             {
                 node.Detach(this);
             }
-            _adjacentNodes.Clear();
+            _connections.Clear();
         }
 
         private void OnValidate()

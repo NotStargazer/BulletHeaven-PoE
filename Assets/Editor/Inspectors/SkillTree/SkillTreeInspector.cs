@@ -12,7 +12,8 @@ namespace Editor.Inspectors.SkillTree
     {
         private SkillNode _attachNode;
         private SkillNode _selectedNode;
-        private readonly HashSet<SkillNode> _calculatedNodes = new();
+        private bool _addMode;
+        private int? _selectedConnection;
 
         private void DrawSelected()
         {
@@ -36,13 +37,20 @@ namespace Editor.Inspectors.SkillTree
                 rt.position += delta;
                 rt.position = Snapping.Snap(rt.position, new Vector3(10, 10, 10));
             }
-
+            
+            Handles.BeginGUI();
+            var normalStyle = new GUIStyle("ButtonMid");
+            var invisible = new GUIStyle("InvisibleButton");
+            if (GUI.Button(new Rect(new Vector2(basePos.x - btSize.x / 4, basePos.y - btSize.y / 4),
+                        btSize / 2),
+                    EditorGUIUtility.Load("Add.png") as Texture, invisible))
+            {
+                _addMode = true;
+            }
             if (_selectedNode.NodeType == SkillType.Root)
             {
                 return;
             }
-            Handles.BeginGUI();
-            var normalStyle = new GUIStyle("ButtonMid");
             GUI.backgroundColor = new Color(1, 0, 0);
             if (GUI.Button(new Rect(new Vector2(basePos.x + nodeSize.x / 2 * zoom, basePos.y + nodeSize.x / 2 * zoom),
                         btSize),
@@ -69,17 +77,6 @@ namespace Editor.Inspectors.SkillTree
                 {
                     Undo.RecordObject(_selectedNode, "Change Node Type");
                     _selectedNode.SetSkillType((SkillType)nodeType);
-                }
-                if (GUILayout.Button("Add Connecting Node"))
-                {
-                    var node = Instantiate(_selectedNode);
-                    node.SetSkillType(_selectedNode.NodeType == SkillType.Root ? SkillType.Travel : _selectedNode.NodeType);
-                    var transform = node.GetComponent<RectTransform>();
-                    ((UI.Components.SkillTree)target).AddNodeToTransform(transform);
-                    transform.anchoredPosition = _selectedNode.GetComponent<RectTransform>().anchoredPosition + new Vector2(10, 10);
-                    _selectedNode.Attach(node);
-                    node.Attach(_selectedNode);
-                    _selectedNode = node;
                 }
                 GUI.backgroundColor = Color.red;
                 GUILayout.Space(10);
@@ -112,8 +109,26 @@ namespace Editor.Inspectors.SkillTree
             var scene = PrefabStageUtility.GetCurrentPrefabStage().prefabContentsRoot;
             var nodes = scene.GetComponentsInChildren<SkillNode>();
 
-            _calculatedNodes.Clear();
-
+            if (_selectedConnection.HasValue && _selectedNode)
+            {
+                var win = camera.WorldToScreenPoint(_selectedNode.transform.position);
+                var winPos = new Vector2(win.x, camera.pixelHeight - win.y);
+                Handles.BeginGUI();
+                GUI.Window(0, new Rect(winPos, new Vector2(200, 150)), ConnectionWindow,  "Radius");
+                Handles.EndGUI();
+                return;
+            }
+            
+            if (_selectedNode && _addMode)
+            {
+                var win = camera.WorldToScreenPoint(_selectedNode.transform.position);
+                var winPos = new Vector2(win.x, camera.pixelHeight - win.y);
+                Handles.BeginGUI();
+                GUI.Window(0, new Rect(winPos, new Vector2(110, 100)), AddNodeWindow,  "Add Node");
+                Handles.EndGUI();
+                return;
+            }
+            
             foreach (var node in nodes)
             {
                 if (!node.Tree)
@@ -127,7 +142,6 @@ namespace Editor.Inspectors.SkillTree
                 var basePos = new Vector2(pos.x, camera.pixelHeight - pos.y);
                 nodeSize.y = -nodeSize.y;
 
-                _calculatedNodes.Add(node);
                 if (_selectedNode != node && !_attachNode)
                 {
                     Handles.color = Color.yellow;
@@ -148,6 +162,23 @@ namespace Editor.Inspectors.SkillTree
                 }
 
                 Handles.BeginGUI();
+                GUI.backgroundColor = Color.white;
+                if (_selectedNode && !_attachNode)
+                {
+                    var id = 0;
+                    foreach (var nodeConnection in _selectedNode.Connections)
+                    {
+                        var mid = camera.WorldToScreenPoint(nodeConnection.Middle);
+                        var smallBtSize = new Vector2(2, 2) * zoom;
+                        var midPos = new Vector2(mid.x - smallBtSize.x / 2, camera.pixelHeight - mid.y - smallBtSize.y / 2);
+                        if (GUI.Button(new Rect(midPos, smallBtSize), linkTex))
+                        {
+                            _selectedConnection = id;
+                        }
+                        id++;
+                    }
+                }
+                
                 if (_attachNode)
                 {
                     GUI.backgroundColor = new Color(2, 2, 0);
@@ -165,14 +196,12 @@ namespace Editor.Inspectors.SkillTree
                     {
                         Undo.RecordObjects(new Object[] { node, _attachNode }, "Unlink Skill Nodes");
                         _attachNode.Detach(node);
-                        node.Detach(_attachNode);
                         _attachNode = null;
                     }
                     else if (_attachNode)
                     {
                         Undo.RecordObjects(new Object[] { node, _attachNode }, "Link Skill Nodes");
                         _attachNode.Attach(node);
-                        node.Attach(_attachNode);
                         _attachNode = null;
                     }
                     else
@@ -187,6 +216,45 @@ namespace Editor.Inspectors.SkillTree
             if (_selectedNode && !_attachNode)
             {
                 DrawSelected();
+            }
+        }
+
+        private void AddNodeWindow(int id)
+        {
+            SkillType? type = null;
+            
+            GUILayout.BeginHorizontal(GUILayout.Width(100));
+            type = GUILayout.Button("Travel", GUILayout.Width(50)) ? SkillType.Travel : type;
+            type = GUILayout.Button("Small", GUILayout.Width(50)) ? SkillType.Small : type;
+            GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal(GUILayout.Width(100));
+            type = GUILayout.Button("Big", GUILayout.Width(50)) ? SkillType.Big : type;
+            type = GUILayout.Button("Power", GUILayout.Width(50)) ? SkillType.Power : type;
+            GUILayout.EndHorizontal();
+
+            if (GUILayout.Button("Cancel", GUILayout.Width(100)))
+            {
+                _addMode = false;
+            }
+
+            if (type.HasValue)
+            {
+                _addMode = false;
+                var node = ((UI.Components.SkillTree)target).CreateNode(type.Value);
+                node.transform.position = _selectedNode.transform.position + new Vector3(10, 10, 0);
+                _selectedNode = node;
+            }
+        }
+
+        private void ConnectionWindow(int id)
+        {
+            var connection = _selectedNode.Connections[id];
+            connection.Radius = EditorGUILayout.Slider(connection.Radius, -1, 1);
+            connection.Glow = EditorGUILayout.Vector2Field("Glow", connection.Glow);
+            connection.Strength = EditorGUILayout.Vector2Field("Strength", connection.Strength);
+            if (GUILayout.Button("Done"))
+            {
+                _selectedConnection = null;
             }
         }
 

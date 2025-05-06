@@ -78,7 +78,9 @@
                 float2 uv = float2(x, y);
                 fixed4 col = tex2D(_MainTex, uv);
                 fixed4 lit = tex2D(_LitTex, uv);
-                col = lerp(col, lit, smoothstep(_Range.x + _Range.y, _Range.y, uv.y) + smoothstep(1-_Range.z-_Range.w, 1-_Range.w, uv.y));
+                col = lerp(col, lit,
+                    smoothstep(_Range.x + _Range.y, _Range.y, uv.y) * _Range.z +
+                    smoothstep(1-_Range.x-_Range.y, 1-_Range.y, uv.y) * _Range.w);
                 col.a *= a;
                 return col;
             }

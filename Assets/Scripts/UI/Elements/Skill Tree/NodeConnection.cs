@@ -17,8 +17,46 @@ namespace UI.Elements.Skill_Tree
         [SerializeField] private Material _material;
         [Range(-1, 1)] [SerializeField] private float _radius;
         [SerializeField] private float _width;
+        [SerializeField] private Vector4 _range;
 
         private Material _materialInstance;
+        public Vector3 Middle => (_pointA.position + _pointB.position) / 2;
+
+        public Vector2 Glow
+        {
+            get => new(_range.x, _range.y);
+            set
+            {
+                var temp = _range;
+                temp.x = value.x;
+                temp.y = value.y;
+                _range = temp;
+            }
+        }
+        public Vector2 Strength
+        {
+            get => new(_range.z, _range.w);
+            set
+            {
+                var temp = _range;
+                temp.z = value.x;
+                temp.w = value.y;
+                _range = temp;
+            }
+        }
+
+        public float Length => Vector3.Distance(_pointA.position, _pointB.position);
+        public float Radius
+        {
+            get => _radius;
+            set
+            {
+                _radius = value;
+                CalculateConnection();
+            }
+        }
+
+
 
         private void Awake()
         {
@@ -26,10 +64,13 @@ namespace UI.Elements.Skill_Tree
             _image.material = _materialInstance;
         }
 
-        private void Connect(SkillNode a, SkillNode b)
+        public void Connect(SkillNode a, SkillNode b)
         {
             _pointA = (RectTransform)a.transform;
             _pointB = (RectTransform)b.transform;
+            _materialInstance = new Material(_material);
+            _image.material = _materialInstance;
+            CalculateConnection();
         }
 
         private void OnValidate()
@@ -54,8 +95,13 @@ namespace UI.Elements.Skill_Tree
                 return;
             }
 
-            var middle = (_pointA.position + _pointB.position) / 2;
-            var length = Vector3.Distance(_pointA.position, _pointB.position);
+            CalculateConnection();
+        }
+
+        private void CalculateConnection()
+        {
+            var middle = Middle;
+            var length = Length;
             var direction = _pointB.position - _pointA.position;
             var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             var radius = Easing.OutCirc(Mathf.Abs(_radius)) * Mathf.Sign(_radius);
@@ -66,6 +112,7 @@ namespace UI.Elements.Skill_Tree
             
             _materialInstance.SetFloat(WIDTH_RATIO, _width / _transform.sizeDelta.y);
             _materialInstance.SetFloat(RADIUS, radius);
+            _materialInstance.SetVector("_Range", _range);
         }
     }
 }

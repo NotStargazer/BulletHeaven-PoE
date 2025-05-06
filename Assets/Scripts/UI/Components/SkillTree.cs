@@ -26,7 +26,7 @@ namespace UI.Components
 
         private void SearchAdjacent(SkillNode node)
         {
-            foreach (var connection in node.Connections)
+            foreach (var connection in node.AdjacentNodes)
             {
                 if (connection.NodeType == SkillType.Big)
                 {
@@ -69,16 +69,29 @@ namespace UI.Components
         [SerializeField] private List<SkillNode> _rootNodes;
         [SerializeField] private List<Cluster> _clusters;
         [SerializeField] private ScrollRect _scrollView;
+        [SerializeField] private RectTransform _connectionTransform;
+        [SerializeField] private SkillNode _skillNodePrefab;
+        [SerializeField] private NodeConnection _connectionPrefab;
         [SerializeField] private NodeParameters[] _nodeParameters;
+
+        
+        
+        private void Awake()
+        {
+            
+        }
 
         public void SelectSkill(SkillNode node)
         {
             
         }
 
-        public void AddNodeToTransform(RectTransform node)
+        public SkillNode CreateNode(SkillType type)
         {
-            node.SetParent(_scrollView.content);
+            var node = Instantiate(_skillNodePrefab, _scrollView.content);
+            node.Tree = this;
+            node.SetSkillType(type);
+            return node;
         }
 
         public NodeParameters? GetNode(SkillType skillType)
@@ -106,6 +119,13 @@ namespace UI.Components
             {
                 _nodeParameters[i].Type = (SkillType)values.GetValue(i);
             }
+        }
+
+        public NodeConnection CreateConnection(SkillNode a, SkillNode b)
+        {
+            var connection = Instantiate(_connectionPrefab, _connectionTransform);
+            connection.Connect(a, b);
+            return connection;
         }
     }
 }
