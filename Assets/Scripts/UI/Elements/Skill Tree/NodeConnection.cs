@@ -9,18 +9,23 @@ namespace UI.Elements.Skill_Tree
     {
         private static readonly int WIDTH_RATIO = Shader.PropertyToID("_WidthRatio");
         private static readonly int RADIUS = Shader.PropertyToID("_Radius");
+        private static readonly int RANGE = Shader.PropertyToID("_Range");
 
         [SerializeField] private RectTransform _transform;
-        [SerializeField] private RectTransform _pointA;
-        [SerializeField] private RectTransform _pointB;
+        [SerializeField] private SkillNode _pointA;
+        [SerializeField] private SkillNode _pointB;
         [SerializeField] private RawImage _image;
         [SerializeField] private Material _material;
         [Range(-1, 1)] [SerializeField] private float _radius;
         [SerializeField] private float _width;
         [SerializeField] private Vector4 _range;
 
+        private RectTransform PointA => (RectTransform)_pointA.transform;
+        private RectTransform PointB => (RectTransform)_pointB.transform;
+        
+        private Vector4 _currentRange;
         private Material _materialInstance;
-        public Vector3 Middle => (_pointA.position + _pointB.position) / 2;
+        public Vector3 Middle => (PointA.position + PointB.position) / 2;
 
         public Vector2 Glow
         {
@@ -45,7 +50,7 @@ namespace UI.Elements.Skill_Tree
             }
         }
 
-        public float Length => Vector3.Distance(_pointA.position, _pointB.position);
+        public float Length => Vector3.Distance(PointA.position, PointB.position);
         public float Radius
         {
             get => _radius;
@@ -55,22 +60,65 @@ namespace UI.Elements.Skill_Tree
                 CalculateConnection();
             }
         }
-
-
-
+        
         private void Awake()
         {
+            _pointA.OnStateUpdated = state => StateUpdated(state, false);
+            _pointB.OnStateUpdated = state => StateUpdated(state, true);
+            _currentRange = new Vector4(_range.x, _range.y, 0, 0);
             _materialInstance = new Material(_material);
             _image.material = _materialInstance;
+            UpdateMaterial();
         }
 
         public void Connect(SkillNode a, SkillNode b)
         {
-            _pointA = (RectTransform)a.transform;
-            _pointB = (RectTransform)b.transform;
+            _pointA = a;
+            _pointB = b;
             _materialInstance = new Material(_material);
             _image.material = _materialInstance;
             CalculateConnection();
+        }
+
+        private void StateUpdated(NodeState state, bool opposite)
+        {
+            var range = _currentRange;
+            if (!opposite)
+            {
+                range.z = state switch
+                {
+                    NodeState.Selected => 0.5f,
+                    NodeState.Allocated => 1,
+                    _ => 0
+                };
+            }
+            else
+            {
+                range.w = state switch
+                {
+                    NodeState.Selected => 0.5f,
+                    NodeState.Allocated => 1,
+                    _ => 0
+                };
+            }
+
+            if (range is { z: > 0.1f, w: > 0.1f })
+            {
+                range.x = 1;
+                range.y = 0;
+            }
+            else
+            {
+                range.x = _range.x;
+                range.y = _range.y;
+            }
+            _currentRange = range;
+            UpdateMaterial();
+        }
+
+        private void UpdateMaterial()
+        {
+            _materialInstance.SetVector(RANGE, _currentRange);
         }
 
         private void OnValidate()
@@ -102,7 +150,7 @@ namespace UI.Elements.Skill_Tree
         {
             var middle = Middle;
             var length = Length;
-            var direction = _pointB.position - _pointA.position;
+            var direction = PointB.position - PointA.position;
             var angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
             var radius = Easing.OutCirc(Mathf.Abs(_radius)) * Mathf.Sign(_radius);
             _transform.position = middle;
@@ -112,7 +160,7 @@ namespace UI.Elements.Skill_Tree
             
             _materialInstance.SetFloat(WIDTH_RATIO, _width / _transform.sizeDelta.y);
             _materialInstance.SetFloat(RADIUS, radius);
-            _materialInstance.SetVector("_Range", _range);
+            _materialInstance.SetVector(RANGE, _range);
         }
     }
 }

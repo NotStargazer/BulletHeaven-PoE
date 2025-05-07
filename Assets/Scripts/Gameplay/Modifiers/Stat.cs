@@ -3,19 +3,6 @@ using UnityEngine;
 
 namespace Gameplay.Modifiers
 {
-    public class StatName
-    {
-        public static class Damage
-        {
-            private static string GetName(string name) => $"Damage.{name}";
-
-            public static string Physical => GetName("Physical");
-            public static string Fire => GetName("Fire");
-            public static string Cold => GetName("Cold");
-            public static string Lightning => GetName("Lightning");
-        }
-    }
-    
     [Serializable]
     public struct Stat
     {

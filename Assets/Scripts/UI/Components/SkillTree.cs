@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Gameplay.Modifiers;
 using UI.Elements.Skill_Tree;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,7 +17,7 @@ namespace UI.Components
         {
             _big = new List<SkillNode>();
             _small = new List<SkillNode>();
-            
+
             if (bigNode.AddCluster(this))
             {
                 _big.Add(bigNode);
@@ -46,7 +47,7 @@ namespace UI.Components
                 }
             }
         }
-        
+
         public int Big => _big.Count;
         public int Small => _small.Count;
 
@@ -55,7 +56,7 @@ namespace UI.Components
             return unchecked(Big * 31 + Small);
         }
     }
-    
+
     public class SkillTree : MonoBehaviour
     {
         [Serializable]
@@ -65,7 +66,7 @@ namespace UI.Components
             public Sprite NodeSprite;
             public float NodeSize;
         }
-        
+
         [SerializeField] private List<SkillNode> _rootNodes;
         [SerializeField] private List<Cluster> _clusters;
         [SerializeField] private ScrollRect _scrollView;
@@ -74,16 +75,34 @@ namespace UI.Components
         [SerializeField] private NodeConnection _connectionPrefab;
         [SerializeField] private NodeParameters[] _nodeParameters;
 
-        
-        
+        private List<SkillNode> _selectedNodes;
+        private List<Modifier> _modifiers;
+
         private void Awake()
         {
-            
+            _selectedNodes = new List<SkillNode>();
+            _modifiers = new List<Modifier>();
         }
 
         public void SelectSkill(SkillNode node)
         {
-            
+            if (_selectedNodes.Contains(node))
+            {
+                _selectedNodes.Remove(node);
+            }
+            else
+            {
+                _selectedNodes.Add(node);
+            }
+        }
+
+        public void AllocateNodes()
+        {
+            foreach (var node in _selectedNodes)
+            {
+                _modifiers.Add(node.Allocate());
+            }
+            _selectedNodes.Clear();
         }
 
         public SkillNode CreateNode(SkillType type)
@@ -115,6 +134,7 @@ namespace UI.Components
             {
                 Array.Resize(ref _nodeParameters, size);
             }
+
             for (var i = 0; i < _nodeParameters.Length; i++)
             {
                 _nodeParameters[i].Type = (SkillType)values.GetValue(i);

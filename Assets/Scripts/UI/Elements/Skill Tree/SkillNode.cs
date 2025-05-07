@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
 using Gameplay.Modifiers;
@@ -8,6 +9,13 @@ using UnityEngine.UI;
 
 namespace UI.Elements.Skill_Tree
 {
+    public enum NodeState
+    {
+        Locked,
+        Unlocked,
+        Selected,
+        Allocated
+    }
     public enum SkillType
     {
         Root,
@@ -31,17 +39,34 @@ namespace UI.Elements.Skill_Tree
         public NodeConnection[] Connections => _connections.Values.ToArray();
         public SkillType NodeType => _nodeType;
 
+        private NodeState _state;
+        public Action<NodeState> OnStateUpdated { private get; set; }
+
         public SkillTree Tree
         {
             get => _tree;
             set => _tree = value;
         }
 
+        private void SelectNode()
+        {
+            _state = _state == NodeState.Selected ? NodeState.Unlocked : NodeState.Selected;
+            OnStateUpdated(_state);
+            _tree.SelectSkill(this);
+        }
+
+        public Modifier Allocate()
+        {
+            _state = NodeState.Allocated;
+            OnStateUpdated(_state);
+            return _modifier;
+        }
+        
         public void OnPointerClick(PointerEventData eventData)
         {
             if (!eventData.dragging)
             {
-                _tree.SelectSkill(this);
+                SelectNode();
             }
         }
 
@@ -92,6 +117,7 @@ namespace UI.Elements.Skill_Tree
         public void SetSkillType(SkillType type)
         {
             _nodeType = type;
+            gameObject.name = type + " Node";
             var nodeParams = _tree.GetNode(type);
             if (nodeParams.HasValue)
             {

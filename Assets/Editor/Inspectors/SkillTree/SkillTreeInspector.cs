@@ -24,12 +24,12 @@ namespace Editor.Inspectors.SkillTree
             var pos = camera.WorldToScreenPoint(_selectedNode.transform.position);
             var basePos = new Vector2(pos.x, camera.pixelHeight - pos.y);
             nodeSize.y = -nodeSize.y;
-            var btSize = new Vector2(nodeSize.x, nodeSize.x) * zoom;
+            var btSize = new Vector2(5, 5) * zoom;
 
             EditorGUI.BeginChangeCheck();
-            var offset = new Vector3(-nodeSize.x - nodeSize.x * 1.5f, nodeSize.x);
+            var offset = new Vector3(-17, 8);
             EditorSnapSettings.snapEnabled = true;
-            var newPos = Handles.FreeMoveHandle(rt.position + offset, nodeSize.x * 2, Vector3.zero, DoMoveHandle);
+            var newPos = Handles.FreeMoveHandle(rt.position + offset, 10, Vector3.zero, DoMoveHandle);
             if (EditorGUI.EndChangeCheck())
             {
                 Undo.RecordObject(rt, "Move Skill Node");
@@ -41,8 +41,8 @@ namespace Editor.Inspectors.SkillTree
             Handles.BeginGUI();
             var normalStyle = new GUIStyle("ButtonMid");
             var invisible = new GUIStyle("InvisibleButton");
-            if (GUI.Button(new Rect(new Vector2(basePos.x - btSize.x / 4, basePos.y - btSize.y / 4),
-                        btSize / 2),
+            if (GUI.Button(new Rect(new Vector2(basePos.x - btSize.x / 3, basePos.y - btSize.y / 3),
+                        btSize / 1.5f),
                     EditorGUIUtility.Load("Add.png") as Texture, invisible))
             {
                 _addMode = true;
@@ -154,7 +154,7 @@ namespace Editor.Inspectors.SkillTree
                 Handles.color = Color.gray;
                 var normalStyle = new GUIStyle("ButtonMid");
                 var linkTex = EditorGUIUtility.Load("Link.png") as Texture;
-                var btSize = new Vector2(nodeSize.x, nodeSize.x) * zoom;
+                var btSize = new Vector2(5, 5) * zoom;
 
                 if (_attachNode == node)
                 {
@@ -169,7 +169,7 @@ namespace Editor.Inspectors.SkillTree
                     foreach (var nodeConnection in _selectedNode.Connections)
                     {
                         var mid = camera.WorldToScreenPoint(nodeConnection.Middle);
-                        var smallBtSize = new Vector2(2, 2) * zoom;
+                        var smallBtSize = new Vector2(3, 3) * zoom;
                         var midPos = new Vector2(mid.x - smallBtSize.x / 2, camera.pixelHeight - mid.y - smallBtSize.y / 2);
                         if (GUI.Button(new Rect(midPos, smallBtSize), linkTex))
                         {
