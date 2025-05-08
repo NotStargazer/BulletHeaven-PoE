@@ -7,8 +7,11 @@ namespace Gameplay.Data
     public enum BaseType
     {
         [SubType(typeof(DamageType))] Damage,
+        [SubType(typeof(SkillType))] SkillDamage,
         [SubType(typeof(DamageType))] Resistance,
-        [SubType(typeof(ResourceType))] Resource
+        [SubType(typeof(ResourceType))] Resource,
+        [SubType(typeof(ResourceType))] ResourceRegen,
+        [SubType(typeof(DefenceType))] Defence,
     }
     
     public enum DamageType
@@ -17,6 +20,13 @@ namespace Gameplay.Data
         Fire,
         Cold,
         Lightning
+    }
+    
+    public enum SkillType
+    {
+        Melee,
+        Projectile,
+        Spell,
     }
     
     public enum ResourceType
@@ -39,5 +49,15 @@ namespace Gameplay.Data
     {
         [SerializeField] protected BaseType _baseType;
         [SerializeField] protected int _subType;
+
+        public virtual bool Equals(StatType other)
+        {
+            return other.GetHashCode() == GetHashCode();
+        }
+
+        public override int GetHashCode()
+        {
+            return unchecked((int)_baseType * 31 + _subType);
+        }
     }
 }

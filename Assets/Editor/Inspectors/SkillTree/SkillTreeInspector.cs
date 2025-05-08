@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UI.Elements.Skill_Tree;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -27,7 +26,7 @@ namespace Editor.Inspectors.SkillTree
             var btSize = new Vector2(5, 5) * zoom;
 
             EditorGUI.BeginChangeCheck();
-            var offset = new Vector3(-17, 8);
+            var offset = new Vector3(-nodeSize.x * 2.5f, nodeSize.x);
             EditorSnapSettings.snapEnabled = true;
             var newPos = Handles.FreeMoveHandle(rt.position + offset, 10, Vector3.zero, DoMoveHandle);
             if (EditorGUI.EndChangeCheck())
@@ -35,7 +34,7 @@ namespace Editor.Inspectors.SkillTree
                 Undo.RecordObject(rt, "Move Skill Node");
                 var delta = newPos - rt.position - offset;
                 rt.position += delta;
-                rt.position = Snapping.Snap(rt.position, new Vector3(10, 10, 10));
+                rt.position = Snapping.Snap(rt.position, new Vector3(5, 5, 5));
             }
             
             Handles.BeginGUI();
@@ -77,6 +76,15 @@ namespace Editor.Inspectors.SkillTree
                 {
                     Undo.RecordObject(_selectedNode, "Change Node Type");
                     _selectedNode.SetSkillType((SkillType)nodeType);
+                }
+                _selectedNode.Fixed = EditorGUILayout.Toggle("Fixed Node", _selectedNode.Fixed);
+                if (_selectedNode.Fixed)
+                {
+                    var sNode = new SerializedObject(_selectedNode);
+                    EditorGUI.indentLevel = 1;
+                    EditorGUILayout.PropertyField(sNode.FindProperty("_fixedModifier"));
+                    sNode.ApplyModifiedProperties();
+                    EditorGUI.indentLevel = 0;
                 }
                 GUI.backgroundColor = Color.red;
                 GUILayout.Space(10);
@@ -175,6 +183,7 @@ namespace Editor.Inspectors.SkillTree
                         {
                             _selectedConnection = id;
                         }
+                        GUI.Label(new Rect(midPos + new Vector2(0, smallBtSize.y/1.5f), smallBtSize), nodeConnection.Length.ToString(".0"));
                         id++;
                     }
                 }
@@ -239,16 +248,18 @@ namespace Editor.Inspectors.SkillTree
 
             if (type.HasValue)
             {
+                var tree = (UI.Components.SkillTree)target;
                 _addMode = false;
-                var node = ((UI.Components.SkillTree)target).CreateNode(type.Value);
+                var node = tree.CreateNode(type.Value);
                 node.transform.position = _selectedNode.transform.position + new Vector3(10, 10, 0);
+                _selectedNode.Attach(node);
                 _selectedNode = node;
             }
         }
 
         private void ConnectionWindow(int id)
         {
-            var connection = _selectedNode.Connections[id];
+            var connection = _selectedNode.Connections[_selectedConnection.Value];
             connection.Radius = EditorGUILayout.Slider(connection.Radius, -1, 1);
             connection.Glow = EditorGUILayout.Vector2Field("Glow", connection.Glow);
             connection.Strength = EditorGUILayout.Vector2Field("Strength", connection.Strength);

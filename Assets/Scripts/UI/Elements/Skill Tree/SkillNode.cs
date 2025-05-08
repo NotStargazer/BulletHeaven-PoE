@@ -5,6 +5,7 @@ using Gameplay.Modifiers;
 using UI.Components;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI.Elements.Skill_Tree
@@ -33,8 +34,9 @@ namespace UI.Elements.Skill_Tree
         [SerializeField] private SkillTree _tree;
         [SerializedDictionary("Adjacent Node", "Connection")]
         [SerializeField] private SerializedDictionary<SkillNode, NodeConnection> _connections;
-        
         [SerializeField] private Image _nodeImage;
+        [SerializeField] private bool _fixed;
+        [SerializeField] private StatModifier _fixedModifier;
         public SkillNode[] AdjacentNodes => _connections.Keys.ToArray();
         public NodeConnection[] Connections => _connections.Values.ToArray();
         public SkillType NodeType => _nodeType;
@@ -46,6 +48,12 @@ namespace UI.Elements.Skill_Tree
         {
             get => _tree;
             set => _tree = value;
+        }
+
+        public bool Fixed
+        {
+            get => _fixed;
+            set => _fixed = value;
         }
 
         private void SelectNode()

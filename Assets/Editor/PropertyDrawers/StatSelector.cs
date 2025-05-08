@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Linq;
 using System.Reflection;
 using Gameplay.Data;
 using UnityEditor;
-using UnityEngine.UIElements;
+using UnityEngine;
 using Utility.Attributes;
 
 namespace Editor.PropertyDrawers
@@ -11,20 +10,32 @@ namespace Editor.PropertyDrawers
     [CustomPropertyDrawer(typeof(StatType))]
     public class StatSelector : PropertyDrawer
     {
-        public override VisualElement CreatePropertyGUI(SerializedProperty property)
+        public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
         {
-            var baseType = property.FindPropertyRelative("_baseType");
-            var baseEnumValues = Enum.GetValues(typeof(BaseType));
-            var memberInfo = typeof(BaseType).GetCustomAttributes<SubTypeAttribute>(false).ToArray();
-            var subType = memberInfo[baseType.enumValueIndex].SubType;
-            var subEnumValues = Enum.GetNames(subType).ToList();
+            return (EditorGUI.GetPropertyHeight(property) + EditorGUIUtility.standardVerticalSpacing) * 3;
+        }
+        
+        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        {
+            var baseTypeProp = property.FindPropertyRelative("_baseType");
+            var subTypeProp = property.FindPropertyRelative("_subType");
+
+            var fields = typeof(BaseType).GetFields();
+            var field = fields[baseTypeProp.enumValueIndex + 1];
+            var subType = ((SubTypeAttribute)Attribute.GetCustomAttribute(field, typeof(SubTypeAttribute))).SubType;
+            var subEnumValues = Enum.GetValues(subType);
+            var height = EditorGUI.GetPropertyHeight(baseTypeProp) + EditorGUIUtility.standardVerticalSpacing;
+            EditorGUI.BeginProperty(position, label, property);
+            var labelRect = new Rect(position.x, position.y, position.width, height);
+            var baseRect = new Rect(position.x, position.y + height, position.width, height);
+            var subRect = new Rect(position.x, position.y + height * 2, position.width, height);
             
-            var container = new VisualElement();
-            var subTypeDropdown = new field(subEnumValues, 0, i =>
-            {
-                return Enum.Get;
-            })
-            container.Add(new EnumField(BaseType.Damage));
+            EditorGUI.LabelField(labelRect, "Stat Type", new GUIStyle("BoldLabel"));
+            baseTypeProp.enumValueIndex = (int)Convert.ChangeType(EditorGUI.EnumPopup(baseRect, (BaseType)baseTypeProp.enumValueIndex), typeof(BaseType));
+            subTypeProp.intValue = Mathf.Clamp(subTypeProp.intValue, 0, subEnumValues.Length - 1);
+            var sv = (Enum)subEnumValues.GetValue(subTypeProp.intValue);
+            subTypeProp.intValue = (int)Convert.ChangeType(EditorGUI.EnumPopup(subRect, sv), subType);
+            EditorGUI.EndProperty();
         }
     }
     

@@ -1,4 +1,5 @@
 using System;
+using Gameplay.Data;
 using UnityEngine;
 
 namespace Gameplay.Modifiers
@@ -27,7 +28,7 @@ namespace Gameplay.Modifiers
             return baseDamage;
         }
         
-        [SerializeField] private string _statName;
+        [SerializeField] private StatType _statType;
 
         [SerializeField] private float _flat;
         [SerializeField] private float _increase;
@@ -35,9 +36,9 @@ namespace Gameplay.Modifiers
         [SerializeField] private bool _fixed;
         [SerializeField] private float _fixedStat;
 
-        public Stat(string name, float flat = 0, float increase = 0, float multiplier = 1)
+        public Stat(StatType statType, float flat = 0, float increase = 0, float multiplier = 1)
         {
-            _statName = name;
+            _statType = statType;
             
             _flat = flat;
             _increase = increase;
@@ -46,9 +47,9 @@ namespace Gameplay.Modifiers
             _fixedStat = Mathf.Infinity;
         }
 
-        public Stat(string name, float fixedStat)
+        public Stat(StatType statType, float fixedStat)
         {
-            _statName = name;
+            _statType = statType;
             
             _flat = 0;
             _increase = 0;
@@ -61,10 +62,10 @@ namespace Gameplay.Modifiers
         {
             if (lhs._fixed || rhs._fixed)
             {
-                return new Stat(lhs._statName, Mathf.Min(lhs._flat, rhs._flat));
+                return new Stat(lhs._statType, Mathf.Min(lhs._flat, rhs._flat));
             }
 
-            return new Stat(lhs._statName,
+            return new Stat(lhs._statType,
                 lhs._flat + rhs._flat,
                 lhs._increase + rhs._increase,
                 lhs._multiplier * rhs._multiplier);
