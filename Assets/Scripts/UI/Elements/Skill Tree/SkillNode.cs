@@ -5,7 +5,6 @@ using Gameplay.Modifiers;
 using UI.Components;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI.Elements.Skill_Tree
@@ -137,7 +136,7 @@ namespace UI.Elements.Skill_Tree
 
         public bool AddCluster(Cluster cluster)
         {
-            if (cluster == null)
+            if (_cluster != null)
             {
                 return false;
             }

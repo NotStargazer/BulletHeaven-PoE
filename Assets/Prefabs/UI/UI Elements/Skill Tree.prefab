@@ -158,15 +158,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 1451698296502324262}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &937407902224187859
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -266,15 +258,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 1395713020886512404}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &1927350036489315097
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -343,7 +327,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 3834614983309167076}
   - {fileID: 3585099315511305426}
   m_Father: {fileID: 5058560824338317368}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -351,7 +334,7 @@ RectTransform:
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
-  m_Pivot: {x: 0, y: 1}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8410366545630676688
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -452,15 +435,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 3412329471947931475}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &7172833335255122492
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -566,15 +541,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 8243407405551649128}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &3918728302692929419
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -864,15 +831,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 9198021054219898212}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &7191127446784314952
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -972,10 +931,10 @@ MonoBehaviour:
   m_Content: {fileID: 3585099315511305426}
   m_Horizontal: 1
   m_Vertical: 1
-  m_MovementType: 1
+  m_MovementType: 2
   m_Elasticity: 0.1
   m_Inertia: 1
-  m_DecelerationRate: 0.135
+  m_DecelerationRate: 0
   m_ScrollSensitivity: 1
   m_Viewport: {fileID: 7400390440460945272}
   m_HorizontalScrollbar: {fileID: 0}
@@ -1052,15 +1011,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 1533541174743566393}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &6160953835103667376
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1215,18 +1166,18 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2029205693888142626}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 948429653736959947}
-  m_Father: {fileID: 7400390440460945272}
+  m_Father: {fileID: 3585099315511305426}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2062875677764475676
 GameObject:
@@ -1293,15 +1244,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 4183242022688182192}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &8061839897820931758
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1494,15 +1437,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 6748790231370873866}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &6883230234654303614
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1606,15 +1541,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 2168601404066144788}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &78801159251980560
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1804,10 +1731,10 @@ RectTransform:
   - {fileID: 5862444089528822973}
   m_Father: {fileID: 3585099315511305426}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 1920, y: 1080}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2465924278950130491
 GameObject:
@@ -1950,15 +1877,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 4385142367005227816}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &8532521438345700390
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2064,15 +1983,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 7083045934226413634}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &4932464735189570523
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2426,7 +2337,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -90, y: 230}
-  m_SizeDelta: {x: 64.03124, y: 3}
+  m_SizeDelta: {x: 65.61159, y: 19.865274}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2129957756261050396
 CanvasRenderer:
@@ -2480,7 +2391,7 @@ MonoBehaviour:
   _pointB: {fileID: 4862795065671958896}
   _image: {fileID: 3126870795561295045}
   _material: {fileID: 2100000, guid: c663fdc731683ce419322d4783335ac7, type: 2}
-  _radius: 0
+  _radius: 0.15
   _width: 3
   _range: {x: 0.25, y: 0, z: 1, w: 1}
 --- !u!1 &3579964160682357659
@@ -2604,6 +2515,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 3834614983309167076}
   - {fileID: 750834945411696927}
   - {fileID: 7737012734133045543}
   - {fileID: 1272907446583745232}
@@ -2633,10 +2545,10 @@ RectTransform:
   - {fileID: 5699395687855615820}
   m_Father: {fileID: 7400390440460945272}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 3000, y: 3000}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &3713328400173336219
 GameObject:
@@ -2767,7 +2679,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -32.5, y: 257.5}
-  m_SizeDelta: {x: 66.70832, y: 3}
+  m_SizeDelta: {x: 68.288666, y: 20.570395}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7992459937263696547
 CanvasRenderer:
@@ -2821,7 +2733,7 @@ MonoBehaviour:
   _pointB: {fileID: 4862795065671958896}
   _image: {fileID: 7122603460398274808}
   _material: {fileID: 2100000, guid: c663fdc731683ce419322d4783335ac7, type: 2}
-  _radius: 0
+  _radius: -0.15
   _width: 3
   _range: {x: 0.25, y: 0, z: 1, w: 1}
 --- !u!1 &4269544653097113669
@@ -2891,15 +2803,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 4115398224977153107}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &5295769120068906524
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3005,15 +2909,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 888674668368596223}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &3524609715626882766
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3473,15 +3369,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 1344534001019920304}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &1020706189711045399
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3585,15 +3473,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 3584602164349575203}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &7503165918976554559
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3699,15 +3579,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 5635985350693329745}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &7104889662296196128
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3997,15 +3869,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 636371719819735481}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &3506929552912813114
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4202,15 +4066,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 7218774512716143310}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &2804939261658970911
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4593,15 +4449,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 7577002303805992573}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &1459508750606652978
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4676,7 +4524,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 32.5, y: 257.5}
-  m_SizeDelta: {x: 66.70832, y: 3}
+  m_SizeDelta: {x: 68.288666, y: 20.570395}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &93023922138513416
 CanvasRenderer:
@@ -4730,7 +4578,7 @@ MonoBehaviour:
   _pointB: {fileID: 3232560202900713926}
   _image: {fileID: 6770822992951391165}
   _material: {fileID: 2100000, guid: c663fdc731683ce419322d4783335ac7, type: 2}
-  _radius: 0
+  _radius: 0.15
   _width: 3
   _range: {x: 0.25, y: 0, z: 1, w: 1}
 --- !u!1 &6426300577005425447
@@ -4891,15 +4739,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 5474476318117372549}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &2518731039318824253
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5003,15 +4843,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 7691974227771397470}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &1623560564071335531
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5117,15 +4949,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 8436105417356694123}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &8879184412094791828
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5322,15 +5146,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 133359492382696032}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &7954451150782480248
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5498,7 +5314,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 90, y: 230}
-  m_SizeDelta: {x: 64.03124, y: 3}
+  m_SizeDelta: {x: 65.61159, y: 19.865274}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &6688450246913144325
 CanvasRenderer:
@@ -5552,7 +5368,7 @@ MonoBehaviour:
   _pointB: {fileID: 3232560202900713926}
   _image: {fileID: 349424598180573744}
   _material: {fileID: 2100000, guid: c663fdc731683ce419322d4783335ac7, type: 2}
-  _radius: 0
+  _radius: -0.15
   _width: 3
   _range: {x: 0.25, y: 0, z: 1, w: 1}
 --- !u!1 &8656021240793234544
@@ -5713,15 +5529,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 4267571420055096910}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &7292508021925887493
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5825,15 +5633,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 6222884607600145117}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &5446601564851398083
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5937,15 +5737,7 @@ MonoBehaviour:
   _nodeImage: {fileID: 5571968501808125548}
   _fixed: 0
   _fixedModifier:
-    _stat:
-      _statType:
-        _baseType: 0
-        _subType: 0
-      _flat: 0
-      _increase: 0
-      _multiplier: 0
-      _fixed: 0
-      _fixedStat: 0
+    _stats: []
 --- !u!222 &640161798746879194
 CanvasRenderer:
   m_ObjectHideFlags: 0

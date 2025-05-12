@@ -27,39 +27,7 @@ namespace UI.Elements.Skill_Tree
         private Material _materialInstance;
         public Vector3 Middle => (PointA.position + PointB.position) / 2;
 
-        public Vector2 Glow
-        {
-            get => new(_range.x, _range.y);
-            set
-            {
-                var temp = _range;
-                temp.x = value.x;
-                temp.y = value.y;
-                _range = temp;
-            }
-        }
-        public Vector2 Strength
-        {
-            get => new(_range.z, _range.w);
-            set
-            {
-                var temp = _range;
-                temp.z = value.x;
-                temp.w = value.y;
-                _range = temp;
-            }
-        }
-
         public float Length => Vector3.Distance(PointA.position, PointB.position);
-        public float Radius
-        {
-            get => _radius;
-            set
-            {
-                _radius = value;
-                CalculateConnection();
-            }
-        }
         
         private void Awake()
         {
@@ -68,7 +36,7 @@ namespace UI.Elements.Skill_Tree
             _currentRange = new Vector4(_range.x, _range.y, 0, 0);
             _materialInstance = new Material(_material);
             _image.material = _materialInstance;
-            UpdateMaterial();
+            CalculateConnection();
         }
 
         public void Connect(SkillNode a, SkillNode b)
@@ -135,6 +103,10 @@ namespace UI.Elements.Skill_Tree
             else if (_material && !_materialInstance)
             {
                 _materialInstance = new Material(_material);
+                _image.material = _materialInstance;
+            }
+            else if (_materialInstance)
+            {
                 _image.material = _materialInstance;
             }
 

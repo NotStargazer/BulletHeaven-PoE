@@ -55,13 +55,78 @@ MonoBehaviour:
         _projectile: {fileID: 4970941024480854794, guid: 8d13bc0efda9a6a48be3865dcacf7b6b, type: 3}
         _projectileVelocity: 10
         _projectileDuration: 1
-    AnotherTestSkill:
-      _entry:
-        _tags: 0
-        _skillCooldown:
-          _baseDuration: 0
-        _projectile: {fileID: 0}
-        _projectileVelocity: 0
-        _projectileDuration: 0
   Collectables:
     _experience: {fileID: 1380669470238152779, guid: dc348e75cdfdc794cb7252d1c225a686, type: 3}
+  TreeModifiers:
+    TenseStrings:
+      _entry:
+        _stats:
+        - _statType:
+            _baseType: 0
+            _subType: 0
+          _flat: 0
+          _increase: 25
+          _multiplier: 0
+          _fixed: 0
+          _fixedStat: 0
+        _condition: 8
+        _alignment: 1
+        _minDistance: 0
+    ProjectileDamage:
+      _entry:
+        _stats:
+        - _statType:
+            _baseType: 0
+            _subType: 0
+          _flat: 0
+          _increase: 10
+          _multiplier: 0
+          _fixed: 0
+          _fixedStat: 0
+        _condition: 8
+        _alignment: 1
+        _minDistance: 0
+    AttackSpeed:
+      _entry:
+        _stats:
+        - _statType:
+            _baseType: 2
+            _subType: 1
+          _flat: 0
+          _increase: 5
+          _multiplier: 0
+          _fixed: 0
+          _fixedStat: 0
+        _condition: 0
+        _alignment: 1
+        _minDistance: 0
+    TravelNode:
+      _entry:
+        _stats:
+        - _statType:
+            _baseType: 0
+            _subType: 0
+          _flat: 0
+          _increase: 5
+          _multiplier: 0
+          _fixed: 0
+          _fixedStat: 0
+        - _statType:
+            _baseType: 3
+            _subType: 0
+          _flat: 10
+          _increase: 0
+          _multiplier: 0
+          _fixed: 0
+          _fixedStat: 0
+        - _statType:
+            _baseType: 2
+            _subType: 3
+          _flat: 0
+          _increase: 5
+          _multiplier: 0
+          _fixed: 0
+          _fixedStat: 0
+        _condition: 0
+        _alignment: 0
+        _minDistance: 0

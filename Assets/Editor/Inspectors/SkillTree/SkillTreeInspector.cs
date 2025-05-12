@@ -259,10 +259,16 @@ namespace Editor.Inspectors.SkillTree
 
         private void ConnectionWindow(int id)
         {
-            var connection = _selectedNode.Connections[_selectedConnection.Value];
-            connection.Radius = EditorGUILayout.Slider(connection.Radius, -1, 1);
-            connection.Glow = EditorGUILayout.Vector2Field("Glow", connection.Glow);
-            connection.Strength = EditorGUILayout.Vector2Field("Strength", connection.Strength);
+            var sc = new SerializedObject(_selectedNode.Connections[_selectedConnection.Value]);
+            var radius = sc.FindProperty("_radius");
+            var range = sc.FindProperty("_range");
+            radius.floatValue = EditorGUILayout.Slider(radius.floatValue, -1, 1);
+            var rangeVal = range.vector4Value;
+            var glow = EditorGUILayout.Vector2Field("Glow", new Vector2(rangeVal.x, rangeVal.y));
+            var strength = EditorGUILayout.Vector2Field("Strength", new Vector2(rangeVal.z, rangeVal.w));
+            range.vector4Value = new Vector4(glow.x, glow.y, strength.x, strength.y);
+            sc.ApplyModifiedProperties();
+            
             if (GUILayout.Button("Done"))
             {
                 _selectedConnection = null;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Gameplay.Modifiers;
 using UI.Elements.Skill_Tree;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace UI.Components
@@ -77,6 +78,7 @@ namespace UI.Components
 
         private List<SkillNode> _selectedNodes;
         private List<Modifier> _modifiers;
+        private float _zoom = 1;
 
         private void Awake()
         {
@@ -146,6 +148,13 @@ namespace UI.Components
             var connection = Instantiate(_connectionPrefab, _connectionTransform);
             connection.Connect(a, b);
             return connection;
+        }
+
+        public void OnScroll(PointerEventData eventData)
+        {
+            _zoom += eventData.scrollDelta.y;
+            _zoom = Mathf.Clamp(_zoom, 1, 3);
+            _scrollView.viewport.localScale = Vector3.one * _zoom;
         }
     }
 }

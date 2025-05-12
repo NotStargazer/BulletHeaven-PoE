@@ -19,10 +19,14 @@ namespace Global
         public override void Instantiate()
         {
             Skills.CreateRegistry();
+            TreeModifiers.CreateRegistry();
             Collectables.Initialize();
         }
         public SkillRegistry Skills;
         public SupportRegistry Supports;
+        
         public CollectableRegistry Collectables;
+
+        public TreeModifierRegistry TreeModifiers;
     }
 }

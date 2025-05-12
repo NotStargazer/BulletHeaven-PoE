@@ -7,26 +7,29 @@ namespace Gameplay.Data
     public enum BaseType
     {
         [SubType(typeof(DamageType))] Damage,
-        [SubType(typeof(SkillType))] SkillDamage,
         [SubType(typeof(DamageType))] Resistance,
+        [SubType(typeof(ActionType))] Speed,
         [SubType(typeof(ResourceType))] Resource,
-        [SubType(typeof(ResourceType))] ResourceRegen,
+        [SubType(typeof(ResourceType))] ResourceRecovery,
         [SubType(typeof(DefenceType))] Defence,
     }
     
     public enum DamageType
     {
+        Generic,
         Physical,
         Fire,
         Cold,
-        Lightning
+        Lightning,
+        Elemental,
     }
-    
-    public enum SkillType
+
+    public enum ActionType
     {
-        Melee,
-        Projectile,
-        Spell,
+        Generic,
+        Attack,
+        Cast,
+        Move,
     }
     
     public enum ResourceType
@@ -39,6 +42,7 @@ namespace Gameplay.Data
     
     public enum DefenceType
     {
+        Generic,
         Armor,
         Evasion,
         Barrier

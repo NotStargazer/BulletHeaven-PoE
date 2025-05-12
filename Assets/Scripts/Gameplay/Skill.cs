@@ -23,6 +23,11 @@ namespace Gameplay
 
             return false;
         }
+
+        public bool CheckTags(SkillTags compare)
+        {
+            return (_tags & compare) == compare;
+        }
         
         public object GetInstance()
         {

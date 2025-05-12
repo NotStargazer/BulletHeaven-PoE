@@ -8,7 +8,7 @@ namespace Global.Registries
     [Serializable]
     public class CollectableRegistry
     {
-        private InstancePool<Collectable> _experiencePool; 
+        private InstancePool<Collectable> _experiencePool;
         
         [SerializeField] private ExperienceCollectable _experience;
 
