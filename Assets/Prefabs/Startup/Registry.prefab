@@ -72,6 +72,7 @@ MonoBehaviour:
         _condition: 8
         _alignment: 1
         _minDistance: 0
+        _treeIcon: {fileID: 0}
     ProjectileDamage:
       _entry:
         _stats:
@@ -86,6 +87,7 @@ MonoBehaviour:
         _condition: 8
         _alignment: 1
         _minDistance: 0
+        _treeIcon: {fileID: 0}
     AttackSpeed:
       _entry:
         _stats:
@@ -100,6 +102,7 @@ MonoBehaviour:
         _condition: 0
         _alignment: 1
         _minDistance: 0
+        _treeIcon: {fileID: 0}
     TravelNode:
       _entry:
         _stats:
@@ -130,3 +133,12 @@ MonoBehaviour:
         _condition: 0
         _alignment: 0
         _minDistance: 0
+        _treeIcon: {fileID: 0}
+  Clusters:
+    ProjectileDPS:
+      _entry:
+        _bigSkills:
+        - TenseStrings
+        _smallSkills:
+        - ProjectileDamage
+        - AttackSpeed

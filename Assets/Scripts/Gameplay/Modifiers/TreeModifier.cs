@@ -16,11 +16,11 @@ namespace Gameplay.Modifiers
     {
         [SerializeField] private TreeAlignment _alignment;
         [Range(0, 100)] [SerializeField] private float _minDistance;
+        [SerializeField] private Texture _treeIcon;
         
         public object GetInstance()
         {
-            var treeMod = (TreeModifier)MemberwiseClone();
-            return treeMod;
+            return (TreeModifier)MemberwiseClone();
         }
     }
 }

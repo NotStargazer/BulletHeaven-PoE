@@ -6,11 +6,13 @@ namespace Utility.Attributes
     [AttributeUsage(AttributeTargets.Field)]
     public class RegistryDropdownAttribute : PropertyAttribute
     {
-        public Type RegistryType;
-        
-        public RegistryDropdownAttribute(Type type)
+        public readonly Type RegistryType;
+        public readonly string Filter;
+
+        public RegistryDropdownAttribute(Type type, string filter = "")
         {
             RegistryType = type;
+            Filter = filter;
         }
     }
 }

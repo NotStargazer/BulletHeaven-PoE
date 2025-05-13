@@ -26,5 +26,19 @@ namespace Gameplay.Modifiers
 
             return null;
         }
+
+        public override string GetEditorDescription()
+        {
+            var returnString = string.Empty;
+
+            for (var index = 0; index < _stats.Length - 1; index++)
+            {
+                returnString += _stats[index].GetEditorDescription(_condition != 0 ? " with " + _condition + "s" : string.Empty);
+                returnString += "\n";
+            }
+            returnString += _stats[^1].GetEditorDescription(_condition != 0 ? " with " + _condition + "s" : string.Empty);
+
+            return returnString;
+        }
     }
 }

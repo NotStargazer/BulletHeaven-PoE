@@ -8,7 +8,7 @@ using Utility.Attributes;
 namespace Editor.PropertyDrawers
 {
     [CustomPropertyDrawer(typeof(StatType))]
-    public class StatSelector : PropertyDrawer
+    public class StatSelectorPropertyDrawer : PropertyDrawer
     {
         public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
         {

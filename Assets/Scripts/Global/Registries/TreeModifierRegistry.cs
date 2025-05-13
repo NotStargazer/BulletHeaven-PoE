@@ -1,5 +1,6 @@
 ﻿using System;
 using Gameplay.Modifiers;
+using Utility.Attributes;
 
 namespace Global.Registries
 {
@@ -9,13 +10,13 @@ namespace Global.Registries
         //Power
         
         //Big
-        public RegistryEntry<TreeModifier> TenseStrings;
+        [RegistryFilter("Big")] public RegistryEntry<TreeModifier> TenseStrings;
         
         //Small
-        public RegistryEntry<TreeModifier> ProjectileDamage;
-        public RegistryEntry<TreeModifier> AttackSpeed;
+        [RegistryFilter("Small")] public RegistryEntry<TreeModifier> ProjectileDamage;
+        [RegistryFilter("Small")] public RegistryEntry<TreeModifier> AttackSpeed;
 
         //Travel
-        public RegistryEntry<TreeModifier> TravelNode;
+        [RegistryFilter("Travel")] public RegistryEntry<TreeModifier> TravelNode;
     }
 }

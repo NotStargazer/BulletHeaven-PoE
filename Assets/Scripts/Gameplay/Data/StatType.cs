@@ -11,12 +11,12 @@ namespace Gameplay.Data
         [SubType(typeof(ActionType))] Speed,
         [SubType(typeof(ResourceType))] Resource,
         [SubType(typeof(ResourceType))] ResourceRecovery,
-        [SubType(typeof(DefenceType))] Defence,
+        [DisplayNameOverride] [SubType(typeof(DefenceType))] Defence,
     }
     
     public enum DamageType
     {
-        Generic,
+        [DisplayNameOverride] Generic,
         Physical,
         Fire,
         Cold,
@@ -26,15 +26,15 @@ namespace Gameplay.Data
 
     public enum ActionType
     {
-        Generic,
+        [DisplayNameOverride] Generic,
         Attack,
         Cast,
-        Move,
+        [DisplayNameOverride("Movement ")] Move,
     }
     
     public enum ResourceType
     {
-        Health,
+        Life,
         Mana,
         Stamina,
         Ammo
@@ -42,7 +42,7 @@ namespace Gameplay.Data
     
     public enum DefenceType
     {
-        Generic,
+        [DisplayNameOverride("Defences")] Generic,
         Armor,
         Evasion,
         Barrier
@@ -53,6 +53,23 @@ namespace Gameplay.Data
     {
         [SerializeField] protected BaseType _baseType;
         [SerializeField] protected int _subType;
+
+        public string EditorStatName
+        {
+            get
+            {
+                var returnString = string.Empty;
+                var field = typeof(BaseType).GetFields()[(int)_baseType + 1];
+                var baseTypeName = (DisplayNameOverrideAttribute)Attribute.GetCustomAttribute(field, typeof(DisplayNameOverrideAttribute));
+                var subType = (SubTypeAttribute)Attribute.GetCustomAttribute(field, typeof(SubTypeAttribute));
+                var subField = subType.SubType.GetFields()[_subType + 1];
+                var subTypeName = (DisplayNameOverrideAttribute)Attribute.GetCustomAttribute(subField, typeof(DisplayNameOverrideAttribute));
+
+                returnString += subTypeName != null ? subTypeName.DisplayName : $"{subField.Name} ";
+                returnString += baseTypeName != null ? baseTypeName.DisplayName : $"{field.Name}";
+                return returnString;
+            }
+        }
 
         public virtual bool Equals(StatType other)
         {

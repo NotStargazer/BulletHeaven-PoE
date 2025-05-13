@@ -23,7 +23,7 @@ namespace Gameplay.Modifiers
 
             baseDamage += result._flat;
             baseDamage *= result._increase;
-            baseDamage *= result._multiplier;
+            baseDamage *= result._multiplier + 1;
 
             return baseDamage;
         }
@@ -36,7 +36,7 @@ namespace Gameplay.Modifiers
         [SerializeField] private bool _fixed;
         [SerializeField] private float _fixedStat;
 
-        public Stat(StatType statType, float flat = 0, float increase = 0, float multiplier = 1)
+        public Stat(StatType statType, float flat = 0, float increase = 0, float multiplier = 0)
         {
             _statType = statType;
             
@@ -53,9 +53,46 @@ namespace Gameplay.Modifiers
             
             _flat = 0;
             _increase = 0;
-            _multiplier = 1;
+            _multiplier = 0;
             _fixed = true;
             _fixedStat = fixedStat;
+        }
+
+        public string GetEditorDescription(string append = "")
+        {
+            var returnString = new string[3];
+
+            if (_fixed)
+            {
+                return $"{_statType.EditorStatName} is {_fixedStat}";
+            }
+            
+            if (_flat != 0)
+            {
+                var direction = _flat > 0 ? "+" : "-";
+                returnString[0] = $"{direction}{_flat} to {_statType.EditorStatName}{append}";
+            }
+            if (_increase != 0)
+            {
+                var direction = _increase > 0 ? "increased" : "decreased";
+                returnString[1] = $"{_increase}% {direction} {_statType.EditorStatName}{append}";
+            }
+
+            if (_multiplier != 0)
+            {
+                var direction = _flat > 0 ? "more" : "less";
+                returnString[2] = $"{Mathf.RoundToInt(_multiplier * 100)}% {direction} {_statType.EditorStatName}{append}";
+            }
+
+            for (var index = 0; index < returnString.Length - 1; index++)
+            {
+                if (!string.IsNullOrEmpty(returnString[index]))
+                {
+                    returnString[index] += "\n";
+                }
+            }
+
+            return string.Concat(returnString);
         }
 
         public static Stat operator +(Stat lhs, Stat rhs)
@@ -68,7 +105,7 @@ namespace Gameplay.Modifiers
             return new Stat(lhs._statType,
                 lhs._flat + rhs._flat,
                 lhs._increase + rhs._increase,
-                lhs._multiplier * rhs._multiplier);
+                lhs._multiplier + rhs._multiplier);
         }
     }
 }
