@@ -1,9 +1,36 @@
 ﻿using System;
+using UI.Localization;
+using UnityEditor;
 using UnityEngine;
 using Utility.Attributes;
 
 namespace Gameplay.Data
 {
+#if UNITY_EDITOR
+    [InitializeOnLoad]
+    public static class StatLocalization
+    {
+        static StatLocalization()
+        {
+            LocalizationKeyGenerator.OpenEntry("Stats");
+            {
+                foreach (BaseType baseType in Enum.GetValues(typeof(BaseType)))
+                {
+                    var baseTypeName = baseType.ToString();
+                    var field = typeof(BaseType).GetField(baseTypeName);
+                    var subType = Attribute.GetCustomAttribute(field, typeof(SubTypeAttribute)) as SubTypeAttribute;
+                    var subTypeNames = Enum.GetNames(subType!.SubType);
+                    foreach (var subTypeName in subTypeNames)
+                    {
+                        LocalizationKeyGenerator.AddKey($"{baseTypeName}.{subTypeName}");
+                    }
+                }
+            }
+            LocalizationKeyGenerator.CloseEntry();
+        }
+    }
+#endif
+
     public enum BaseType
     {
         [SubType(typeof(DamageType))] Damage,
@@ -13,7 +40,7 @@ namespace Gameplay.Data
         [SubType(typeof(ResourceType))] ResourceRecovery,
         [DisplayNameOverride] [SubType(typeof(DefenceType))] Defence,
     }
-    
+
     public enum DamageType
     {
         [DisplayNameOverride] Generic,
@@ -26,12 +53,12 @@ namespace Gameplay.Data
 
     public enum ActionType
     {
-        [DisplayNameOverride] Generic,
+        [DisplayNameOverride("Action ")] Generic,
         Attack,
         Cast,
         [DisplayNameOverride("Movement ")] Move,
     }
-    
+
     public enum ResourceType
     {
         Life,
@@ -39,7 +66,7 @@ namespace Gameplay.Data
         Stamina,
         Ammo
     }
-    
+
     public enum DefenceType
     {
         [DisplayNameOverride("Defences")] Generic,
@@ -47,7 +74,7 @@ namespace Gameplay.Data
         Evasion,
         Barrier
     }
-    
+
     [Serializable]
     public record StatType
     {
@@ -70,6 +97,7 @@ namespace Gameplay.Data
                 return returnString;
             }
         }
+
 
         public virtual bool Equals(StatType other)
         {

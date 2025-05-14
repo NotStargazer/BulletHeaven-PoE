@@ -78,7 +78,7 @@ namespace Editor.Inspectors
         {
             var entry = property.FindPropertyRelative(Entry);
             var fields = entry.GetDirectChildren();
-            if (string.IsNullOrEmpty(_searchField) || entry.type.ToLower().Contains(_searchField.ToLower()))
+            if (string.IsNullOrEmpty(_searchField) || property.displayName.ToLower().Contains(_searchField.ToLower()))
             {
                 EditorGUILayout.BeginVertical(new GUIStyle("IN ThumbnailShadow")
                 {
