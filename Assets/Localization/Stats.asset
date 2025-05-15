@@ -12,4 +12,452 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 468381dbdc234d1cb143f6074042b47e, type: 3}
   m_Name: Stats
   m_EditorClassIdentifier: 
-  _entries: []
+  _entries:
+  - Key: Damage.Flat.Generic
+    Strings:
+    - 
+    - 
+  - Key: Damage.Increased.Generic
+    Strings:
+    - 
+    - 
+  - Key: Damage.Multiplier.Generic
+    Strings:
+    - 
+    - 
+  - Key: Damage.Fixed.Generic
+    Strings:
+    - 
+    - 
+  - Key: Damage.Flat.Physical
+    Strings:
+    - 
+    - 
+  - Key: Damage.Increased.Physical
+    Strings:
+    - 
+    - 
+  - Key: Damage.Multiplier.Physical
+    Strings:
+    - 
+    - 
+  - Key: Damage.Fixed.Physical
+    Strings:
+    - 
+    - 
+  - Key: Damage.Flat.Fire
+    Strings:
+    - 
+    - 
+  - Key: Damage.Increased.Fire
+    Strings:
+    - 
+    - 
+  - Key: Damage.Multiplier.Fire
+    Strings:
+    - 
+    - 
+  - Key: Damage.Fixed.Fire
+    Strings:
+    - 
+    - 
+  - Key: Damage.Flat.Cold
+    Strings:
+    - 
+    - 
+  - Key: Damage.Increased.Cold
+    Strings:
+    - 
+    - 
+  - Key: Damage.Multiplier.Cold
+    Strings:
+    - 
+    - 
+  - Key: Damage.Fixed.Cold
+    Strings:
+    - 
+    - 
+  - Key: Damage.Flat.Lightning
+    Strings:
+    - 
+    - 
+  - Key: Damage.Increased.Lightning
+    Strings:
+    - 
+    - 
+  - Key: Damage.Multiplier.Lightning
+    Strings:
+    - 
+    - 
+  - Key: Damage.Fixed.Lightning
+    Strings:
+    - 
+    - 
+  - Key: Damage.Flat.Elemental
+    Strings:
+    - '#1#% test {c:blue}'
+    - 
+  - Key: Damage.Increased.Elemental
+    Strings:
+    - 
+    - 
+  - Key: Damage.Multiplier.Elemental
+    Strings:
+    - 
+    - 
+  - Key: Damage.Fixed.Elemental
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Flat.Generic
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Increased.Generic
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resistance.Multiplier.Generic
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resistance.Fixed.Generic
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resistance.Flat.Physical
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Increased.Physical
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resistance.Multiplier.Physical
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resistance.Fixed.Physical
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resistance.Flat.Fire
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resistance.Increased.Fire
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resistance.Multiplier.Fire
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resistance.Fixed.Fire
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resistance.Flat.Cold
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resistance.Increased.Cold
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resistance.Multiplier.Cold
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resistance.Fixed.Cold
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resistance.Flat.Lightning
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resistance.Increased.Lightning
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resistance.Multiplier.Lightning
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resistance.Fixed.Lightning
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resistance.Flat.Elemental
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resistance.Increased.Elemental
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resistance.Multiplier.Elemental
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resistance.Fixed.Elemental
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Speed.Flat.Generic
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Speed.Increased.Generic
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Speed.Multiplier.Generic
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Speed.Fixed.Generic
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Speed.Flat.Attack
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Speed.Increased.Attack
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Speed.Multiplier.Attack
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Speed.Fixed.Attack
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Speed.Flat.Cast
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Speed.Increased.Cast
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Speed.Multiplier.Cast
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Speed.Fixed.Cast
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Speed.Flat.Move
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Speed.Increased.Move
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Speed.Multiplier.Move
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Speed.Fixed.Move
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resource.Flat.Life
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resource.Increased.Life
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resource.Multiplier.Life
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resource.Fixed.Life
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resource.Flat.Mana
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resource.Increased.Mana
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resource.Multiplier.Mana
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resource.Fixed.Mana
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resource.Flat.Stamina
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resource.Increased.Stamina
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resource.Multiplier.Stamina
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resource.Fixed.Stamina
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resource.Flat.Ammo
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resource.Increased.Ammo
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resource.Multiplier.Ammo
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: Resource.Fixed.Ammo
+    Strings:
+    - <color=ff0000>test</color>
+    - 
+  - Key: ResourceRecovery.Flat.Life
+    Strings:
+    - 
+    - 
+  - Key: ResourceRecovery.Increased.Life
+    Strings:
+    - 
+    - 
+  - Key: ResourceRecovery.Multiplier.Life
+    Strings:
+    - 
+    - 
+  - Key: ResourceRecovery.Fixed.Life
+    Strings:
+    - 
+    - 
+  - Key: ResourceRecovery.Flat.Mana
+    Strings:
+    - 
+    - 
+  - Key: ResourceRecovery.Increased.Mana
+    Strings:
+    - 
+    - 
+  - Key: ResourceRecovery.Multiplier.Mana
+    Strings:
+    - 
+    - 
+  - Key: ResourceRecovery.Fixed.Mana
+    Strings:
+    - 
+    - 
+  - Key: ResourceRecovery.Flat.Stamina
+    Strings:
+    - 
+    - 
+  - Key: ResourceRecovery.Increased.Stamina
+    Strings:
+    - 
+    - 
+  - Key: ResourceRecovery.Multiplier.Stamina
+    Strings:
+    - 
+    - 
+  - Key: ResourceRecovery.Fixed.Stamina
+    Strings:
+    - 
+    - 
+  - Key: ResourceRecovery.Flat.Ammo
+    Strings:
+    - 
+    - 
+  - Key: ResourceRecovery.Increased.Ammo
+    Strings:
+    - 
+    - 
+  - Key: ResourceRecovery.Multiplier.Ammo
+    Strings:
+    - 
+    - 
+  - Key: ResourceRecovery.Fixed.Ammo
+    Strings:
+    - 
+    - 
+  - Key: Defence.Flat.Generic
+    Strings:
+    - 
+    - 
+  - Key: Defence.Increased.Generic
+    Strings:
+    - 
+    - 
+  - Key: Defence.Multiplier.Generic
+    Strings:
+    - 
+    - 
+  - Key: Defence.Fixed.Generic
+    Strings:
+    - 
+    - 
+  - Key: Defence.Flat.Armor
+    Strings:
+    - 
+    - 
+  - Key: Defence.Increased.Armor
+    Strings:
+    - 
+    - 
+  - Key: Defence.Multiplier.Armor
+    Strings:
+    - 
+    - 
+  - Key: Defence.Fixed.Armor
+    Strings:
+    - 
+    - 
+  - Key: Defence.Flat.Evasion
+    Strings:
+    - 
+    - 
+  - Key: Defence.Increased.Evasion
+    Strings:
+    - 
+    - 
+  - Key: Defence.Multiplier.Evasion
+    Strings:
+    - 
+    - 
+  - Key: Defence.Fixed.Evasion
+    Strings:
+    - 
+    - 
+  - Key: Defence.Flat.Barrier
+    Strings:
+    - 
+    - 
+  - Key: Defence.Increased.Barrier
+    Strings:
+    - 
+    - 
+  - Key: Defence.Multiplier.Barrier
+    Strings:
+    - 
+    - 
+  - Key: Defence.Fixed.Barrier
+    Strings:
+    - 
+    - 

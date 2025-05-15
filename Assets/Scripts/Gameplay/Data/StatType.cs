@@ -22,7 +22,10 @@ namespace Gameplay.Data
                     var subTypeNames = Enum.GetNames(subType!.SubType);
                     foreach (var subTypeName in subTypeNames)
                     {
-                        LocalizationKeyGenerator.AddKey($"{baseTypeName}.{subTypeName}");
+                        LocalizationKeyGenerator.AddKey($"{baseTypeName}.Flat.{subTypeName}");
+                        LocalizationKeyGenerator.AddKey($"{baseTypeName}.Increased.{subTypeName}");
+                        LocalizationKeyGenerator.AddKey($"{baseTypeName}.Multiplier.{subTypeName}");
+                        LocalizationKeyGenerator.AddKey($"{baseTypeName}.Fixed.{subTypeName}");
                     }
                 }
             }
