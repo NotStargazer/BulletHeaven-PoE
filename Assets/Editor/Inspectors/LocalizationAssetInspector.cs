@@ -16,12 +16,13 @@ namespace Editor.Inspectors
             private Dictionary<string, LocHierarchy> _children;
             private SerializedProperty _property;
             private string _label;
+            
 
             public LocHierarchy()
             {
                 _children = new Dictionary<string, LocHierarchy>();
             }
-            
+
             public void Add(Queue<string> remainingKeys, SerializedProperty property, string label = "")
             {
                 _label = label;
@@ -30,6 +31,7 @@ namespace Editor.Inspectors
                     _property = property;
                     return;
                 }
+
                 var key = remainingKeys.Dequeue();
                 if (_children.ContainsKey(key))
                 {
@@ -42,53 +44,82 @@ namespace Editor.Inspectors
                     lh.Add(remainingKeys, property, key);
                 }
             }
-            
-            public void Draw(int depth = 0)
+
+            public void Draw(Dictionary<string, FormattedValue> values, int depth = 0)
             {
                 EditorGUI.indentLevel = depth - 1;
                 if (depth == 1)
                 {
                     EditorGUILayout.BeginVertical(new GUIStyle("IN Footer"));
                 }
+
                 if (!string.IsNullOrEmpty(_label))
                 {
                     EditorGUILayout.LabelField(_label, new GUIStyle("CN Box"));
                 }
+
                 if (_property != null)
                 {
                     var controlRect = EditorGUILayout.GetControlRect(false);
                     GUI.contentColor = Color.clear;
-                    _property.stringValue = EditorGUI.TextArea(controlRect, _property.stringValue);
+                    var newValue = EditorGUI.TextArea(controlRect, _property.stringValue);
                     GUI.contentColor = Color.white;
-                    var varMatches = 0;
-                    var result = Regex.Replace(_property.stringValue, "#\\d#", match =>
+                    if (_property.stringValue != newValue || !values.ContainsKey(_property.propertyPath))
                     {
-                        varMatches++;
-                        return $"<color=#55ff55>{match.Value}</color>";
-                    });
-                    var formatMatches = 0;
-                    result = Regex.Replace(result, "\\{\\w*:.+\\}", match =>
+                        var value = new FormattedValue();
+                        _property.stringValue = newValue;
+                        var result = Regex.Replace(_property.stringValue, "#\\d#", match =>
+                        {
+                            value.Variables++;
+                            return $"<color=#55ff55>{match.Value}</color>";
+                        });
+                        result = Regex.Replace(result, "\\{\\w*:.+\\}", match =>
+                        {
+                            value.Formatters++;
+                            return $"<color=#5555ff>{match.Value}</color>";
+                        });
+                        value.Text = result;
+                        if (!values.TryAdd(_property.propertyPath, value))
+                        {
+                            values[_property.propertyPath] = value;
+                        }
+                    }
+
+                    if (values.TryGetValue(_property.propertyPath, out var formattedValue))
                     {
-                        formatMatches++;
-                        return $"<color=#5555ff>{match.Value}</color>";
-                    });
-                    EditorGUI.LabelField(controlRect, result, new GUIStyle("CN Message"));
-                    EditorGUILayout.LabelField($"<color=#55ff55>{varMatches}</color> Variables | <color=#5555ff>{formatMatches}</color> Formaters", new GUIStyle("CN Message"));
+                        EditorGUI.LabelField(controlRect, formattedValue.Text, new GUIStyle("CN Message"));
+                        EditorGUILayout.LabelField($"<color=#55ff55>{formattedValue.Variables}</color> Variables | <color=#5555ff>{formattedValue.Formatters}</color> Formaters", new GUIStyle("CN Message"));
+                    }
                 }
+
                 foreach (var child in _children.Values)
                 {
-                    child.Draw(depth + 1);
+                    child.Draw(values, depth + 1);
                 }
+
                 if (depth == 1)
                 {
                     EditorGUILayout.EndVertical();
                 }
             }
         }
-        
+
+        private struct FormattedValue
+        {
+            public string Text;
+            public int Variables;
+            public int Formatters;
+        }
+
         private LocalizationManager.LocalizationKey _localizationKey;
         private string _searchField;
         private LocHierarchy _rootHierarchy;
+        private Dictionary<string, FormattedValue> _formattedValues;
+
+        private void Awake()
+        {
+            _formattedValues = new Dictionary<string, FormattedValue>();
+        }
 
         public override void OnInspectorGUI()
         {
@@ -96,7 +127,7 @@ namespace Editor.Inspectors
             _localizationKey = (LocalizationManager.LocalizationKey)EditorGUILayout.EnumPopup("Current Localization", _localizationKey);
             var entries = serializedObject.FindProperty("_entries");
             _searchField = EditorGUILayout.TextField(_searchField, new GUIStyle("ToolbarSearchTextField"));
-            
+
             for (var i = 0; i < entries.arraySize; i++)
             {
                 var entry = entries.GetArrayElementAtIndex(i);
@@ -107,7 +138,8 @@ namespace Editor.Inspectors
                     _rootHierarchy.Add(new Queue<string>(key.stringValue.Split('.')), currentString);
                 }
             }
-            _rootHierarchy.Draw();
+
+            _rootHierarchy.Draw(_formattedValues);
             serializedObject.ApplyModifiedProperties();
         }
     }

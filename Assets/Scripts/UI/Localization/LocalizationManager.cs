@@ -24,7 +24,7 @@ namespace UI.Localization
             var assets = AssetDatabase.FindAssets("t:LocalizationAsset", new[] { "Assets/Localization" });
             foreach (var guid in assets)
             {
-                var path = AssetDatabase.GUIDToAssetPath(guid); //
+                var path = AssetDatabase.GUIDToAssetPath(guid);
                 var name = Path.GetFileNameWithoutExtension(path);
                 if (name == file)
                 {

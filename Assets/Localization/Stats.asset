@@ -15,449 +15,449 @@ MonoBehaviour:
   _entries:
   - Key: Damage.Flat.Generic
     Strings:
-    - 
+    - +#1# to All Damage types
     - 
   - Key: Damage.Increased.Generic
     Strings:
-    - 
+    - '#1#% Increased Damage'
     - 
   - Key: Damage.Multiplier.Generic
     Strings:
-    - 
+    - '#1#% More Damage'
     - 
   - Key: Damage.Fixed.Generic
     Strings:
-    - 
+    - All Damage is #1#
     - 
   - Key: Damage.Flat.Physical
     Strings:
-    - 
+    - +#1# to Physical Damage
     - 
   - Key: Damage.Increased.Physical
     Strings:
-    - 
+    - '#1#% Increased Physical Damage'
     - 
   - Key: Damage.Multiplier.Physical
     Strings:
-    - 
+    - '#1#% More Physical Damage'
     - 
   - Key: Damage.Fixed.Physical
     Strings:
-    - 
+    - Physical Damage is #1#
     - 
   - Key: Damage.Flat.Fire
     Strings:
-    - 
+    - +#1# to Fire Damage
     - 
   - Key: Damage.Increased.Fire
     Strings:
-    - 
+    - '#1#% Increased Fire Damage'
     - 
   - Key: Damage.Multiplier.Fire
     Strings:
-    - 
+    - '#1#% More Fire Damage'
     - 
   - Key: Damage.Fixed.Fire
     Strings:
-    - 
+    - Fire Damage is #1#
     - 
   - Key: Damage.Flat.Cold
     Strings:
-    - 
+    - +#1# to Cold Damage
     - 
   - Key: Damage.Increased.Cold
     Strings:
-    - 
+    - '#1#% Increased Cold Damage'
     - 
   - Key: Damage.Multiplier.Cold
     Strings:
-    - 
+    - '#1#% More Cold Damage'
     - 
   - Key: Damage.Fixed.Cold
     Strings:
-    - 
+    - Cold Damage is #1#
     - 
   - Key: Damage.Flat.Lightning
     Strings:
-    - 
+    - +#1# to Lightning Damage
     - 
   - Key: Damage.Increased.Lightning
     Strings:
-    - 
+    - '#1#% Increased Lightning Damage'
     - 
   - Key: Damage.Multiplier.Lightning
     Strings:
-    - 
+    - '#1#% More Lightning Damage'
     - 
   - Key: Damage.Fixed.Lightning
     Strings:
-    - 
+    - Lightning Damage is #1#
     - 
   - Key: Damage.Flat.Elemental
     Strings:
-    - '#1#% test {c:blue}'
+    - +#1# to Elemental Damage
     - 
   - Key: Damage.Increased.Elemental
     Strings:
-    - 
+    - '#1#% Increased Elemental Damage'
     - 
   - Key: Damage.Multiplier.Elemental
     Strings:
-    - 
+    - '#1#% More Elemental Damage'
     - 
   - Key: Damage.Fixed.Elemental
     Strings:
-    - 
+    - Elemental Damage is #1#
     - 
   - Key: Resistance.Flat.Generic
     Strings:
-    - 
+    - +#1#% to All Resistances
     - 
   - Key: Resistance.Increased.Generic
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% Increased Resistances'
     - 
   - Key: Resistance.Multiplier.Generic
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% More Resistances'
     - 
   - Key: Resistance.Fixed.Generic
     Strings:
-    - <color=ff0000>test</color>
+    - All Resistances are #1#%
     - 
   - Key: Resistance.Flat.Physical
     Strings:
-    - 
+    - +#1#% to Physical Resistance
     - 
   - Key: Resistance.Increased.Physical
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% Increased Physical Resistance'
     - 
   - Key: Resistance.Multiplier.Physical
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% More Physical Resistance'
     - 
   - Key: Resistance.Fixed.Physical
     Strings:
-    - <color=ff0000>test</color>
+    - Physical Resistance is #1#%
     - 
   - Key: Resistance.Flat.Fire
     Strings:
-    - <color=ff0000>test</color>
+    - +#1#% to Fire Resistance
     - 
   - Key: Resistance.Increased.Fire
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% Increased Fire Resistance'
     - 
   - Key: Resistance.Multiplier.Fire
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% More Fire Resistance'
     - 
   - Key: Resistance.Fixed.Fire
     Strings:
-    - <color=ff0000>test</color>
+    - Fire Resistance is #1#%
     - 
   - Key: Resistance.Flat.Cold
     Strings:
-    - <color=ff0000>test</color>
+    - +#1#% to Cold Resistance
     - 
   - Key: Resistance.Increased.Cold
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% Increased Cold Resistance'
     - 
   - Key: Resistance.Multiplier.Cold
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% More Cold Resistance'
     - 
   - Key: Resistance.Fixed.Cold
     Strings:
-    - <color=ff0000>test</color>
+    - Cold Resistance is #1#%
     - 
   - Key: Resistance.Flat.Lightning
     Strings:
-    - <color=ff0000>test</color>
+    - +#1#% to Lightning Resistance
     - 
   - Key: Resistance.Increased.Lightning
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% Increased Lightning Resistance'
     - 
   - Key: Resistance.Multiplier.Lightning
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% More Lightning Resistance'
     - 
   - Key: Resistance.Fixed.Lightning
     Strings:
-    - <color=ff0000>test</color>
+    - Lightning Resistance is #1#%
     - 
   - Key: Resistance.Flat.Elemental
     Strings:
-    - <color=ff0000>test</color>
+    - +#1#% to Elemental Resistances
     - 
   - Key: Resistance.Increased.Elemental
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% Increased Elemental Resistances'
     - 
   - Key: Resistance.Multiplier.Elemental
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% More Elemental Resistances'
     - 
   - Key: Resistance.Fixed.Elemental
     Strings:
-    - <color=ff0000>test</color>
+    - Elemental Resistances are #1#%
     - 
   - Key: Speed.Flat.Generic
     Strings:
-    - <color=ff0000>test</color>
+    - +#1# to Base Action Speed
     - 
   - Key: Speed.Increased.Generic
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% Increased Action Speed'
     - 
   - Key: Speed.Multiplier.Generic
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% More Action Speed'
     - 
   - Key: Speed.Fixed.Generic
     Strings:
-    - <color=ff0000>test</color>
+    - Action Speed is #1#
     - 
   - Key: Speed.Flat.Attack
     Strings:
-    - <color=ff0000>test</color>
+    - +#1# to Attack Speed
     - 
   - Key: Speed.Increased.Attack
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% Increased Attack Speed'
     - 
   - Key: Speed.Multiplier.Attack
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% More Attack Speed'
     - 
   - Key: Speed.Fixed.Attack
     Strings:
-    - <color=ff0000>test</color>
+    - Attack Speed is #1#
     - 
   - Key: Speed.Flat.Cast
     Strings:
-    - <color=ff0000>test</color>
+    - +#1# to Cast Speed
     - 
   - Key: Speed.Increased.Cast
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% Increased Cast Speed'
     - 
   - Key: Speed.Multiplier.Cast
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% More Cast Speed'
     - 
   - Key: Speed.Fixed.Cast
     Strings:
-    - <color=ff0000>test</color>
+    - Cast Speed is #1#
     - 
   - Key: Speed.Flat.Move
     Strings:
-    - <color=ff0000>test</color>
+    - +#1# to Movement Speed
     - 
   - Key: Speed.Increased.Move
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% Increased Movement Speed'
     - 
   - Key: Speed.Multiplier.Move
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% More Movement Speed'
     - 
   - Key: Speed.Fixed.Move
     Strings:
-    - <color=ff0000>test</color>
+    - Movement Speed is #1#
     - 
   - Key: Resource.Flat.Life
     Strings:
-    - <color=ff0000>test</color>
+    - +#1# to Maximum Life
     - 
   - Key: Resource.Increased.Life
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% Increased Maximum Life'
     - 
   - Key: Resource.Multiplier.Life
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% More Maximum Life'
     - 
   - Key: Resource.Fixed.Life
     Strings:
-    - <color=ff0000>test</color>
+    - Maximum Life is #1#
     - 
   - Key: Resource.Flat.Mana
     Strings:
-    - <color=ff0000>test</color>
+    - +#1# Maximum Mana
     - 
   - Key: Resource.Increased.Mana
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% Increased Maximum Mana'
     - 
   - Key: Resource.Multiplier.Mana
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% More Maximum Mana'
     - 
   - Key: Resource.Fixed.Mana
     Strings:
-    - <color=ff0000>test</color>
+    - Maximum Mana is #1#
     - 
   - Key: Resource.Flat.Stamina
     Strings:
-    - <color=ff0000>test</color>
+    - +#1# Maximum Stamina
     - 
   - Key: Resource.Increased.Stamina
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% Increased Maximum Stamina'
     - 
   - Key: Resource.Multiplier.Stamina
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% More Maximum Stamina'
     - 
   - Key: Resource.Fixed.Stamina
     Strings:
-    - <color=ff0000>test</color>
+    - Maximum Stamina is #1#
     - 
   - Key: Resource.Flat.Ammo
     Strings:
-    - <color=ff0000>test</color>
+    - +#1# Maximum Ammo
     - 
   - Key: Resource.Increased.Ammo
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% Increased Maximum Ammo'
     - 
   - Key: Resource.Multiplier.Ammo
     Strings:
-    - <color=ff0000>test</color>
+    - '#1#% More Maximum Ammo'
     - 
   - Key: Resource.Fixed.Ammo
     Strings:
-    - <color=ff0000>test</color>
+    - Maximum Ammo is #1#
     - 
   - Key: ResourceRecovery.Flat.Life
     Strings:
-    - 
+    - +#1# to Life Regeneration
     - 
   - Key: ResourceRecovery.Increased.Life
     Strings:
-    - 
+    - '#1#% Increased Life Regeneration'
     - 
   - Key: ResourceRecovery.Multiplier.Life
     Strings:
-    - 
+    - '#1#% More Life Regeneration'
     - 
   - Key: ResourceRecovery.Fixed.Life
     Strings:
-    - 
+    - Life Regeneration is #1#
     - 
   - Key: ResourceRecovery.Flat.Mana
     Strings:
-    - 
+    - +#1# to Mana Regeneration
     - 
   - Key: ResourceRecovery.Increased.Mana
     Strings:
-    - 
+    - '#1#% Increased Mana Regeneration'
     - 
   - Key: ResourceRecovery.Multiplier.Mana
     Strings:
-    - 
+    - '#1#% More Mana Regeneration'
     - 
   - Key: ResourceRecovery.Fixed.Mana
     Strings:
-    - 
+    - Mana Regeneration is #1#
     - 
   - Key: ResourceRecovery.Flat.Stamina
     Strings:
-    - 
+    - +#1# to Stamina Recovery
     - 
   - Key: ResourceRecovery.Increased.Stamina
     Strings:
-    - 
+    - '#1#% Increased Stamina Recovery'
     - 
   - Key: ResourceRecovery.Multiplier.Stamina
     Strings:
-    - 
+    - '#1#% More Stamina Recovery'
     - 
   - Key: ResourceRecovery.Fixed.Stamina
     Strings:
-    - 
+    - Stamina Recovery is #1#
     - 
   - Key: ResourceRecovery.Flat.Ammo
     Strings:
-    - 
+    - +#1# to Ammo Recovery Range
     - 
   - Key: ResourceRecovery.Increased.Ammo
     Strings:
-    - 
+    - '#1#% Increased Ammo Recovery Range'
     - 
   - Key: ResourceRecovery.Multiplier.Ammo
     Strings:
-    - 
+    - '#1#% More Ammo Recovery Range'
     - 
   - Key: ResourceRecovery.Fixed.Ammo
     Strings:
-    - 
+    - Ammo Recovery Range is #1#
     - 
   - Key: Defence.Flat.Generic
     Strings:
-    - 
+    - +#1# to All Defences
     - 
   - Key: Defence.Increased.Generic
     Strings:
-    - 
+    - '#1#% Increased Defences'
     - 
   - Key: Defence.Multiplier.Generic
     Strings:
-    - 
+    - '#1#% More Defences'
     - 
   - Key: Defence.Fixed.Generic
     Strings:
-    - 
+    - All Defences is #1#
     - 
   - Key: Defence.Flat.Armor
     Strings:
-    - 
+    - +#1# to Armor
     - 
   - Key: Defence.Increased.Armor
     Strings:
-    - 
+    - '#1#% Increased Armor'
     - 
   - Key: Defence.Multiplier.Armor
     Strings:
-    - 
+    - '#1#% More Armor'
     - 
   - Key: Defence.Fixed.Armor
     Strings:
-    - 
+    - Armor is #1#
     - 
   - Key: Defence.Flat.Evasion
     Strings:
-    - 
+    - +#1# to Evasion
     - 
   - Key: Defence.Increased.Evasion
     Strings:
-    - 
+    - '#1#% Increased Evasion'
     - 
   - Key: Defence.Multiplier.Evasion
     Strings:
-    - 
+    - '#1#% More Evasion'
     - 
   - Key: Defence.Fixed.Evasion
     Strings:
-    - 
+    - Evasion is #1#
     - 
   - Key: Defence.Flat.Barrier
     Strings:
-    - 
+    - +#1# to Maximum Barrier
     - 
   - Key: Defence.Increased.Barrier
     Strings:
-    - 
+    - '#1#% Increased Maximum Barrier'
     - 
   - Key: Defence.Multiplier.Barrier
     Strings:
-    - 
+    - '#1#% More Maximum Barrier'
     - 
   - Key: Defence.Fixed.Barrier
     Strings:
-    - 
+    - Maximum Barrier is #1#
     - 
