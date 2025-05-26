@@ -70,7 +70,7 @@ namespace UI.Components
 
         [SerializeField] private List<SkillNode> _rootNodes;
         [SerializeField] private List<Cluster> _clusters;
-        [SerializeField] private ScrollRect _scrollView;
+        [SerializeField] private ZoomableScrollRect _scrollView;
         [SerializeField] private RectTransform _connectionTransform;
         [SerializeField] private SkillNode _skillNodePrefab;
         [SerializeField] private NodeConnection _connectionPrefab;
@@ -148,13 +148,6 @@ namespace UI.Components
             var connection = Instantiate(_connectionPrefab, _connectionTransform);
             connection.Connect(a, b);
             return connection;
-        }
-
-        public void OnScroll(PointerEventData eventData)
-        {
-            _zoom += eventData.scrollDelta.y;
-            _zoom = Mathf.Clamp(_zoom, 1, 3);
-            _scrollView.viewport.localScale = Vector3.one * _zoom;
         }
     }
 }

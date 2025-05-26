@@ -49,6 +49,7 @@
             sampler2D _LitTex;
             float _WidthRatio;
             float _Radius;
+            float _Clamp;
             float4 _Range;
 
             float easeInCirc(float t)
@@ -66,12 +67,12 @@
                 float a = step(1 - _WidthRatio, l) - step(1, l);
 
                 float x = smoothstep(1 - _WidthRatio, 1, l);
-                float y = y = i.uv.x;
+                float y = i.uv.x;
 
                 if (_Radius != 0)
                 {
                     y = atan2(cx.x, lerp(cx.y, 1, f)) / UNITY_PI;
-                    y /= _Radius;
+                    y /= _Clamp * sign(_Radius);
                     y += 0.5f;
                 }
 

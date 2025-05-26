@@ -9,6 +9,7 @@ namespace UI.Elements.Skill_Tree
     {
         private static readonly int WIDTH_RATIO = Shader.PropertyToID("_WidthRatio");
         private static readonly int RADIUS = Shader.PropertyToID("_Radius");
+        private static readonly int CLAMP = Shader.PropertyToID("_Clamp");
         private static readonly int RANGE = Shader.PropertyToID("_Range");
 
         [SerializeField] private RectTransform _transform;
@@ -18,7 +19,7 @@ namespace UI.Elements.Skill_Tree
         [SerializeField] private Material _material;
         [Range(-1, 1)] [SerializeField] private float _radius;
         [SerializeField] private float _width;
-        [SerializeField] private Vector4 _range;
+        [SerializeField] private AnimationCurve _clampCurve;
 
         private RectTransform PointA => (RectTransform)_pointA.transform;
         private RectTransform PointB => (RectTransform)_pointB.transform;
@@ -31,12 +32,13 @@ namespace UI.Elements.Skill_Tree
         
         private void Awake()
         {
-            _pointA.OnStateUpdated = state => StateUpdated(state, false);
-            _pointB.OnStateUpdated = state => StateUpdated(state, true);
-            _currentRange = new Vector4(_range.x, _range.y, 0, 0);
+            _pointA.OnStateUpdated += state => StateUpdated(state, false);
+            _pointB.OnStateUpdated += state => StateUpdated(state, true);
+            _currentRange = new Vector4(0.5f, 0f, 0, 0);
             _materialInstance = new Material(_material);
             _image.material = _materialInstance;
             CalculateConnection();
+            UpdateMaterial();
         }
 
         public void Connect(SkillNode a, SkillNode b)
@@ -77,8 +79,8 @@ namespace UI.Elements.Skill_Tree
             }
             else
             {
-                range.x = _range.x;
-                range.y = _range.y;
+                range.x = 0.25f;
+                range.y = 0.25f;
             }
             _currentRange = range;
             UpdateMaterial();
@@ -132,7 +134,8 @@ namespace UI.Elements.Skill_Tree
             
             _materialInstance.SetFloat(WIDTH_RATIO, _width / _transform.sizeDelta.y);
             _materialInstance.SetFloat(RADIUS, radius);
-            _materialInstance.SetVector(RANGE, _range);
+            _materialInstance.SetFloat(CLAMP, _clampCurve.Evaluate(Mathf.Abs(_radius)));
+            _materialInstance.SetVector(RANGE, new Vector4(0.5f, 0f, 1f, 1f));
         }
     }
 }

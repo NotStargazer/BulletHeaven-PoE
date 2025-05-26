@@ -41,7 +41,7 @@ namespace UI.Elements.Skill_Tree
         public SkillType NodeType => _nodeType;
 
         private NodeState _state;
-        public Action<NodeState> OnStateUpdated { private get; set; }
+        public Action<NodeState> OnStateUpdated { get; set; }
 
         public SkillTree Tree
         {
@@ -58,14 +58,14 @@ namespace UI.Elements.Skill_Tree
         private void SelectNode()
         {
             _state = _state == NodeState.Selected ? NodeState.Unlocked : NodeState.Selected;
-            OnStateUpdated(_state);
+            OnStateUpdated?.Invoke(_state);
             _tree.SelectSkill(this);
         }
 
         public Modifier Allocate()
         {
             _state = NodeState.Allocated;
-            OnStateUpdated(_state);
+            OnStateUpdated?.Invoke(_state);
             return _modifier;
         }
         

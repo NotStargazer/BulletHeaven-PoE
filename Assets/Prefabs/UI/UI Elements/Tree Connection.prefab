@@ -92,4 +92,27 @@ MonoBehaviour:
   _material: {fileID: 2100000, guid: c663fdc731683ce419322d4783335ac7, type: 2}
   _radius: 0
   _width: 3
-  _range: {x: 0.25, y: 0, z: 1, w: 1}
+  _clampCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 12.2480135
+      outSlope: 12.2480135
+      tangentMode: 0
+      weightedMode: 2
+      inWeight: 0
+      outWeight: 0.044289045
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1.464558
+      outSlope: 1.464558
+      tangentMode: 0
+      weightedMode: 1
+      inWeight: 0.5104895
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
