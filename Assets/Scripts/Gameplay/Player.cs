@@ -23,7 +23,7 @@ namespace Gameplay
         [SerializeField] private Transform _skillSpawnPosition;
 
         [SerializeField] [RegistryDropdown(typeof(SkillRegistry))] private string _startingSkill;
-
+        
         private ExperienceTracker _experienceTracker;
         private SkillSlot _skillSlot;
         private Vector2 _desiredDirection;
@@ -69,7 +69,7 @@ namespace Gameplay
         
         private void OnLevelUp(int level)
         {
-            
+            UIRoot.AddSkillPoint();
         }
 
         private void Awake()

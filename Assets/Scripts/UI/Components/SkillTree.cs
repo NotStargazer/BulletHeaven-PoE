@@ -1,9 +1,10 @@
 using System;
 using System.Collections.Generic;
 using Gameplay.Modifiers;
+using TMPro;
 using UI.Elements.Skill_Tree;
 using UnityEngine;
-using UnityEngine.EventSystems;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI.Components
@@ -64,10 +65,13 @@ namespace UI.Components
         public struct NodeParameters
         {
             public SkillType Type;
-            public Sprite NodeSprite;
+            [FormerlySerializedAs("NodeSprite")] public Material NodeMaterial;
             public float NodeSize;
         }
 
+        [SerializeField] private TMP_Text _availablePoints;
+        [SerializeField] private Button _applyButton;
+        [SerializeField] private Button _cancelButton;
         [SerializeField] private List<SkillNode> _rootNodes;
         [SerializeField] private List<Cluster> _clusters;
         [SerializeField] private ZoomableScrollRect _scrollView;
@@ -78,32 +82,69 @@ namespace UI.Components
 
         private List<SkillNode> _selectedNodes;
         private List<Modifier> _modifiers;
-        private float _zoom = 1;
+        private int _totalSkillPoints;
+
+        public int Points => _totalSkillPoints - (_modifiers.Count + _selectedNodes.Count);
 
         private void Awake()
         {
             _selectedNodes = new List<SkillNode>();
             _modifiers = new List<Modifier>();
+            _applyButton.onClick.AddListener(AllocateNodes);
+            _cancelButton.onClick.AddListener(Cancel);
+            _applyButton.interactable = false;
+            _cancelButton.interactable = false;
+
+            foreach (var skillNode in _rootNodes)
+            {
+                skillNode.SetState(NodeState.Unlocked);
+            }
         }
 
-        public void SelectSkill(SkillNode node)
+        public bool SelectSkill(SkillNode node)
         {
             if (_selectedNodes.Contains(node))
             {
                 _selectedNodes.Remove(node);
+                UpdateAvailablePoints();
+                return true;
             }
-            else
+
+            if (_modifiers.Count + _selectedNodes.Count < _totalSkillPoints)
             {
                 _selectedNodes.Add(node);
+                UpdateAvailablePoints();
+                return true;
             }
+
+            return false;
         }
 
-        public void AllocateNodes()
+        private void UpdateAvailablePoints()
+        {
+            var hasSelected = _selectedNodes.Count > 0;
+            _applyButton.interactable = hasSelected;
+            _cancelButton.interactable = hasSelected;
+            _availablePoints.SetText(Points.ToString());
+        }
+
+        private void AllocateNodes()
         {
             foreach (var node in _selectedNodes)
             {
                 _modifiers.Add(node.Allocate());
             }
+
+            _selectedNodes.Clear();
+        }
+
+        private void Cancel()
+        {
+            foreach (var node in _selectedNodes)
+            {
+                node.SetState(NodeState.Unlocked);
+            }
+            
             _selectedNodes.Clear();
         }
 
@@ -148,6 +189,12 @@ namespace UI.Components
             var connection = Instantiate(_connectionPrefab, _connectionTransform);
             connection.Connect(a, b);
             return connection;
+        }
+
+        public void AddPoint()
+        {
+            _totalSkillPoints++;
+            UpdateAvailablePoints(); 
         }
     }
 }

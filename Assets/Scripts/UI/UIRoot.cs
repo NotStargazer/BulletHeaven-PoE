@@ -10,6 +10,7 @@ namespace UI
         CameraController GameCamera { get; }
         public void StartLevel();
         public void SetExperience(float p);
+        public void AddSkillPoint();
     }
     
     public class UIRoot : MonoBehaviour, IUIRoot
@@ -21,6 +22,7 @@ namespace UI
 
         [Header("Components")] 
         [SerializeField] private PlayerStatsComponent _playerStats;
+        [SerializeField] private SkillTree _skillTree;
 
         public CameraController GameCamera => _gameCamera;
 
@@ -49,6 +51,11 @@ namespace UI
         public void SetExperience(float p)
         {
             _playerStats.Experience(p);
+        }
+
+        public void AddSkillPoint()
+        {
+            _skillTree.AddPoint();
         }
     }
 }

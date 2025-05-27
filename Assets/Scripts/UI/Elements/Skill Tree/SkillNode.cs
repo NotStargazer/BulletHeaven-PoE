@@ -57,9 +57,61 @@ namespace UI.Elements.Skill_Tree
 
         private void SelectNode()
         {
-            _state = _state == NodeState.Selected ? NodeState.Unlocked : NodeState.Selected;
+            if (_state == NodeState.Locked)
+            {
+                return;
+            }
+            
+            if (_tree.SelectSkill(this))
+            {
+                SetState(_state == NodeState.Selected ? NodeState.Unlocked : NodeState.Selected);
+            }
+        }
+
+        public void SetState(NodeState state)
+        {
+            _state = state;
             OnStateUpdated?.Invoke(_state);
-            _tree.SelectSkill(this);
+
+            //Properties passed down to shader
+            //R: Brightness, G: Highlight, B: Blink, A: Alpha
+            switch (_state)
+            {
+                case NodeState.Locked:
+                    foreach (var node in AdjacentNodes)
+                    {
+                        node.SetState(NodeState.Locked);
+                    }
+                    _nodeImage.color = new Color(0.5f, 0f, 0f);
+                    break;
+                case NodeState.Unlocked:
+                    break;
+                case NodeState.Selected:
+                    foreach (var node in AdjacentNodes)
+                    {
+                        node.SetState(NodeState.Unlocked);
+                    }
+                    _nodeImage.color = new Color(0.8f, 0.75f, 0f);
+                    break;
+                case NodeState.Allocated:
+                    _nodeImage.color = new Color(1f, 1f, 0f);
+                    break;
+            }
+        }
+
+        private void Update()
+        {
+            if (_state == NodeState.Unlocked)
+            {
+                if (_tree.Points > 0)
+                {
+                    _nodeImage.color = new Color(0.75f, 0.75f, 1f);
+                }
+                else
+                {
+                    _nodeImage.color = new Color(0.75f, 0.75f, 0f);
+                }
+            }
         }
 
         public Modifier Allocate()
@@ -130,7 +182,7 @@ namespace UI.Elements.Skill_Tree
             {
                 var value = nodeParams.Value;
                 _rectTransform.sizeDelta = Vector2.one * value.NodeSize;
-                _nodeImage.sprite = value.NodeSprite;
+                _nodeImage.material = value.NodeMaterial;
             }
         }
 
