@@ -81,6 +81,29 @@ namespace Gameplay.Data
     [Serializable]
     public record StatType
     {
+        public static StatType Get<T>(BaseType baseType, T subType) where T: Enum
+        {
+            return new StatType
+            {
+                _baseType = baseType,
+                _subType = Convert.ToInt32(subType),
+            };
+        }
+        
+        public static StatType[] Get<T>(BaseType baseType, params T[] subTypes) where T: Enum
+        {
+            var types = new StatType[subTypes.Length];
+            for (var i = 0; i < subTypes.Length; i++)
+            {
+                types[i] = new StatType
+                {
+                    _baseType = baseType,
+                    _subType = Convert.ToInt32(subTypes[i]),
+                };
+            }
+            return types;
+        }
+        
         [SerializeField] protected BaseType _baseType;
         [SerializeField] protected int _subType;
 

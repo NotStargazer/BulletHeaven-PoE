@@ -15,7 +15,7 @@ namespace Gameplay
         public Action ExpireEvent { private get; set; }
         [SerializeField] private ColliderData _collider;
         
-        public void Fire(Player player, Vector3 direction, float velocity, float duration)
+        public void Fire(Player player, Vector3 direction, float velocity, float duration, float damage)
         {
             _velocity = velocity;
             _direction = direction;

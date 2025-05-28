@@ -57,7 +57,7 @@ namespace UI.Elements.Skill_Tree
 
         private void SelectNode()
         {
-            if (_state == NodeState.Locked)
+            if (_state is NodeState.Locked or NodeState.Allocated)
             {
                 return;
             }
@@ -78,20 +78,27 @@ namespace UI.Elements.Skill_Tree
             switch (_state)
             {
                 case NodeState.Locked:
-                    foreach (var node in AdjacentNodes)
-                    {
-                        node.SetState(NodeState.Locked);
-                    }
                     _nodeImage.color = new Color(0.5f, 0f, 0f);
                     break;
                 case NodeState.Unlocked:
+                    foreach (var node in AdjacentNodes)
+                    {
+                        if (node._state <= NodeState.Unlocked)
+                        {
+                            node.SetState(NodeState.Locked);
+                        }
+                    }
+                    _nodeImage.color = new Color(0.75f, 1f, 0f);
                     break;
                 case NodeState.Selected:
                     foreach (var node in AdjacentNodes)
                     {
-                        node.SetState(NodeState.Unlocked);
+                        if (node._state == NodeState.Locked)
+                        {
+                            node.SetState(NodeState.Unlocked);
+                        }
                     }
-                    _nodeImage.color = new Color(0.8f, 0.75f, 0f);
+                    _nodeImage.color = new Color(0.9f, 0.75f, 0f);
                     break;
                 case NodeState.Allocated:
                     _nodeImage.color = new Color(1f, 1f, 0f);
@@ -103,20 +110,15 @@ namespace UI.Elements.Skill_Tree
         {
             if (_state == NodeState.Unlocked)
             {
-                if (_tree.Points > 0)
-                {
-                    _nodeImage.color = new Color(0.75f, 0.75f, 1f);
-                }
-                else
-                {
-                    _nodeImage.color = new Color(0.75f, 0.75f, 0f);
-                }
+                var col = _nodeImage.color;
+                col.b = _tree.Points > 0 ? 1f : 0f;
+                _nodeImage.color = col;
             }
         }
 
         public Modifier Allocate()
         {
-            _state = NodeState.Allocated;
+            SetState(NodeState.Allocated);
             OnStateUpdated?.Invoke(_state);
             return _modifier;
         }

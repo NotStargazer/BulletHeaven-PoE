@@ -36,6 +36,8 @@ namespace Gameplay.Modifiers
         [SerializeField] private bool _fixed;
         [SerializeField] private float _fixedStat;
 
+        public StatType StatType => _statType;
+
         public Stat(StatType statType, float flat = 0, float increase = 0, float multiplier = 0)
         {
             _statType = statType;

@@ -4,7 +4,6 @@ using Gameplay.Modifiers;
 using TMPro;
 using UI.Elements.Skill_Tree;
 using UnityEngine;
-using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 namespace UI.Components
@@ -59,19 +58,21 @@ namespace UI.Components
         }
     }
 
-    public class SkillTree : MonoBehaviour
+    public class SkillTree : BaseMenu
     {
         [Serializable]
         public struct NodeParameters
         {
             public SkillType Type;
-            [FormerlySerializedAs("NodeSprite")] public Material NodeMaterial;
+            public Material NodeMaterial;
             public float NodeSize;
         }
 
         [SerializeField] private TMP_Text _availablePoints;
         [SerializeField] private Button _applyButton;
         [SerializeField] private Button _cancelButton;
+        [SerializeField] private Button _closeButton;
+        [SerializeField] private Button _openButton;
         [SerializeField] private List<SkillNode> _rootNodes;
         [SerializeField] private List<Cluster> _clusters;
         [SerializeField] private ZoomableScrollRect _scrollView;
@@ -85,13 +86,22 @@ namespace UI.Components
         private int _totalSkillPoints;
 
         public int Points => _totalSkillPoints - (_modifiers.Count + _selectedNodes.Count);
-
-        private void Awake()
+        
+        protected override void MenuAwake()
         {
             _selectedNodes = new List<SkillNode>();
             _modifiers = new List<Modifier>();
             _applyButton.onClick.AddListener(AllocateNodes);
             _cancelButton.onClick.AddListener(Cancel);
+            _closeButton.onClick.AddListener(() =>
+            {
+                Cancel();
+                SetVisible(false);
+            });
+            _openButton.onClick.AddListener(() =>
+            {
+                SetVisible(true);
+            });
             _applyButton.interactable = false;
             _cancelButton.interactable = false;
 
@@ -125,6 +135,7 @@ namespace UI.Components
             var hasSelected = _selectedNodes.Count > 0;
             _applyButton.interactable = hasSelected;
             _cancelButton.interactable = hasSelected;
+            _openButton.gameObject.SetActive(Points > 0);
             _availablePoints.SetText(Points.ToString());
         }
 
@@ -136,16 +147,19 @@ namespace UI.Components
             }
 
             _selectedNodes.Clear();
+            UpdateAvailablePoints();
         }
 
         private void Cancel()
         {
-            foreach (var node in _selectedNodes)
+            for (var index = _selectedNodes.Count - 1; index >= 0; index--)
             {
+                var node = _selectedNodes[index];
                 node.SetState(NodeState.Unlocked);
             }
-            
+
             _selectedNodes.Clear();
+            UpdateAvailablePoints();
         }
 
         public SkillNode CreateNode(SkillType type)

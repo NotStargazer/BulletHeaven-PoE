@@ -1,5 +1,6 @@
 using System;
 using Gameplay.Data;
+using Gameplay.Modifiers;
 using Global;
 using Global.Registries;
 using UI;
@@ -23,7 +24,8 @@ namespace Gameplay
         [SerializeField] private Transform _skillSpawnPosition;
 
         [SerializeField] [RegistryDropdown(typeof(SkillRegistry))] private string _startingSkill;
-        
+
+        private ModifierCollection _modifierCollection;
         private ExperienceTracker _experienceTracker;
         private SkillSlot _skillSlot;
         private Vector2 _desiredDirection;
@@ -74,6 +76,7 @@ namespace Gameplay
 
         private void Awake()
         {
+            _modifierCollection = new ModifierCollection(this);
             _experienceTracker = new ExperienceTracker(100, 1.1f, OnExperienceGain, OnLevelUp);
             _skillSlot = new SkillSlot(AllRegistries.Instance.Skills.GetByID(_startingSkill).CreateInstance());
         }
@@ -92,5 +95,10 @@ namespace Gameplay
         {
             _experienceTracker.AddExperience(experience);
         }
+
+        public Stat[] GetStats(Skill skill, params StatType[] statTypes)
+        {
+            return _modifierCollection.GetStats(skill, statTypes);
+        } 
     }
 }
