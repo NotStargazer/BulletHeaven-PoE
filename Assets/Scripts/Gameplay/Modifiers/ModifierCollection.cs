@@ -5,9 +5,9 @@ namespace Gameplay.Modifiers
 {
     public class ModifierCollection
     {
-        private Player _player;
-        private List<IModifierSource> _sources;
-        private List<Stat> _returnStats;
+        private readonly Player _player;
+        private readonly List<IModifierSource> _sources;
+        private readonly List<Stat> _returnStats;
 
         public ModifierCollection(Player player)
         {
@@ -29,6 +29,10 @@ namespace Gameplay.Modifiers
                 var mods = source.GetModifiers();
                 foreach (var mod in mods)
                 {
+                    if (mod == null)
+                    {
+                        continue;
+                    }
                     var stats = mod.Calculate(_player, skill);
                     foreach (var stat in stats)
                     {

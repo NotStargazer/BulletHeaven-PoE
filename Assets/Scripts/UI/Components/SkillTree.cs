@@ -58,7 +58,7 @@ namespace UI.Components
         }
     }
 
-    public class SkillTree : BaseMenu
+    public class SkillTree : BaseMenu, IModifierSource
     {
         [Serializable]
         public struct NodeParameters
@@ -209,6 +209,11 @@ namespace UI.Components
         {
             _totalSkillPoints++;
             UpdateAvailablePoints(); 
+        }
+
+        public IEnumerable<Modifier> GetModifiers()
+        {
+            return _modifiers;
         }
     }
 }

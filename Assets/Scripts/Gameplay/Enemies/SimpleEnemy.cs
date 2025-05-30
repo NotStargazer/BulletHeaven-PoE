@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Gameplay.Data;
+using UnityEngine;
 using UnityEngine.AI;
 
 namespace Gameplay.Enemies
@@ -23,9 +24,9 @@ namespace Gameplay.Enemies
             _agent = GetComponent<NavMeshAgent>();
         }
 
-        protected override void OnDamaged()
+        protected override void OnDamaged(DamageSnapshot damage)
         {
-            Kill();
+            
         }
     }
 }

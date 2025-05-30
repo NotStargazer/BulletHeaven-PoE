@@ -1,4 +1,5 @@
 using System;
+using Gameplay.Data;
 using UnityEngine;
 
 namespace Gameplay
@@ -19,7 +20,7 @@ namespace Gameplay
             transform.localPosition = position;
         }
 
-        protected abstract void OnDamaged();
+        protected abstract void OnDamaged(DamageSnapshot damage);
 
         public void OnRent()
         {
@@ -36,9 +37,9 @@ namespace Gameplay
         public Action<Enemy> Return { get; set; }
 
 
-        public void ApplyDamage()
+        public void ApplyDamage(DamageSnapshot damage)
         {
-            OnDamaged();
+            OnDamaged(damage);
         }
     }
 }

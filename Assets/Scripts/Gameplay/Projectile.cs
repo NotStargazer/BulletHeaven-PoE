@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using Gameplay.Projectiles;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace Gameplay
 {
@@ -11,11 +13,12 @@ namespace Gameplay
         private float _expireTime;
         private Vector3 _direction;
         
-        public Action CollisionEvent { private get; set; }
-        public Action ExpireEvent { private get; set; }
+        public UnityEvent<IEnumerable<IDamagable>> CollisionEvent { get; set; }
+        public UnityEvent DestroyEvent { get; set; }
+        public UnityEvent ExpireEvent { get; set; }
         [SerializeField] private ColliderData _collider;
         
-        public void Fire(Player player, Vector3 direction, float velocity, float duration, float damage)
+        public void Fire(Player player, Vector3 direction, float velocity, float duration)
         {
             _velocity = velocity;
             _direction = direction;
@@ -28,7 +31,11 @@ namespace Gameplay
 
         private void Destroy()
         {
+            DestroyEvent?.Invoke();
             _fired = false;
+            CollisionEvent = null;
+            DestroyEvent = null;
+            ExpireEvent = null;
             gameObject.SetActive(false);
             Return(this);
         }
@@ -51,15 +58,11 @@ namespace Gameplay
 
                 var timeScaledVelocity = _velocity * Time.deltaTime;
                 //TODO overlap filter
+                //TODO replace 1s with pierce
                 if (_collider.Cast(transform, timeScaledVelocity, 1, out var hits))
                 {
-                    for (var i = 0; i < 1; i++)
-                    {
-                        hits[i].ApplyDamage();
-                    }
-                    
+                    CollisionEvent?.Invoke(hits);
                     Destroy();
-                    CollisionEvent?.Invoke();
                 }
                 transform.Translate(_direction * timeScaledVelocity, Space.World);
             }

@@ -1,6 +1,6 @@
-using UnityEngine;
+using Gameplay.Data;
 
 public interface IDamagable
 {
-    void ApplyDamage();
+    void ApplyDamage(DamageSnapshot damage);
 }

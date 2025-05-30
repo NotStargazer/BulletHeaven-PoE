@@ -99,6 +99,8 @@ namespace Gameplay
         public Stat[] GetStats(Skill skill, params StatType[] statTypes)
         {
             return _modifierCollection.GetStats(skill, statTypes);
-        } 
+        }
+
+        public void AddModifierSource(IModifierSource source) => _modifierCollection.AddSource(source);
     }
 }

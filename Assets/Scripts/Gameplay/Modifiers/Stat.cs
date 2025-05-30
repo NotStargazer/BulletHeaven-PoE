@@ -7,7 +7,7 @@ namespace Gameplay.Modifiers
     [Serializable]
     public struct Stat
     {
-        public static float CalculateStats(float baseDamage, params Stat[] stats)
+        public static FlatDamage CalculateStats(FlatDamage baseDamage, params Stat[] stats)
         {
             var result = new Stat();
 
@@ -18,12 +18,13 @@ namespace Gameplay.Modifiers
 
             if (result._fixed)
             {
-                return result._fixedStat;
+                baseDamage.Damage = result._fixedStat;
+                return baseDamage;
             }
 
-            baseDamage += result._flat;
-            baseDamage *= result._increase;
-            baseDamage *= result._multiplier + 1;
+            baseDamage.Damage += result._flat;
+            baseDamage.Damage *= result._increase;
+            baseDamage.Damage *= result._multiplier + 1;
 
             return baseDamage;
         }

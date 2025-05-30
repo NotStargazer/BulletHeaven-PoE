@@ -12,7 +12,8 @@ namespace Gameplay.Skills
         [SerializeField] private SimpleProjectile _projectile;
         [SerializeField] private float _projectileVelocity;
         [SerializeField] private float _projectileDuration;
-        [SerializeField] private float _baseDamage;
+        [SerializeField] private FlatDamage _baseDamage;
+        [SerializeField] private StatType[] _damageScalers;
         private InstancePool<Projectile> _projectilePool;
         
         protected override void Construct()
@@ -23,9 +24,16 @@ namespace Gameplay.Skills
         protected override void Use(Player player, Support[] supports)
         {
             var projectile = _projectilePool.Rent();
-            var stats = player.GetStats(this, StatType.Get(BaseType.Damage, DamageType.Physical, DamageType.Generic));
-            var damage = Stat.CalculateStats(_baseDamage, stats);
-            projectile.Fire(player, player.transform.forward, _projectileVelocity, _projectileDuration, damage);
+            var stats = player.GetStats(this, _damageScalers);
+            var damage = new DamageSnapshot(Stat.CalculateStats(_baseDamage, stats));
+            projectile.Fire(player, player.transform.forward, _projectileVelocity, _projectileDuration);
+            projectile.CollisionEvent.AddListener(hits =>
+            {
+                foreach (var damagable in hits)
+                {
+                    damagable.ApplyDamage(damage);
+                }
+            });
         }
     }
 }

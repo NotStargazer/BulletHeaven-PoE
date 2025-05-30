@@ -41,6 +41,7 @@ namespace UI
             {
                 var player = LevelRoot.Instance.StartLevel(_sessionManager.GetCharacter(0));
                 player.UIRoot = this;
+                player.AddModifierSource(_skillTree);
                 _gameCamera.Attach(player.transform);
                 _inputController.AttachPlayer(player);
                 
