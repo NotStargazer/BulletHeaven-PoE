@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using Gameplay.Projectiles;
 using UnityEngine;
-using UnityEngine.Events;
 
 namespace Gameplay
 {
@@ -13,17 +12,17 @@ namespace Gameplay
         private float _expireTime;
         private Vector3 _direction;
         
-        public UnityEvent<IEnumerable<IDamagable>> CollisionEvent { get; set; }
-        public UnityEvent DestroyEvent { get; set; }
-        public UnityEvent ExpireEvent { get; set; }
+        public Action<IEnumerable<IEntity>> CollisionEvent { get; set; }
+        public Action DestroyEvent { get; set; }
+        public Action ExpireEvent { get; set; }
         [SerializeField] private ColliderData _collider;
         
-        public void Fire(Player player, Vector3 direction, float velocity, float duration)
+        public void Fire(IEntity entity, Vector3 direction, float velocity, float duration)
         {
             _velocity = velocity;
             _direction = direction;
             _expireTime = duration + Time.time;
-            transform.localPosition = player.SkillSpawnPosition;
+            transform.localPosition = entity.SkillSpawnPosition;
             transform.forward = _direction;
             gameObject.SetActive(true);
             _fired = true;

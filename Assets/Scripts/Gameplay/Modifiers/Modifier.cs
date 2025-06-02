@@ -4,7 +4,8 @@ namespace Gameplay.Modifiers
 {
     public abstract class Modifier
     {
-        public abstract Stat[] Calculate(Player player, Skill skill);
+        public abstract bool IsPersistent { get; }
+        public abstract Stat[] Calculate(IEntity entity, Skill skill = null);
         public abstract string GetEditorDescription();
     }
 }

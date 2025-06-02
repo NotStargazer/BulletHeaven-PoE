@@ -102,13 +102,25 @@ namespace Gameplay.Modifiers
         {
             if (lhs._fixed || rhs._fixed)
             {
-                return new Stat(lhs._statType, Mathf.Min(lhs._flat, rhs._flat));
+                return new Stat(lhs._statType, Mathf.Min(lhs._fixedStat, rhs._fixedStat));
             }
 
             return new Stat(lhs._statType,
                 lhs._flat + rhs._flat,
                 lhs._increase + rhs._increase,
                 lhs._multiplier + rhs._multiplier);
+        }
+        public static Stat operator -(Stat lhs, Stat rhs)
+        {
+            if (lhs._fixed || rhs._fixed)
+            {
+                return new Stat(lhs._statType, lhs._fixedStat);
+            }
+
+            return new Stat(lhs._statType,
+                lhs._flat - rhs._flat,
+                lhs._increase - rhs._increase,
+                lhs._multiplier - rhs._multiplier);
         }
     }
 }

@@ -9,8 +9,10 @@ namespace Gameplay.Modifiers
     {
         [SerializeField] private Stat[] _stats;
         [SerializeField] private SkillTags _condition;
-        
-        public override Stat[] Calculate(Player player, Skill skill)
+
+        public override bool IsPersistent => _condition != 0;
+
+        public override Stat[] Calculate(IEntity entity, Skill skill = null)
         {
             if (skill != null && _condition != 0)
             {

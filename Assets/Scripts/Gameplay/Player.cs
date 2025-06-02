@@ -11,28 +11,22 @@ using PlayerInput = Input.PlayerInput;
 
 namespace Gameplay
 {
-    [Serializable]
-    public struct PlayerStats
-    {
-        public float MovementSpeed;
-        public float PickupRange;
-    }
     
-    public class Player : MonoBehaviour, PlayerInput.IPlayerActions
+    public class Player : MonoBehaviour, PlayerInput.IPlayerActions, IEntity
     {
-        [SerializeField] private PlayerStats _playerStats;
         [SerializeField] private Transform _skillSpawnPosition;
 
         [SerializeField] [RegistryDropdown(typeof(SkillRegistry))] private string _startingSkill;
 
-        private ModifierCollection _modifierCollection;
         private ExperienceTracker _experienceTracker;
         private SkillSlot _skillSlot;
         private Vector2 _desiredDirection;
+
+        public Transform Transform => transform;
+        public StatTracker StatTracker { get; private set; }
         
         public IUIRoot UIRoot { set; private get; }
         public Vector3 SkillSpawnPosition => _skillSpawnPosition.position;
-        public PlayerStats Stats => _playerStats;
 
         public void OnMove(InputAction.CallbackContext context)
         {
@@ -76,7 +70,7 @@ namespace Gameplay
 
         private void Awake()
         {
-            _modifierCollection = new ModifierCollection(this);
+            StatTracker = new StatTracker(this);
             _experienceTracker = new ExperienceTracker(100, 1.1f, OnExperienceGain, OnLevelUp);
             _skillSlot = new SkillSlot(AllRegistries.Instance.Skills.GetByID(_startingSkill).CreateInstance());
         }
@@ -85,7 +79,7 @@ namespace Gameplay
         {
             if (_desiredDirection.magnitude > 0)
             {
-                transform.Translate(UIRoot.GameCamera.WorldRotation * new Vector3(_desiredDirection.x, 0, _desiredDirection.y) * (_playerStats.MovementSpeed * Time.deltaTime), Space.World);
+                transform.Translate(UIRoot.GameCamera.WorldRotation * new Vector3(_desiredDirection.x, 0, _desiredDirection.y) * (3 * Time.deltaTime), Space.World);
             }
             
             _skillSlot.TryUseSkill(this);
@@ -95,12 +89,5 @@ namespace Gameplay
         {
             _experienceTracker.AddExperience(experience);
         }
-
-        public Stat[] GetStats(Skill skill, params StatType[] statTypes)
-        {
-            return _modifierCollection.GetStats(skill, statTypes);
-        }
-
-        public void AddModifierSource(IModifierSource source) => _modifierCollection.AddSource(source);
     }
 }

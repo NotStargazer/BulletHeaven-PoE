@@ -55,8 +55,9 @@ MonoBehaviour:
         _projectile: {fileID: 4970941024480854794, guid: 8d13bc0efda9a6a48be3865dcacf7b6b, type: 3}
         _projectileVelocity: 10
         _projectileDuration: 1
-        _baseDamage: 0
-        _damageType: 1
+        _baseDamage:
+          DamageType: 0
+          Damage: 0
         _damageScalers:
         - _baseType: 0
           _subType: 0
