@@ -22,7 +22,7 @@ namespace Gameplay
             _velocity = velocity;
             _direction = direction;
             _expireTime = duration + Time.time;
-            transform.localPosition = entity.SkillSpawnPosition;
+            transform.localPosition = entity.SkillManager.SkillSpawnPosition;
             transform.forward = _direction;
             gameObject.SetActive(true);
             _fired = true;

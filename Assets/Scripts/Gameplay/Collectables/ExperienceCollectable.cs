@@ -39,7 +39,7 @@ namespace Gameplay.Collectables
                 return;
             }
             
-            if (Distance <= _player.Stats.PickupRange)
+            if (Distance <= 3)
             {
                 _collecting = true;
             }

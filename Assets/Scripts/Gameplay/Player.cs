@@ -1,4 +1,3 @@
-using System;
 using Gameplay.Data;
 using Gameplay.Modifiers;
 using Global;
@@ -16,17 +15,33 @@ namespace Gameplay
     {
         [SerializeField] private Transform _skillSpawnPosition;
 
-        [SerializeField] [RegistryDropdown(typeof(SkillRegistry))] private string _startingSkill;
-
         private ExperienceTracker _experienceTracker;
-        private SkillSlot _skillSlot;
         private Vector2 _desiredDirection;
+        [SerializeField] private StatTracker _statTracker;
+        [SerializeField] private HitPool _hitPool;
+        [SerializeField] private SkillManager _skillManager;
 
         public Transform Transform => transform;
-        public StatTracker StatTracker { get; private set; }
-        
+
+        StatTracker IEntity.StatTracker
+        {
+            get => _statTracker;
+            set => _statTracker = value;
+        }
+
+        HitPool IEntity.HitPool
+        {
+            get => _hitPool;
+            set => _hitPool = value;
+        }
+
+        SkillManager IEntity.SkillManager
+        {
+            get => _skillManager;
+            set => _skillManager = value;
+        }
+
         public IUIRoot UIRoot { set; private get; }
-        public Vector3 SkillSpawnPosition => _skillSpawnPosition.position;
 
         public void OnMove(InputAction.CallbackContext context)
         {
@@ -70,9 +85,7 @@ namespace Gameplay
 
         private void Awake()
         {
-            StatTracker = new StatTracker(this);
             _experienceTracker = new ExperienceTracker(100, 1.1f, OnExperienceGain, OnLevelUp);
-            _skillSlot = new SkillSlot(AllRegistries.Instance.Skills.GetByID(_startingSkill).CreateInstance());
         }
 
         private void Update()
@@ -82,12 +95,17 @@ namespace Gameplay
                 transform.Translate(UIRoot.GameCamera.WorldRotation * new Vector3(_desiredDirection.x, 0, _desiredDirection.y) * (3 * Time.deltaTime), Space.World);
             }
             
-            _skillSlot.TryUseSkill(this);
+            _skillManager.TryUseSkill(this);
         }
 
         public void GrantExperience(int experience)
         {
             _experienceTracker.AddExperience(experience);
+        }
+        
+        private void OnValidate()
+        {
+            (this as IEntity).ImplementComponents();
         }
     }
 }

@@ -12,6 +12,9 @@ GameObject:
   - component: {fileID: 453843668992776310}
   - component: {fileID: 4407710409875227130}
   - component: {fileID: 8406212715575349965}
+  - component: {fileID: 6707629848891113170}
+  - component: {fileID: 1067672642089383206}
+  - component: {fileID: -4178045248603007243}
   m_Layer: 0
   m_Name: TestEnemy
   m_TagString: Untagged
@@ -47,6 +50,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c96c32764bb74b5f9057c98623e6c2bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _statTracker: {fileID: 6707629848891113170}
+  _hitPool: {fileID: 1067672642089383206}
+  _skillManager: {fileID: -4178045248603007243}
   _agent: {fileID: 4407710409875227130}
 --- !u!195 &4407710409875227130
 NavMeshAgent:
@@ -91,6 +97,48 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0.5, z: 0}
+--- !u!114 &6707629848891113170
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235265989921331683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a23af90dd5fe4f939b16c3975224db44, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _entity:
+    _target: {fileID: 453843668992776310}
+--- !u!114 &1067672642089383206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235265989921331683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dea79c82465b4492970173ce288dc3ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _entity:
+    _target: {fileID: 453843668992776310}
+--- !u!114 &-4178045248603007243
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1235265989921331683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff77ad92521340b89ff250a35d3d5312, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _skillSpawnPosition: {fileID: 0}
+  _defaultSkills: []
 --- !u!1 &8415208488935590085
 GameObject:
   m_ObjectHideFlags: 0

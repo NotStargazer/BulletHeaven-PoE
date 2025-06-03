@@ -1,16 +1,41 @@
 using System;
 using Gameplay.Data;
+using Gameplay.Modifiers;
 using UnityEngine;
 
 namespace Gameplay
 {
-    public abstract class Enemy : MonoBehaviour, IDamagable, IPoolInstance<Enemy>
+    public abstract class Enemy : MonoBehaviour, IEntity, IPoolInstance<Enemy>
     {
         private protected Player Target;
+        [SerializeField] private StatTracker _statTracker;
+        [SerializeField] private HitPool _hitPool;
+        [SerializeField] private SkillManager _skillManager;
+
+        public Transform Transform => transform;
+
+        StatTracker IEntity.StatTracker
+        {
+            get => _statTracker;
+            set => _statTracker = value;
+        }
+
+        HitPool IEntity.HitPool
+        {
+            get => _hitPool;
+            set => _hitPool = value;
+        }
+
+        SkillManager IEntity.SkillManager
+        {
+            get => _skillManager;
+            set => _skillManager = value;
+        }
 
         private void Awake()
         {
             gameObject.SetActive(false);
+            _hitPool.OnKill += Kill;
         }
 
         public void Spawn(Player player, Vector3 position)
@@ -19,8 +44,6 @@ namespace Gameplay
             gameObject.SetActive(true);
             transform.localPosition = position;
         }
-
-        protected abstract void OnDamaged(DamageSnapshot damage);
 
         public void OnRent()
         {
@@ -35,11 +58,16 @@ namespace Gameplay
         }
 
         public Action<Enemy> Return { get; set; }
-
-
-        public void ApplyDamage(DamageSnapshot damage)
+        
+        
+        private void OnValidate()
         {
-            OnDamaged(damage);
+            Validate();
+        }
+
+        public virtual void Validate()
+        {
+            (this as IEntity).ImplementComponents();
         }
     }
 }

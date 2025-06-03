@@ -23,10 +23,10 @@ namespace Gameplay.Data
     
     public struct DamageSnapshot
     {
-        public FlatDamage Physical { get; private set; }
-        public FlatDamage Fire { get; private set; }
-        public FlatDamage Cold { get; private set; }
-        public FlatDamage Lightning { get; private set; }
+        public FlatDamage Physical { get; set; }
+        public FlatDamage Fire { get; set; }
+        public FlatDamage Cold { get; set; }
+        public FlatDamage Lightning { get; set; }
 
         public DamageSnapshot(params FlatDamage[] damage)
         {
@@ -63,44 +63,6 @@ namespace Gameplay.Data
                         break;
                 }
             }
-        }
-
-        public static DamageSnapshot Modify(DamageSnapshot snapshot, params Stat[] stats)
-        {
-            foreach (var stat in stats)
-            {
-                if (stat.StatType == new StatType(BaseType.Damage, DamageType.Generic))
-                {
-                    snapshot.Physical = Stat.CalculateStats(snapshot.Physical, stat);
-                    snapshot.Fire = Stat.CalculateStats(snapshot.Fire, stat);
-                    snapshot.Cold = Stat.CalculateStats(snapshot.Cold, stat);
-                    snapshot.Lightning = Stat.CalculateStats(snapshot.Lightning, stat);
-                }
-                if (stat.StatType == new StatType(BaseType.Damage, DamageType.Elemental))
-                {
-                    snapshot.Fire = Stat.CalculateStats(snapshot.Fire, stat);
-                    snapshot.Cold = Stat.CalculateStats(snapshot.Cold, stat);
-                    snapshot.Lightning = Stat.CalculateStats(snapshot.Lightning, stat);
-                }
-                if (stat.StatType == new StatType(BaseType.Damage, DamageType.Physical))
-                {
-                    snapshot.Physical = Stat.CalculateStats(snapshot.Physical, stat);
-                }
-                if (stat.StatType == new StatType(BaseType.Damage, DamageType.Fire))
-                {
-                    snapshot.Fire = Stat.CalculateStats(snapshot.Fire, stat);
-                }
-                if (stat.StatType == new StatType(BaseType.Damage, DamageType.Cold))
-                {
-                    snapshot.Cold = Stat.CalculateStats(snapshot.Cold, stat);
-                }
-                if (stat.StatType == new StatType(BaseType.Damage, DamageType.Lightning))
-                {
-                    snapshot.Lightning = Stat.CalculateStats(snapshot.Lightning, stat);
-                }
-            }
-
-            return snapshot;
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Gameplay.Projectiles
         [SerializeField] private float _size;
         [SerializeField] private float _length;
         
-        public bool Cast(Transform transform, float distance, int maxHits, out List<IDamagable> hits)
+        public bool Cast(Transform transform, float distance, int maxHits, out List<IEntity> hits)
         {
             RaycastHit[] raycastHits = new RaycastHit[maxHits];
             switch (_type)
@@ -33,14 +33,14 @@ namespace Gameplay.Projectiles
                     break;
             }
             
-            hits = new List<IDamagable>();
+            hits = new List<IEntity>();
             foreach (var hit in raycastHits)
             {
                 if (!hit.transform)
                 {
                     continue;
                 }
-                if (hit.transform.TryGetComponent<IDamagable>(out var component))
+                if (hit.transform.TryGetComponent<IEntity>(out var component))
                 {
                     hits.Add(component);
                 }

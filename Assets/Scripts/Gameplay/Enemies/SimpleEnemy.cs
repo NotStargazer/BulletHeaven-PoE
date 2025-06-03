@@ -19,14 +19,10 @@ namespace Gameplay.Enemies
             _agent.SetDestination(Target.transform.position);
         }
 
-        private void OnValidate()
+        public override void Validate()
         {
+            base.Validate();
             _agent = GetComponent<NavMeshAgent>();
-        }
-
-        protected override void OnDamaged(DamageSnapshot damage)
-        {
-            
         }
     }
 }

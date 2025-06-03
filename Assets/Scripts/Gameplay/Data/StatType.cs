@@ -87,7 +87,7 @@ namespace Gameplay.Data
             _subType = Convert.ToInt32(subType);
         }
         
-        public static StatType[] MultiType<T>(BaseType baseType, params T[] subTypes) where T: Enum
+        public static StatType[] MultiType(BaseType baseType, params Enum[] subTypes)
         {
             var types = new StatType[subTypes.Length];
             for (var i = 0; i < subTypes.Length; i++)

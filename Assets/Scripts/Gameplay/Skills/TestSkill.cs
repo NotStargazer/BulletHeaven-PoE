@@ -28,9 +28,9 @@ namespace Gameplay.Skills
             projectile.Fire(entity, entity.Transform.forward, _projectileVelocity, _projectileDuration);
             projectile.CollisionEvent += hits =>
             {
-                foreach (var damagable in hits)
+                foreach (var hitEntity in hits)
                 {
-                    damagable.ApplyDamage(damage);
+                    hitEntity.HitPool.ApplyDamage(damage);
                 }
             };
         }

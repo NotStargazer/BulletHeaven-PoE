@@ -10,7 +10,7 @@ namespace Gameplay.Modifiers
         [SerializeField] private Stat[] _stats;
         [SerializeField] private SkillTags _condition;
 
-        public override bool IsPersistent => _condition != 0;
+        public override bool IsConditional => _condition != 0;
 
         public override Stat[] Calculate(IEntity entity, Skill skill = null)
         {

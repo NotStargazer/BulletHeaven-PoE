@@ -7,6 +7,28 @@ namespace Gameplay.Modifiers
     [Serializable]
     public struct Stat
     {
+        public static float CalculateStats(float baseStat, params Stat[] stats)
+        {
+            var result = new Stat();
+
+            foreach (var stat in stats)
+            {
+                result += stat;
+            }
+
+            if (result._fixed)
+            {
+                baseStat = result._fixedStat;
+                return baseStat;
+            }
+
+            baseStat += result._flat;
+            baseStat *= result._increase;
+            baseStat *= result._multiplier + 1;
+
+            return baseStat;
+        }
+        
         public static FlatDamage CalculateStats(FlatDamage baseDamage, params Stat[] stats)
         {
             var result = new Stat();

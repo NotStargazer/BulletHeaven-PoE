@@ -10,9 +10,9 @@
             _skill = skill;
         }
 
-        public void TryUseSkill(Player player)
+        public void TryUseSkill(IEntity entity)
         {
-            _skill.TryUse(player, _supports);
+            _skill.TryUse(entity, _supports);
         }
 
         public bool TrySocket(Support support)
