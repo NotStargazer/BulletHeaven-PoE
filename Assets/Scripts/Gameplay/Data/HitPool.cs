@@ -18,13 +18,13 @@ namespace Gameplay.Data
         {
             var healthStats = _entity.I.StatTracker.GetStats(statTypes: new StatType(BaseType.Resource, ResourceType.Life));
             var barrierStats = _entity.I.StatTracker.GetStats(statTypes: new StatType(BaseType.Defence, DefenceType.Barrier));
-            _health = Stat.CalculateStats(0, healthStats);
-            _barrier = Stat.CalculateStats(0, barrierStats);
+            _health = Stat.CalculateStats(healthStats);
+            _barrier = Stat.CalculateStats(barrierStats);
         }
 
         public void ApplyDamage(DamageSnapshot damage)
         {
-            _entity.I.StatTracker.CalculateResistance(damage);
+            _entity.I.StatTracker.CalculateResistances(damage);
             
             if (_health <= 0)
             {

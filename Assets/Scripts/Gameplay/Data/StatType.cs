@@ -44,38 +44,46 @@ namespace Gameplay.Data
         [DisplayNameOverride] [SubType(typeof(DefenceType))] Defence,
     }
 
+    [Flags]
     public enum DamageType
     {
-        [DisplayNameOverride] Generic,
-        Physical,
-        Fire,
-        Cold,
-        Lightning,
-        Elemental,
+        [DisplayNameOverride] 
+        Generic = Physical | Fire | Cold | Lightning,
+        Elemental = Fire | Cold | Lightning,
+        Physical = 1 << 0,
+        Fire = 1 << 1,
+        Cold = 1 << 2,
+        Lightning = 1 << 3,
     }
 
+    [Flags]
     public enum ActionType
     {
-        [DisplayNameOverride("Action ")] Generic,
-        Attack,
-        Cast,
-        [DisplayNameOverride("Movement ")] Move,
+        [DisplayNameOverride("Action ")] 
+        Generic = Attack | Cast | Move,
+        Attack = 1 << 0,
+        Cast = 1 << 1,
+        [DisplayNameOverride("Movement ")] 
+        Move = 1 << 2,
     }
 
+    [Flags]
     public enum ResourceType
     {
-        Life,
-        Mana,
-        Stamina,
-        Ammo
+        Life = 1 << 0,
+        Mana = 1 << 1,
+        Stamina = 1 << 2,
+        Ammo = 1 << 3,
     }
 
+    [Flags]
     public enum DefenceType
     {
-        [DisplayNameOverride("Defences")] Generic,
-        Armor,
-        Evasion,
-        Barrier
+        [DisplayNameOverride("Defences")]
+        Generic = Armor | Evasion | Barrier,
+        Armor = 1 << 0,
+        Evasion = 1 << 1,
+        Barrier = 1 << 2
     }
 
     [Serializable]
@@ -85,16 +93,6 @@ namespace Gameplay.Data
         {
             _baseType = baseType;
             _subType = Convert.ToInt32(subType);
-        }
-        
-        public static StatType[] MultiType(BaseType baseType, params Enum[] subTypes)
-        {
-            var types = new StatType[subTypes.Length];
-            for (var i = 0; i < subTypes.Length; i++)
-            {
-                types[i] = new StatType(baseType, subTypes[i]);
-            }
-            return types;
         }
         
         [SerializeField] protected BaseType _baseType;
@@ -120,7 +118,7 @@ namespace Gameplay.Data
 
         public virtual bool Equals(StatType other)
         {
-            return other.GetHashCode() == GetHashCode();
+            return other._baseType == _baseType && (other._subType & _subType) != 0;
         }
 
         public override int GetHashCode()

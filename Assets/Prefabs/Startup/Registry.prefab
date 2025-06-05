@@ -56,13 +56,9 @@ MonoBehaviour:
         _projectileVelocity: 10
         _projectileDuration: 1
         _baseDamage:
-          DamageType: 0
-          Damage: 0
-        _damageScalers:
-        - _baseType: 0
-          _subType: 0
-        - _baseType: 0
-          _subType: 1
+          DamageType: 1
+          Damage: 5
+        _damageScalers: []
   Collectables:
     _experience: {fileID: 1380669470238152779, guid: dc348e75cdfdc794cb7252d1c225a686, type: 3}
   TreeModifiers:

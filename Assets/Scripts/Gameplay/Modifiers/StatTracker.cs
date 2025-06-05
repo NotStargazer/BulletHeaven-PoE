@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using AYellowpaper.SerializedCollections;
 using Gameplay.Data;
 using UnityEngine;
 using Utility;
@@ -8,6 +10,8 @@ namespace Gameplay.Modifiers
     public class StatTracker : MonoBehaviour
     {
         [SerializeField] private InterfaceRef<IEntity> _entity;
+        [SerializeField] private SerializedDictionary<StatType, float> _baseStats;
+        
         private List<IModifierSource> _sources;
         private Dictionary<StatType, Stat> _stats;
         private List<Modifier> _modifiers;
@@ -68,7 +72,7 @@ namespace Gameplay.Modifiers
                     _outStats.Add(stat);
                 }
             }
-
+            
             foreach (var modifier in _modifiers)
             {
                 var modStats = modifier.Calculate(_entity.I, skill);
@@ -92,44 +96,32 @@ namespace Gameplay.Modifiers
 
         public DamageSnapshot CalculateDamage(FlatDamage baseDamage, Skill skill, params StatType[] scalers)
         {
+            Array.Resize(ref scalers, scalers.Length + 1);
+            scalers[^1] = new StatType(BaseType.Damage, baseDamage.DamageType);
             var stats = GetStats(skill, scalers);
             return new DamageSnapshot(Stat.CalculateStats(baseDamage, stats));
         }
 
-        public void CalculateResistance(DamageSnapshot damage)
+        public void CalculateResistances(DamageSnapshot damage)
         {
-            if (damage.Physical.Damage > 0)
-            {
-                var stats = GetStats(statTypes: StatType.MultiType(BaseType.Resistance, DamageType.Generic, DamageType.Physical));
-                var physicalDamage = CalculateResistance(0, stats);
-                damage.Physical = new FlatDamage(DamageType.Physical, physicalDamage);
-            }
-            if (damage.Fire.Damage > 0)
-            {
-                var stats = GetStats(statTypes: StatType.MultiType(BaseType.Resistance, DamageType.Generic, DamageType.Elemental, DamageType.Fire));
-                var fireDamage = CalculateResistance(0, stats);
-                damage.Fire = new FlatDamage(DamageType.Physical, fireDamage);
-            }
-            if (damage.Cold.Damage > 0)
-            {
-                var stats = GetStats(statTypes: StatType.MultiType(BaseType.Resistance, DamageType.Generic, DamageType.Elemental, DamageType.Cold));
-                var coldDamage = CalculateResistance(0, stats);
-                damage.Cold = new FlatDamage(DamageType.Physical, coldDamage);
-            }
-            if (damage.Lightning.Damage > 0)
-            {
-                var stats = GetStats(statTypes: StatType.MultiType(BaseType.Resistance, DamageType.Generic, DamageType.Elemental, DamageType.Lightning));
-                var lightningDamage = CalculateResistance(0, stats);
-                damage.Lightning = new FlatDamage(DamageType.Physical, lightningDamage);
-            }
+            damage.Physical = CalculateResistance(damage.Physical);
+            damage.Fire = CalculateResistance(damage.Fire);
+            damage.Cold = CalculateResistance(damage.Cold);
+            damage.Lightning = CalculateResistance(damage.Lightning);
         }
 
-        private float CalculateResistance(float damage, Stat[] stats)
+        private float CalculateResistance(FlatDamage flatDamage)
         {
-            var resist = Stat.CalculateStats(0, stats);
-            var cappedResist = Mathf.Min(resist, 75) / 100;
-            var adjustedResist = 1 - cappedResist;
-            return damage * adjustedResist;
+            if (flatDamage.Damage > 0)
+            {
+                var stats = GetStats(statTypes: new StatType(BaseType.Resistance, flatDamage.DamageType));
+                var resist = Stat.CalculateStats(stats);
+                var cappedResist = Mathf.Min(resist, 75) / 100;
+                var adjustedResist = 1 - cappedResist;
+                return flatDamage * adjustedResist;
+            }
+
+            return 0;
         }
     }
 }

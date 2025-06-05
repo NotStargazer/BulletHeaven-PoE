@@ -1,5 +1,4 @@
 ﻿using System;
-using Gameplay.Modifiers;
 
 namespace Gameplay.Data
 {
@@ -11,56 +10,65 @@ namespace Gameplay.Data
             DamageType = damageType;
             Damage = damage;
         }
+
+        public static implicit operator float(FlatDamage damage) => damage.Damage;
+        public static implicit operator FlatDamage(float damage) => new(0, damage);
         
         public DamageType DamageType;
         public float Damage;
-
-        public FlatDamage Set(FlatDamage damage)
-        {
-            return new FlatDamage(DamageType, damage.Damage);
-        }
     }
     
     public struct DamageSnapshot
     {
-        public FlatDamage Physical { get; set; }
-        public FlatDamage Fire { get; set; }
-        public FlatDamage Cold { get; set; }
-        public FlatDamage Lightning { get; set; }
+        public FlatDamage Physical
+        {
+            get => new(DamageType.Physical, _physical);
+            set => _physical = value.Damage;
+        }
+        public FlatDamage Fire
+        {
+            get => new(DamageType.Fire, _fire);
+            set => _fire = value.Damage;
+        }
+        public FlatDamage Cold
+        {
+            get => new(DamageType.Cold, _cold);
+            set => _cold = value.Damage;
+        }
+        public FlatDamage Lightning
+        {
+            get => new(DamageType.Lightning, _lightning);
+            set => _lightning = value.Damage;
+        }
+
+        private float _physical;
+        private float _fire;
+        private float _cold;
+        private float _lightning;
 
         public DamageSnapshot(params FlatDamage[] damage)
         {
-            Physical = new FlatDamage(DamageType.Physical, 0);
-            Fire = new FlatDamage(DamageType.Fire, 0);
-            Cold = new FlatDamage(DamageType.Cold, 0);
-            Lightning = new FlatDamage(DamageType.Lightning, 0);
+            _physical = 0;
+            _fire = 0;
+            _cold = 0;
+            _lightning = 0;
             foreach (var flatDamage in damage)
             {
-                switch (flatDamage.DamageType)
+                if ((flatDamage.DamageType & DamageType.Physical) == DamageType.Physical)
                 {
-                    case DamageType.Generic:
-                        Physical = Physical.Set(flatDamage);
-                        Fire = Fire.Set(flatDamage);
-                        Cold = Cold.Set(flatDamage);
-                        Lightning = Lightning.Set(flatDamage);
-                        break;
-                    case DamageType.Physical:
-                        Physical = Physical.Set(flatDamage);
-                        break;
-                    case DamageType.Fire:
-                        Fire = Fire.Set(flatDamage);
-                        break;
-                    case DamageType.Cold:
-                        Cold = Cold.Set(flatDamage);
-                        break;
-                    case DamageType.Lightning:
-                        Lightning = Lightning.Set(flatDamage);
-                        break;
-                    case DamageType.Elemental:
-                        Fire = Fire.Set(flatDamage);
-                        Cold = Cold.Set(flatDamage);
-                        Lightning = Lightning.Set(flatDamage);
-                        break;
+                    _physical = flatDamage.Damage;
+                }
+                if ((flatDamage.DamageType & DamageType.Fire) == DamageType.Fire)
+                {
+                    _fire = flatDamage.Damage;
+                }
+                if ((flatDamage.DamageType & DamageType.Cold) == DamageType.Cold)
+                {
+                    _cold = flatDamage.Damage;
+                }
+                if ((flatDamage.DamageType & DamageType.Lightning) == DamageType.Lightning)
+                {
+                    _lightning = flatDamage.Damage;
                 }
             }
         }

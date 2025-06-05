@@ -7,6 +7,11 @@ namespace Gameplay.Modifiers
     [Serializable]
     public struct Stat
     {
+        public static float CalculateStats(params Stat[] stats) => CalculateStats(0f, stats);
+        public static FlatDamage CalculateStats(FlatDamage baseDamage, params Stat[] stats)
+        {
+            return baseDamage.Damage = CalculateStats(baseDamage.Damage, stats);
+        }
         public static float CalculateStats(float baseStat, params Stat[] stats)
         {
             var result = new Stat();
@@ -27,28 +32,6 @@ namespace Gameplay.Modifiers
             baseStat *= result._multiplier + 1;
 
             return baseStat;
-        }
-        
-        public static FlatDamage CalculateStats(FlatDamage baseDamage, params Stat[] stats)
-        {
-            var result = new Stat();
-
-            foreach (var stat in stats)
-            {
-                result += stat;
-            }
-
-            if (result._fixed)
-            {
-                baseDamage.Damage = result._fixedStat;
-                return baseDamage;
-            }
-
-            baseDamage.Damage += result._flat;
-            baseDamage.Damage *= result._increase;
-            baseDamage.Damage *= result._multiplier + 1;
-
-            return baseDamage;
         }
         
         [SerializeField] private StatType _statType;
