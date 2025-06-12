@@ -117,9 +117,11 @@ Shader "VFX/LightningBolt"
                 float range = lerp(0 - _WidthVariance.x - _GlowWidth, 1, _StrikeWidth);
                 float strikeWidth = range + lerp(-_WidthVariance.x, _WidthVariance.y, perlin(cuv.y * _WidthVariance.z));
                 float mergeWidth = range + lerp(-_WidthVariance.x, _WidthVariance.y, perlin(cuv.y * _WidthVariance.w));
+                strikeWidth *= formation;
+                _GlowWidth *= formation;
 
-                float strike1 = plot(cuv + float2(mergeWidth / 2, 0), strikeWidth / 2, i.uv);
-                float strike2 = plot(cuv - float2(mergeWidth / 2, 0), strikeWidth / 2, i.uv);
+                float strike1 = plot(cuv + float2(min(mergeWidth / 2, strikeWidth / 2), 0), strikeWidth / 2, i.uv);
+                float strike2 = plot(cuv - float2(min(mergeWidth / 2, strikeWidth / 2), 0), strikeWidth / 2, i.uv);
                 float glow = plot(cuv, strikeWidth + _GlowWidth, i.uv);
 
                 float lightning = strike1 * 0.7f + strike2 * 0.7f + glow * 0.4f;
