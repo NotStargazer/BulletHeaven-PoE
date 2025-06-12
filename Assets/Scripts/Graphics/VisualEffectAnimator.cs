@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-namespace Graphics
+namespace Game.Graphics
 {
     public struct VisualEffect
     {
