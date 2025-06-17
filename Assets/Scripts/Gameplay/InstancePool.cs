@@ -6,7 +6,6 @@ namespace Gameplay
 {
     public interface IPoolInstance<T>
     {
-        public void OnRent();
         public Action<T> Return { set; }
     }
     
@@ -60,7 +59,6 @@ namespace Gameplay
             }
             
             var instance = _pool.Pop();
-            instance.OnRent();
             instance.Return = OnReturn;
             TotalActive++;
             return instance;

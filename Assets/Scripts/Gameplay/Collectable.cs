@@ -37,11 +37,6 @@ namespace Gameplay
             gameObject.SetActive(false);
             Return(this);
         }
-        
-        public void OnRent()
-        {
-            
-        }
 
         public Action<Collectable> Return { get; set; }
     }

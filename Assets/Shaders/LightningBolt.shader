@@ -6,10 +6,13 @@ Shader "VFX/LightningBolt"
         _Width ("Width", Float) = 1
         _Frequency ("Frequency", Float) = 1
         _Seed ("Seed", Integer) = 0
+        _Bolts ("Bolts", Integer) = 1
+        _BoltDecay ("Decay Per Bolt", Range(0, 1)) = 0.5
         _StrikeWidth ("Strike Width", Range(0, 1)) = 0.1
         _GlowWidth ("Glow Width", Range(0, 1)) = 0.01
         _WidthVariance ("Variance", Vector) = (0, 0, 0, 0)
         _Formation ("Formation", Vector) = (1, 1, 1, 0)
+        _Fade ("Cutoff", Vector) = (1, 1, 1, 0)
         [HDR] _Color ("Color", Color) = (1,1,1,1)
     }
     SubShader
@@ -72,12 +75,13 @@ Shader "VFX/LightningBolt"
             float _Frequency;
             float _StrikeWidth;
             float _GlowWidth;
+            float _BoltDecay;
             float4 _WidthVariance;
             float4 _Formation;
+            float4 _Fade;
 
-            float f(float y)
+            float f(float y, float w)
             {
-                float w = _Width; // width of strike
                 return w * (perlin(2. * y) - 0.5);
             }
 
@@ -85,18 +89,16 @@ Shader "VFX/LightningBolt"
             {
                 return sqrt(1 - pow(t - 1, 2));
             }
-            
-            float plot(float2 p, float l, float2 uv)
+
+            float plot(float2 p, float l, float c, float w)
             {
-                float2 cuv = 2 * uv - 1;
-                float d = 1 - abs(cuv.y);
-                d = easeInCirc(d);
-                return smoothstep(0, abs(f(p.y) - p.x / d), l / d);
+                return smoothstep(0, abs(f(p.y, w) - p.x / c), l / c);
             }
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
             int _Seed;
+            int _Bolts;
             float4 _Color;
 
             v2f vert(appdata v)
@@ -110,23 +112,38 @@ Shader "VFX/LightningBolt"
             fixed4 frag(v2f i) : SV_Target
             {
                 float2 cuv = 2 * i.uv - 1;
+                float2 cuv2 = cuv;
+                float d = 1 - abs(cuv.y);
+                d = easeInCirc(d);
                 float formation = smoothstep(0, abs((cuv.y + _Formation.z) - _Formation.x), _Formation.y);;
                 cuv.y *= _Frequency;
                 cuv.y += _Seed * 2;
 
-                float range = lerp(0 - _WidthVariance.x - _GlowWidth, 1, _StrikeWidth);
-                float strikeWidth = range + lerp(-_WidthVariance.x, _WidthVariance.y, perlin(cuv.y * _WidthVariance.z));
-                float mergeWidth = range + lerp(-_WidthVariance.x, _WidthVariance.y, perlin(cuv.y * _WidthVariance.w));
-                strikeWidth *= formation;
-                _GlowWidth *= formation;
+                float4 col = 0;
 
-                float strike1 = plot(cuv + float2(min(mergeWidth / 2, strikeWidth / 2), 0), strikeWidth / 2, i.uv);
-                float strike2 = plot(cuv - float2(min(mergeWidth / 2, strikeWidth / 2), 0), strikeWidth / 2, i.uv);
-                float glow = plot(cuv, strikeWidth + _GlowWidth, i.uv);
+                for (int bolt = 1; bolt <= _Bolts; bolt++)
+                {
+                    float range = lerp(0 - _WidthVariance.x - _GlowWidth, 1, _StrikeWidth);
+                    float strikeWidth = range + lerp(-_WidthVariance.x, _WidthVariance.y, perlin(cuv.y * _WidthVariance.z));
+                    strikeWidth *= lerp(1, 1 - _BoltDecay, bolt / _Bolts);
+                    float mergeWidth = range + lerp(-_WidthVariance.x, _WidthVariance.y, perlin(cuv.y * _WidthVariance.w));
+                    mergeWidth *= lerp(1, 1 - _BoltDecay, bolt / _Bolts);
+                    strikeWidth *= formation;
+                    _GlowWidth *= formation;
 
-                float lightning = strike1 * 0.7f + strike2 * 0.7f + glow * 0.4f;
-                lightning *= formation;
-                return _Color / (1 - strikeWidth) * lightning;
+                    float strike1 = plot(cuv + float2(min(mergeWidth / 2, strikeWidth / 2), bolt - 1), strikeWidth / 2, d, _Width);
+                    float strike2 = plot(cuv - float2(min(mergeWidth / 2, strikeWidth / 2), -(bolt - 1)), strikeWidth / 2, d, _Width);
+                    float glow = plot(cuv + float2(0, bolt - 1), strikeWidth + _GlowWidth, d, _Width);
+
+                    float lightning = strike1 * 0.7f + strike2 * 0.7f + glow * 0.4f;
+                    lightning *= formation * lerp(1, 1 - _BoltDecay, bolt / _Bolts);
+                    const float r = _Fade.y + _Fade.x;
+                    lightning *= abs(cuv2.y) <= _Fade.y ? 1 : smoothstep(_Fade.y, abs(cuv2.y), r);
+                    col += _Color / (1 - strikeWidth) * lightning;
+                }
+
+
+                return col;
             }
             ENDCG
         }
