@@ -32,14 +32,14 @@ namespace Gameplay
             _skillIndex = _skillIndex < 0 ? _skills.Count - 1 : _skillIndex;
         }
 
-        public void TryUseSkill(IEntity entity)
+        public void TryUseSkill(IEntity entity, Vector3 aimPosition)
         {
             if (_skills.Count == 0)
             {
                 return;
             }
             
-            SelectedSkill.TryUseSkill(entity);
+            SelectedSkill.TryUseSkill(entity, aimPosition);
         }
     }
 }

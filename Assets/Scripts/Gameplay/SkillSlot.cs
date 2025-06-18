@@ -1,4 +1,6 @@
-﻿namespace Gameplay
+﻿using UnityEngine;
+
+namespace Gameplay
 {
     public class SkillSlot
     {
@@ -10,9 +12,9 @@
             _skill = skill;
         }
 
-        public void TryUseSkill(IEntity entity)
+        public void TryUseSkill(IEntity entity, Vector3 aimPosition)
         {
-            _skill.TryUse(entity, _supports);
+            _skill.TryUse(entity, aimPosition, _supports);
         }
 
         public bool TrySocket(Support support)

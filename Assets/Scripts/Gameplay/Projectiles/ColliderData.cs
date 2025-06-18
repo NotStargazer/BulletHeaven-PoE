@@ -19,7 +19,7 @@ namespace Gameplay.Projectiles
         
         public bool Cast(Transform transform, float distance, int maxHits, out List<IEntity> hits)
         {
-            RaycastHit[] raycastHits = new RaycastHit[maxHits];
+            var raycastHits = new RaycastHit[maxHits];
             switch (_type)
             {
                 case ColliderType.Sphere:
@@ -41,6 +41,39 @@ namespace Gameplay.Projectiles
                     continue;
                 }
                 if (hit.transform.TryGetComponent<IEntity>(out var component))
+                {
+                    hits.Add(component);
+                }
+            }
+
+            return hits.Count > 0;
+        }
+
+        public bool Overlap(Transform transform, int maxHits, out List<IEntity> hits)
+        {
+            var overlaps = new Collider[maxHits];
+            switch (_type)
+            {
+                case ColliderType.Sphere:
+                    Physics.OverlapSphereNonAlloc(transform.position, _size, overlaps);
+                    break;
+                case ColliderType.Capsule:
+                    Physics.OverlapCapsuleNonAlloc(
+                        transform.position - transform.forward * _length,
+                        transform.position + transform.forward * _length, _size, overlaps);
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException(nameof(_type));
+            }
+            
+            hits = new List<IEntity>();
+            foreach (var overlap in overlaps)
+            {
+                if (!overlap.transform)
+                {
+                    continue;
+                }
+                if (overlap.transform.TryGetComponent<IEntity>(out var component))
                 {
                     hits.Add(component);
                 }

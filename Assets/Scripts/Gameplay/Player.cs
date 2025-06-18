@@ -17,6 +17,7 @@ namespace Gameplay
 
         private ExperienceTracker _experienceTracker;
         private Vector2 _desiredDirection;
+        private Vector3 _lastAimPosition;
         [SerializeField] private StatTracker _statTracker;
         [SerializeField] private HitPool _hitPool;
         [SerializeField] private SkillManager _skillManager;
@@ -62,7 +63,8 @@ namespace Gameplay
                 {
                     return;
                 }
-                
+
+                _lastAimPosition = worldPosition.Value;
                 var direction = (worldPosition - transform.localPosition).Value.normalized;
                 transform.localRotation = Quaternion.LookRotation(direction, Vector3.up);
             }
@@ -95,7 +97,7 @@ namespace Gameplay
                 transform.Translate(UIRoot.GameCamera.WorldRotation * new Vector3(_desiredDirection.x, 0, _desiredDirection.y) * (3 * Time.deltaTime), Space.World);
             }
             
-            _skillManager.TryUseSkill(this);
+            _skillManager.TryUseSkill(this, _lastAimPosition);
         }
 
         public void GrantExperience(int experience)

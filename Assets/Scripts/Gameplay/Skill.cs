@@ -1,5 +1,4 @@
 using System;
-using Gameplay.Modifiers;
 using Global;
 using UnityEngine;
 
@@ -12,13 +11,13 @@ namespace Gameplay
         [SerializeField] protected CooldownTimer _skillCooldown;
         protected abstract void Construct();
         
-        protected abstract void Use(IEntity entity, Support[] supports);
+        protected abstract void Use(IEntity entity, Vector3 aimPosition, Support[] supports);
 
-        public bool TryUse(IEntity entity, Support[] supports)
+        public bool TryUse(IEntity entity, Vector3 aimPosition, Support[] supports)
         {
             if (_skillCooldown.Check(Time.time, 1))
             {
-                Use(entity, supports);
+                Use(entity, aimPosition, supports);
                 return true;
             }
 
