@@ -28,7 +28,7 @@ namespace Gameplay.Modifiers
             }
 
             baseStat += result._flat;
-            baseStat *= result._increase;
+            baseStat *= result._increase + 1;
             baseStat *= result._multiplier + 1;
 
             return baseStat;
@@ -105,9 +105,19 @@ namespace Gameplay.Modifiers
 
         public static Stat operator +(Stat lhs, Stat rhs)
         {
-            if (lhs._fixed || rhs._fixed)
+            if (lhs._fixed && rhs._fixed)
             {
                 return new Stat(lhs._statType, Mathf.Min(lhs._fixedStat, rhs._fixedStat));
+            }
+
+            if (lhs._fixed)
+            {
+                return new Stat(lhs._statType, lhs._fixedStat);
+            }
+
+            if (rhs._fixed)
+            {
+                return new Stat(rhs._statType, rhs._fixedStat);
             }
 
             return new Stat(lhs._statType,

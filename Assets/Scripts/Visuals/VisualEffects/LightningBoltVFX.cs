@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using Utility;
 using Random = UnityEngine.Random;
 
 namespace Visuals.VisualEffects
@@ -7,6 +8,7 @@ namespace Visuals.VisualEffects
     {
         public Vector3 Source;
         public Vector3 Target;
+        public bool HasTarget;
     }
     
     public class LightningBoltVFX : VisualEffect<LightningBoltData>
@@ -16,9 +18,17 @@ namespace Visuals.VisualEffects
 
         [SerializeField] private Transform _transform;
         [SerializeField] private MeshRenderer _renderer;
-        [SerializeField] private AnimationClip _animation;
+        [SerializeField] private AnimationClip _animationTarget;
+        [SerializeField] private AnimationClip _animationNoTarget;
+        
+        private AnimationClip _animation;
 
         protected override float Duration => _animation.length;
+
+        private void Awake()
+        {
+            gameObject.SetActive(false);
+        }
 
         protected override void OnPlay(LightningBoltData data)
         {
@@ -28,16 +38,20 @@ namespace Visuals.VisualEffects
             {
                 _renderer.GetPropertyBlock(properties);
             }
-            properties.SetInteger(SEED, Random.Range(int.MinValue + 1, int.MaxValue));
-            _renderer.SetPropertyBlock(properties);
+            _animation = data.HasTarget ? _animationTarget : _animationNoTarget;
+            properties.SetInteger(SEED, Random.Range(-255, 256));
             var middle = (data.Source + data.Target) / 2;
             var length = Vector3.Distance(data.Source, data.Target);
-            var direction = data.Source - data.Target;
-            var angle = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
+            var heightDelta = data.Source.y - data.Target.y;
+            var angle = Mathf.Asin(heightDelta / length) * Mathf.Rad2Deg;
+            var direction = (data.Source.ToXZ() - data.Target.ToXZ()).normalized;
+            var spin = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
             properties.SetFloat(FREQUENCY, length / 2);
             _transform.localPosition = middle;
-            _transform.localScale = new Vector3(0, length);
-            _transform.localRotation = Quaternion.Euler(90, 0, angle);
+            _transform.localScale = new Vector3(1, length);
+            _transform.rotation = Quaternion.Euler(90 - angle, spin, 0);
+            Debug.DrawLine(data.Source, data.Target, Color.red, 1);
+            _renderer.SetPropertyBlock(properties);
         }
 
         protected override void OnFinish()

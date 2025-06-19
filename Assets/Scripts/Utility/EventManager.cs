@@ -23,7 +23,7 @@ namespace Utility
             }
 
             private float _next;
-            private Link _current;
+            private Link? _current;
             private readonly Queue<Link> _actions;
 
             public Chain()
@@ -33,17 +33,18 @@ namespace Utility
 
             public void Tick()
             {
-                if (Time.time >= _next)
+                if (Time.time >= _next && _actions.Count > 0)
                 {
-                    if (_current.Order == ExecutionOrder.AfterDuration)
-                    {
-                        _current.Action();
-                    }
+                    var old = _current;
                     _current = _actions.Dequeue();
-                    _next += _current.Duration;
-                    if (_current.Order == ExecutionOrder.BeforeDuration)
+                    _next += _current.Value.Duration + Time.time;
+                    if (old is { Order: ExecutionOrder.AfterDuration })
                     {
-                        _current.Action();
+                        _current.Value.Action();
+                    }
+                    if (_current.Value.Order == ExecutionOrder.BeforeDuration)
+                    {
+                        _current.Value.Action();
                     }
                 }
             }
@@ -70,9 +71,18 @@ namespace Utility
                 _guid = guid;
             }
             
-            public void AddEvent(float duration, Action action, ExecutionOrder order)
+            public void AddEvent(float duration, ExecutionOrder order, Action action)
             {
                 Instance.AddEvent(duration, action, order, _guid);
+            }            
+            
+            public void Complete()
+            {
+                var key = _guid;
+                Instance.AddEvent(0, () =>
+                {
+                    Instance._eventChains.Remove(key);
+                }, ExecutionOrder.BeforeDuration, _guid);
             }
         }
         

@@ -57,14 +57,25 @@ MonoBehaviour:
         _projectileDuration: 1
         _baseDamage:
           DamageType: 1
-          Damage: 5
+          Damage: 50
         _damageScalers: []
     ChainLightning:
       _entry:
         _tags: 4
         _skillCooldown:
-          _baseDuration: 0
+          _baseDuration: 2
         _lightningVFX: {fileID: 7078883702330429524, guid: 44df1781e988b0c4d851533dd099adaa, type: 3}
+        _collider:
+          _type: 0
+          _size: 0
+          _length: 0
+        _autoAimRadius: 5
+        _chainRadius: 10
+        _chains: 4
+        _baseDamage:
+          DamageType: 8
+          Damage: 20
+        _damageScalers: []
   Collectables:
     _experience: {fileID: 1380669470238152779, guid: dc348e75cdfdc794cb7252d1c225a686, type: 3}
   TreeModifiers:

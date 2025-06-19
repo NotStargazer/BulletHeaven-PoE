@@ -49,7 +49,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _skillSpawnPosition: {fileID: 4962846157581697459}
-  _startingSkill: TestSkill
   _statTracker: {fileID: 4785330217857613740}
   _hitPool: {fileID: 8315327525803522856}
   _skillManager: {fileID: 226843250285822572}
@@ -67,6 +66,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _entity:
     _target: {fileID: 917744988215506414}
+  _baseStats:
+    _serializedList:
+    - Key:
+        _baseType: 2
+        _subType: 4
+      Value: 3
 --- !u!114 &8315327525803522856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -95,7 +100,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _skillSpawnPosition: {fileID: 4962846157581697459}
   _defaultSkills:
-  - TestSkill
+  - ChainLightning
 --- !u!1 &4603852519080755832
 GameObject:
   m_ObjectHideFlags: 0

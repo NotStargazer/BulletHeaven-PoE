@@ -14,10 +14,10 @@ namespace Visuals
         
         public void Play(T data)
         {
+            OnPlay(data);
             _enabled = true;
             _startTime = Time.time;
             _endTime = Time.time + Duration;
-            OnPlay(data);
         }
 
         protected abstract float Duration { get; }
@@ -31,7 +31,7 @@ namespace Visuals
             {
                 Tick(Mathf.InverseLerp(_startTime, _endTime, Time.time), Time.time - _startTime);
             }
-            else if (Time.time >= _endTime)
+            else if (Time.time >= _endTime && _enabled)
             {
                 Tick(1, Duration);
                 OnFinish();

@@ -23,6 +23,8 @@ namespace Gameplay.Modifiers
             _stats = new Dictionary<StatType, Stat>();
             _modifiers = new List<Modifier>();
             _outStats = new List<Stat>();
+            
+            Recalculate();
         }
 
         public void AddSource(IModifierSource source)
@@ -34,6 +36,13 @@ namespace Gameplay.Modifiers
         {
             _stats.Clear();
             _modifiers.Clear();
+            foreach (var stat in _baseStats)
+            {
+                if (!_stats.TryAdd(stat.Key, new Stat(stat.Key, stat.Value, 0)))
+                {
+                    _stats[stat.Key] += new Stat(stat.Key, stat.Value, 0);
+                } 
+            }
             foreach (var source in _sources)
             {
                 var mods = source.GetModifiers();

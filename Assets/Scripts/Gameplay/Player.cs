@@ -94,7 +94,8 @@ namespace Gameplay
         {
             if (_desiredDirection.magnitude > 0)
             {
-                transform.Translate(UIRoot.GameCamera.WorldRotation * new Vector3(_desiredDirection.x, 0, _desiredDirection.y) * (3 * Time.deltaTime), Space.World);
+                var moveSpeed = Stat.CalculateStats(_statTracker.GetStats(statTypes: new StatType(BaseType.Speed, ActionType.Move)));
+                transform.Translate(UIRoot.GameCamera.WorldRotation * new Vector3(_desiredDirection.x, 0, _desiredDirection.y) * (moveSpeed * Time.deltaTime), Space.World);
             }
             
             _skillManager.TryUseSkill(this, _lastAimPosition);

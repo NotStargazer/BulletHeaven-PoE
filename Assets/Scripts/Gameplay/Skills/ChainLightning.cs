@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using Gameplay.Data;
 using Gameplay.Projectiles;
 using UnityEngine;
+using Utility;
 using Visuals;
 using Visuals.VisualEffects;
 
@@ -18,22 +20,24 @@ namespace Gameplay.Skills
         [SerializeField] private FlatDamage _baseDamage;
         [SerializeField] private StatType[] _damageScalers;
         private InstancePool<VisualEffect<LightningBoltData>> _vfxPool;
-        private Collider[] _colliders;
         
         protected override void Construct()
         {
-            _colliders = new Collider[20];
             _vfxPool = new InstancePool<VisualEffect<LightningBoltData>>(_lightningVFX, 10, 5, 30);
         }
 
         protected override void Use(IEntity entity, Vector3 aimPosition, Support[] supports)
         {
-            Physics.OverlapSphereNonAlloc(aimPosition, _autoAimRadius, _colliders);
-
+            var colliders = new Collider[20];
+            Physics.OverlapSphereNonAlloc(aimPosition, _autoAimRadius, colliders);
             var distance = Mathf.Infinity;
             IEntity targetEntity = null;
-            foreach (var collider in _colliders)
+            foreach (var collider in colliders)
             {
+                if (!collider)
+                {
+                    break;
+                }
                 var hDistance = Vector3.Distance(collider.transform.position, aimPosition);
                 if (hDistance < distance)
                 {
@@ -48,36 +52,71 @@ namespace Gameplay.Skills
             {
                 Source = entity.SkillManager.SkillSpawnPosition,
                 Target = targetPosition,
+                HasTarget = targetEntity != null,
             });
-            
-            
+
+            if (targetEntity == null)
+            {
+                return;
+            }
+
+            var chain = EventManager.CreateChain();
+            chain.AddEvent(0.05f, 
+                EventManager.ExecutionOrder.BeforeDuration,
+                () => Chain(entity, targetEntity, chain, _chains, new HashSet<IEntity>{targetEntity}));
         }
 
-        private void Chain(IEntity entity, Vector3 source, int chains, IEntity[] hitTargets)
+        private void Chain(IEntity source, IEntity target, EventManager.EventChain chain, int chains, HashSet<IEntity> hitTargets)
         {
-            
-            Physics.OverlapSphereNonAlloc(source, _chainRadius, _colliders);
+            var damage = source.StatTracker.CalculateDamage(_baseDamage, this, _damageScalers);
+            target.HitPool.ApplyDamage(damage);
+            var position = target.Transform.position;
 
-            var distance = Mathf.Infinity;
-            IEntity targetEntity = null;
-            foreach (var collider in _colliders)
+            if (chains == 0)
             {
-                var hDistance = Vector3.Distance(collider.transform.position, source);
+                chain.Complete();
+                return;
+            }
+            
+            var colliders = new Collider[20];
+            Physics.OverlapSphereNonAlloc(position, _chainRadius, colliders);
+            var distance = Mathf.Infinity;
+            IEntity nextTarget = null;
+            foreach (var collider in colliders)
+            {
+                if (!collider)
+                {
+                    break;
+                }
+                var hDistance = Vector3.Distance(collider.transform.position, position);
                 if (hDistance < distance)
                 {
                     if (collider.transform.TryGetComponent(out IEntity hitEntity))
                     {
-                        foreach (var hitTarget in hitTargets)
+                        if (!hitTargets.Contains(hitEntity))
                         {
-                            if (hitTarget == hitEntity)
-                            {
-                                
-                            }
+                            nextTarget = hitEntity;
+                            distance = hDistance;
                         }
                     }
-                    
-                    distance = hDistance;
                 }
+            }
+
+            if (nextTarget != null)
+            {
+                hitTargets.Add(nextTarget);
+                chain.AddEvent(0.05f,
+                    EventManager.ExecutionOrder.BeforeDuration,
+                    () =>
+                    {
+                        _vfxPool.Rent().Play(new LightningBoltData
+                        {
+                            Source = target.Transform.position,
+                            Target = nextTarget.Transform.position,
+                            HasTarget = true,
+                        });
+                        Chain(source, nextTarget, chain, chains - 1, hitTargets);
+                    });
             }
         }
     }
