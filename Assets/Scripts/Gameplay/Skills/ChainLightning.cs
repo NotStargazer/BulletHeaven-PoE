@@ -29,7 +29,7 @@ namespace Gameplay.Skills
         protected override void Use(IEntity entity, Vector3 aimPosition, Support[] supports)
         {
             var colliders = new Collider[20];
-            Physics.OverlapSphereNonAlloc(aimPosition, _autoAimRadius, colliders);
+            Physics.OverlapSphereNonAlloc(aimPosition, _autoAimRadius, colliders, (int)DefinedLayers.Targetable);
             var distance = Mathf.Infinity;
             IEntity targetEntity = null;
             foreach (var collider in colliders)
@@ -62,7 +62,7 @@ namespace Gameplay.Skills
 
             var chain = EventManager.CreateChain();
             chain.AddEvent(0.05f, 
-                EventManager.ExecutionOrder.BeforeDuration,
+                EventManager.ExecutionOrder.AfterDuration,
                 () => Chain(entity, targetEntity, chain, _chains, new HashSet<IEntity>{targetEntity}));
         }
 
@@ -79,7 +79,7 @@ namespace Gameplay.Skills
             }
             
             var colliders = new Collider[20];
-            Physics.OverlapSphereNonAlloc(position, _chainRadius, colliders);
+            Physics.OverlapSphereNonAlloc(position, _chainRadius, colliders, (int)DefinedLayers.Targetable);
             var distance = Mathf.Infinity;
             IEntity nextTarget = null;
             foreach (var collider in colliders)
@@ -106,7 +106,7 @@ namespace Gameplay.Skills
             {
                 hitTargets.Add(nextTarget);
                 chain.AddEvent(0.05f,
-                    EventManager.ExecutionOrder.BeforeDuration,
+                    EventManager.ExecutionOrder.AfterDuration,
                     () =>
                     {
                         _vfxPool.Rent().Play(new LightningBoltData
@@ -117,6 +117,10 @@ namespace Gameplay.Skills
                         });
                         Chain(source, nextTarget, chain, chains - 1, hitTargets);
                     });
+            }
+            else
+            {
+                chain.Complete();
             }
         }
     }

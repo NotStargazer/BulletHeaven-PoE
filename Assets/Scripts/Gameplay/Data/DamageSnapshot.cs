@@ -45,6 +45,11 @@ namespace Gameplay.Data
         private float _fire;
         private float _cold;
         private float _lightning;
+        
+        public static implicit operator float(DamageSnapshot snapshot)
+        {
+            return snapshot._physical + snapshot._fire + snapshot._cold + snapshot._lightning;
+        }
 
         public DamageSnapshot(params FlatDamage[] damage)
         {

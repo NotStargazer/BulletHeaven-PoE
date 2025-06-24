@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 6707629848891113170}
   - component: {fileID: 1067672642089383206}
   - component: {fileID: -4178045248603007243}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: TestEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -111,6 +111,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _entity:
     _target: {fileID: 453843668992776310}
+  _baseStats:
+    _serializedList:
+    - Key:
+        _baseType: 3
+        _subType: 1
+      Value: 50
 --- !u!114 &1067672642089383206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -150,7 +156,7 @@ GameObject:
   - component: {fileID: 7778853809999396439}
   - component: {fileID: 5391924046967849573}
   - component: {fileID: 2921423049382968840}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}

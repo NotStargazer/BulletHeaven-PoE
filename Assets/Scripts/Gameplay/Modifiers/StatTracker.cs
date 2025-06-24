@@ -111,12 +111,14 @@ namespace Gameplay.Modifiers
             return new DamageSnapshot(Stat.CalculateStats(baseDamage, stats));
         }
 
-        public void CalculateResistances(DamageSnapshot damage)
+        public DamageSnapshot CalculateResistances(DamageSnapshot damage)
         {
             damage.Physical = CalculateResistance(damage.Physical);
             damage.Fire = CalculateResistance(damage.Fire);
             damage.Cold = CalculateResistance(damage.Cold);
             damage.Lightning = CalculateResistance(damage.Lightning);
+
+            return damage;
         }
 
         private float CalculateResistance(FlatDamage flatDamage)

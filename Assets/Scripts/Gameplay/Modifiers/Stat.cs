@@ -10,7 +10,8 @@ namespace Gameplay.Modifiers
         public static float CalculateStats(params Stat[] stats) => CalculateStats(0f, stats);
         public static FlatDamage CalculateStats(FlatDamage baseDamage, params Stat[] stats)
         {
-            return baseDamage.Damage = CalculateStats(baseDamage.Damage, stats);
+            baseDamage.Damage = CalculateStats(baseDamage.Damage, stats);
+            return baseDamage;
         }
         public static float CalculateStats(float baseStat, params Stat[] stats)
         {

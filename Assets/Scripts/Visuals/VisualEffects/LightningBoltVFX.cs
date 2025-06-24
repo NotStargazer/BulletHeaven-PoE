@@ -46,7 +46,7 @@ namespace Visuals.VisualEffects
             var angle = Mathf.Asin(heightDelta / length) * Mathf.Rad2Deg;
             var direction = (data.Source.ToXZ() - data.Target.ToXZ()).normalized;
             var spin = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
-            properties.SetFloat(FREQUENCY, length / 2);
+            properties.SetFloat(FREQUENCY, length / 5);
             _transform.localPosition = middle;
             _transform.localScale = new Vector3(1, length);
             _transform.rotation = Quaternion.Euler(90 - angle, spin, 0);

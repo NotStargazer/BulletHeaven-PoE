@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Utility;
 
 namespace Gameplay.Projectiles
 {
@@ -17,19 +18,20 @@ namespace Gameplay.Projectiles
         [SerializeField] private float _size;
         [SerializeField] private float _length;
         
-        public bool Cast(Transform transform, float distance, int maxHits, out List<IEntity> hits)
+        public bool Cast(Transform transform, float distance, int maxHits, out List<IEntity> hits, int mask = 0)
         {
             var raycastHits = new RaycastHit[maxHits];
             switch (_type)
             {
                 case ColliderType.Sphere:
-                    Physics.SphereCastNonAlloc(new Ray(transform.localPosition, transform.forward), _size, raycastHits, distance);
+                    Physics.SphereCastNonAlloc(new Ray(transform.localPosition, transform.forward),
+                        _size, raycastHits, distance, mask);
                     break;
                 case ColliderType.Capsule:
                     Physics.CapsuleCastNonAlloc(
                         transform.position - transform.forward * _length,
                         transform.position + transform.forward * _length,
-                        _size, transform.forward, raycastHits, distance);
+                        _size, transform.forward, raycastHits, distance, mask);
                     break;
             }
             
@@ -49,18 +51,18 @@ namespace Gameplay.Projectiles
             return hits.Count > 0;
         }
 
-        public bool Overlap(Transform transform, int maxHits, out List<IEntity> hits)
+        public bool Overlap(Transform transform, int maxHits, out List<IEntity> hits, int mask)
         {
             var overlaps = new Collider[maxHits];
             switch (_type)
             {
                 case ColliderType.Sphere:
-                    Physics.OverlapSphereNonAlloc(transform.position, _size, overlaps);
+                    Physics.OverlapSphereNonAlloc(transform.position, _size, overlaps, mask);
                     break;
                 case ColliderType.Capsule:
                     Physics.OverlapCapsuleNonAlloc(
                         transform.position - transform.forward * _length,
-                        transform.position + transform.forward * _length, _size, overlaps);
+                        transform.position + transform.forward * _length, _size, overlaps, mask);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(_type));

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 4785330217857613740}
   - component: {fileID: 8315327525803522856}
   - component: {fileID: 226843250285822572}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Test Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -113,7 +113,7 @@ GameObject:
   - component: {fileID: 2823926410030208967}
   - component: {fileID: 1532444205089002144}
   - component: {fileID: 84482849096385721}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Forward Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 4289466774315792141}
   - component: {fileID: 4653190305759351774}
   - component: {fileID: 7920956700326305801}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}

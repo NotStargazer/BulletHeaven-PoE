@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -33,18 +34,24 @@ namespace Utility
 
             public void Tick()
             {
-                if (Time.time >= _next && _actions.Count > 0)
+                if (Time.time >= _next)
                 {
-                    var old = _current;
-                    _current = _actions.Dequeue();
-                    _next += _current.Value.Duration + Time.time;
-                    if (old is { Order: ExecutionOrder.AfterDuration })
+                    if (_current is { Order: ExecutionOrder.AfterDuration })
                     {
-                        _current.Value.Action();
+                        Debug.Log($"Fired event chain After: {_next}");
+                        var action = _current.Value.Action;
+                        _current = null;
+                        action();
                     }
-                    if (_current.Value.Order == ExecutionOrder.BeforeDuration)
+                    if (_actions.TryDequeue(out var current))
                     {
-                        _current.Value.Action();
+                        if (current is { Order: ExecutionOrder.BeforeDuration })
+                        {
+                            Debug.Log($"Fired event chain Before: {_next}");
+                            current.Action();
+                        }
+                        _current = current;
+                        _next = current.Duration + Time.time;
                     }
                 }
             }
@@ -81,7 +88,7 @@ namespace Utility
                 var key = _guid;
                 Instance.AddEvent(0, () =>
                 {
-                    Instance._eventChains.Remove(key);
+                    Instance._markedForComplete.Add(key);
                 }, ExecutionOrder.BeforeDuration, _guid);
             }
         }
@@ -94,10 +101,12 @@ namespace Utility
         }
 
         private Dictionary<GUID, Chain> _eventChains;
+        private List<GUID> _markedForComplete;
         
         public override void Instantiate()
         {
             _eventChains = new Dictionary<GUID, Chain>();
+            _markedForComplete = new List<GUID>();
         }
 
         private void AddEvent(float duration, Action action, ExecutionOrder order, GUID guid)
@@ -111,6 +120,13 @@ namespace Utility
             {
                 eventChain.Tick();
             }
+
+            foreach (var guid in _markedForComplete)
+            {
+                _eventChains.Remove(guid);
+            }
+            
+            _markedForComplete.Clear();
         }
     }
 }

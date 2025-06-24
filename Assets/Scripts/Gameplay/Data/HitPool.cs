@@ -14,17 +14,11 @@ namespace Gameplay.Data
 
         public Action OnKill { get; set; }
 
-        private void Awake()
-        {
-            var healthStats = _entity.I.StatTracker.GetStats(statTypes: new StatType(BaseType.Resource, ResourceType.Life));
-            var barrierStats = _entity.I.StatTracker.GetStats(statTypes: new StatType(BaseType.Defence, DefenceType.Barrier));
-            _health = Stat.CalculateStats(healthStats);
-            _barrier = Stat.CalculateStats(barrierStats);
-        }
+        public bool Alive => _health > 0;
 
         public void ApplyDamage(DamageSnapshot damage)
         {
-            _entity.I.StatTracker.CalculateResistances(damage);
+            _health -= _entity.I.StatTracker.CalculateResistances(damage);
             
             if (_health <= 0)
             {
@@ -40,6 +34,14 @@ namespace Gameplay.Data
         private void ApplyRegen()
         {
             var healthRecoveryStats = _entity.I.StatTracker.GetStats(statTypes: new StatType(BaseType.ResourceRecovery, ResourceType.Life));
+        }
+
+        public void Restore()
+        {
+            var healthStats = _entity.I.StatTracker.GetStats(statTypes: new StatType(BaseType.Resource, ResourceType.Life));
+            var barrierStats = _entity.I.StatTracker.GetStats(statTypes: new StatType(BaseType.Defence, DefenceType.Barrier));
+            _health = Stat.CalculateStats(healthStats);
+            _barrier = Stat.CalculateStats(barrierStats);
         }
     }
 }

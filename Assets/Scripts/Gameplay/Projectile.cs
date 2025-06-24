@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Gameplay.Projectiles;
 using UnityEngine;
+using Utility;
 
 namespace Gameplay
 {
@@ -58,7 +59,7 @@ namespace Gameplay
                 var timeScaledVelocity = _velocity * Time.deltaTime;
                 //TODO overlap filter
                 //TODO replace 1s with pierce
-                if (_collider.Cast(transform, timeScaledVelocity, 1, out var hits))
+                if (_collider.Cast(transform, timeScaledVelocity, 1, out var hits, (int)DefinedLayers.Targetable))
                 {
                     CollisionEvent?.Invoke(hits);
                     Destroy();

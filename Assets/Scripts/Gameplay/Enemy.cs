@@ -43,11 +43,7 @@ namespace Gameplay
             Target = player;
             gameObject.SetActive(true);
             transform.localPosition = position;
-        }
-
-        public void OnRent()
-        {
-            
+            _hitPool.Restore();
         }
 
         public void Kill()
