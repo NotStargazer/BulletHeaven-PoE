@@ -72,6 +72,8 @@ MonoBehaviour:
         _autoAimRadius: 5
         _chainRadius: 10
         _chains: 4
+        _maximumTargets: 10
+        _velocity: 50
         _baseDamage:
           DamageType: 8
           Damage: 20

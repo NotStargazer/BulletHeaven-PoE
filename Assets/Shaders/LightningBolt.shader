@@ -4,6 +4,7 @@ Shader "VFX/LightningBolt"
     {
         _MainTex ("Texture", 2D) = "white" {}
         _Width ("Width", Float) = 1
+        _Length ("Length", Float) = 1
         _Frequency ("Frequency", Float) = 1
         _Seed ("Seed", Integer) = 0
         _Bolts ("Bolts", Integer) = 1
@@ -72,6 +73,7 @@ Shader "VFX/LightningBolt"
             }
 
             float _Width;
+            float _Length;
             float _Frequency;
             float _StrikeWidth;
             float _GlowWidth;
@@ -115,7 +117,7 @@ Shader "VFX/LightningBolt"
                 float2 cuv2 = cuv;
                 float d = 1 - abs(cuv.y);
                 d = easeInCirc(d);
-                float formation = smoothstep(0, abs((cuv.y + _Formation.z) - _Formation.x), _Formation.y);;
+                float formation = smoothstep(0, abs((cuv.y + _Formation.z) - _Formation.x), _Formation.y * _Length);;
                 cuv.y *= _Frequency;
                 cuv.y += _Seed * 2;
 
