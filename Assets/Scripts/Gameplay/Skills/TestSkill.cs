@@ -21,11 +21,11 @@ namespace Gameplay.Skills
             _projectilePool = new InstancePool<Projectile>(_projectile, 20, 10, 100);
         }
 
-        protected override void Use(IEntity entity, Vector3 aimPosition, Support[] supports)
+        protected override void Use(IEntity user, Vector3 aimPosition, Support[] supports)
         {
             var projectile = _projectilePool.Rent();
-            var damage = entity.StatTracker.CalculateDamage(_baseDamage, this, _damageScalers);
-            projectile.Fire(entity, entity.Transform.forward, _projectileVelocity, _projectileDuration);
+            var damage = user.StatTracker.CalculateDamage(_baseDamage, this, _damageScalers);
+            projectile.Fire(user, user.Transform.forward, _projectileVelocity, _projectileDuration);
             projectile.CollisionEvent += hits =>
             {
                 foreach (var hitEntity in hits)

@@ -11,7 +11,7 @@ namespace Gameplay
         [SerializeField] protected CooldownTimer _skillCooldown;
         protected abstract void Construct();
         
-        protected abstract void Use(IEntity entity, Vector3 aimPosition, Support[] supports);
+        protected abstract void Use(IEntity user, Vector3 aimPosition, Support[] supports);
 
         public bool TryUse(IEntity entity, Vector3 aimPosition, Support[] supports)
         {

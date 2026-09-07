@@ -38,7 +38,6 @@ namespace Utility
                 {
                     if (_current is { Order: ExecutionOrder.AfterDuration })
                     {
-                        Debug.Log($"Fired event chain After: {_next}");
                         var action = _current.Value.Action;
                         _current = null;
                         action();
@@ -47,7 +46,6 @@ namespace Utility
                     {
                         if (current is { Order: ExecutionOrder.BeforeDuration })
                         {
-                            Debug.Log($"Fired event chain Before: {_next}");
                             current.Action();
                         }
                         _current = current;
