@@ -71,9 +71,9 @@ namespace Gameplay.Skills
                 () => Chain(user, targetEntity, chain, _chains, new HashSet<IEntity>{targetEntity}));
         }
 
-        private void Chain(IEntity source, IEntity target, EventManager.EventChain chain, int chains, HashSet<IEntity> hitTargets)
+        private void Chain(IEntity user, IEntity target, EventManager.EventChain chain, int chains, HashSet<IEntity> hitTargets)
         {
-            var damage = source.StatTracker.CalculateDamage(_baseDamage, this, _damageScalers);
+            var damage = user.StatTracker.CalculateDamage(_baseDamage, this, _damageScalers);
             var targetPosition = target.Transform.position;
             target.HitPool.ApplyDamage(damage);
 
@@ -123,7 +123,7 @@ namespace Gameplay.Skills
                 hitTargets.Add(nextTarget);
                 chain.AddEvent(duration,
                     EventManager.ExecutionOrder.AfterDuration,
-                    () => Chain(source, nextTarget, chain, chains - 1, hitTargets));
+                    () => Chain(user, nextTarget, chain, chains - 1, hitTargets));
             }
             else
             {

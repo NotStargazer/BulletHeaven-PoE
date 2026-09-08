@@ -1,3 +1,4 @@
+using System;
 using UI.Elements.Skill_Tree;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -29,12 +30,39 @@ namespace Editor.Inspectors.SkillTree
             var offset = new Vector3(-nodeSize.x * 2.5f, nodeSize.x);
             EditorSnapSettings.snapEnabled = true;
             var newPos = Handles.FreeMoveHandle(rt.position + offset, 10, Vector3.zero, DoMoveHandle);
+            
+            if (Event.current.type == EventType.KeyDown)
+            {
+                GUI.changed = true;
+                var step = Event.current.keyCode switch
+                {
+                    KeyCode.UpArrow => Vector3.up,
+                    KeyCode.DownArrow => Vector3.down,
+                    KeyCode.LeftArrow => Vector3.left,
+                    KeyCode.RightArrow => Vector3.right,
+                    _ =>  Vector3.zero
+                };
+
+                step.x *= EditorSnapSettings.gridSize.x;
+                step.y *= EditorSnapSettings.gridSize.y;
+                step.z *= EditorSnapSettings.gridSize.z;
+
+                newPos += step;
+                
+                if (newPos == Vector3.zero)
+                {
+                    GUI.changed = false;
+                }
+                
+                Event.current.Use();
+            }
+            
             if (EditorGUI.EndChangeCheck())
             {
                 Undo.RecordObject(rt, "Move Skill Node");
                 var delta = newPos - rt.position - offset;
                 rt.position += delta;
-                rt.position = Snapping.Snap(rt.position, new Vector3(5, 5, 5));
+                rt.position = Snapping.Snap(rt.position, EditorSnapSettings.gridSize);
             }
             
             Handles.BeginGUI();
@@ -109,7 +137,7 @@ namespace Editor.Inspectors.SkillTree
                 }
             }
         }
-
+        
         private void OnSceneGUI()
         {
             var camera = SceneView.currentDrawingSceneView.camera;
@@ -183,7 +211,14 @@ namespace Editor.Inspectors.SkillTree
                         {
                             _selectedConnection = id;
                         }
-                        GUI.Label(new Rect(midPos + new Vector2(0, smallBtSize.y/1.5f), smallBtSize), nodeConnection.Length.ToString(".0"));
+                        GUI.Label(new Rect(midPos + new Vector2(0, smallBtSize.y/1.5f), smallBtSize),
+                            nodeConnection.Length.ToString(".0"),
+                            new("WhiteLabel")
+                            {
+                                clipping = TextClipping.Overflow,
+                                fontSize = 15,
+                                fontStyle = FontStyle.Bold,
+                            });
                         id++;
                     }
                 }
