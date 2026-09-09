@@ -1,6 +1,7 @@
 using System;
 using Gameplay.Modifiers;
 using Global;
+using UI.Localization;
 using UnityEditor;
 using UnityEngine;
 
@@ -17,30 +18,32 @@ namespace Editor.Inspectors
             Clusters,
         }
 
-        private Tab _currentTab;
+        private static Tab CURRENT_TAB;
         
         private const string SkillRegistry = "Skills";
         private const string TreeModifierRegistry = "TreeModifiers";
         private const string ClusterRegistry = "Clusters";
         private const string Entry = "_entry";
 
-        private Vector2 _scroll;
-        private string _searchField;
+        private static Vector2 SCROLL;
+        private static string SEARCH_FIELD;
 
         private SerializedProperty _skills;
         private SerializedProperty _treeModifiers;
 
         public override void OnInspectorGUI()
         {
-            var newTab = (Tab)GUILayout.Toolbar((int)_currentTab, Enum.GetNames(typeof(Tab)));
-            if (newTab != _currentTab)
+            serializedObject.Update();
+            
+            var newTab = (Tab)GUILayout.Toolbar((int)CURRENT_TAB, Enum.GetNames(typeof(Tab)));
+            if (newTab != CURRENT_TAB)
             {
-                _scroll = Vector2.zero;
-                _searchField = string.Empty;
-                _currentTab = newTab;
+                SCROLL = Vector2.zero;
+                SEARCH_FIELD = string.Empty;
+                CURRENT_TAB = newTab;
             }
-
-            switch (_currentTab)
+            
+            switch (CURRENT_TAB)
             {
                 case Tab.Skills:
                     DrawRegistry(serializedObject.FindProperty(SkillRegistry), "Skills");
@@ -62,8 +65,8 @@ namespace Editor.Inspectors
         private void DrawRegistry(SerializedProperty registry, string registryName)
         {
             EditorGUILayout.LabelField(registryName, new GUIStyle("ToolbarBoldLabel"));
-            _searchField = EditorGUILayout.TextField(_searchField, new GUIStyle("ToolbarSearchTextField"));
-            _scroll = EditorGUILayout.BeginScrollView(_scroll, new GUIStyle("FrameBox"),
+            SEARCH_FIELD = EditorGUILayout.TextField(SEARCH_FIELD, new GUIStyle("ToolbarSearchTextField"));
+            SCROLL = EditorGUILayout.BeginScrollView(SCROLL, new GUIStyle("FrameBox"),
                 GUILayout.MinHeight(100), GUILayout.MaxHeight(300), GUILayout.ExpandHeight(true));
             {
                 foreach (var property in registry.GetDirectChildren())
@@ -78,7 +81,7 @@ namespace Editor.Inspectors
         {
             var entry = property.FindPropertyRelative(Entry);
             var fields = entry.GetDirectChildren();
-            if (string.IsNullOrEmpty(_searchField) || property.displayName.ToLower().Contains(_searchField.ToLower()))
+            if (string.IsNullOrEmpty(SEARCH_FIELD) || property.displayName.ToLower().Contains(SEARCH_FIELD.ToLower()))
             {
                 EditorGUILayout.BeginVertical(new GUIStyle("IN ThumbnailShadow")
                 {
@@ -102,8 +105,8 @@ namespace Editor.Inspectors
             var registry = serializedObject.FindProperty(ClusterRegistry);
             var treeMods = serializedObject.FindProperty(TreeModifierRegistry);
             EditorGUILayout.LabelField("Clusters", new GUIStyle("ToolbarBoldLabel"));
-            _searchField = EditorGUILayout.TextField(_searchField, new GUIStyle("ToolbarSearchTextField"));
-            _scroll = EditorGUILayout.BeginScrollView(_scroll, new GUIStyle("FrameBox"),
+            SEARCH_FIELD = EditorGUILayout.TextField(SEARCH_FIELD, new GUIStyle("ToolbarSearchTextField"));
+            SCROLL = EditorGUILayout.BeginScrollView(SCROLL, new GUIStyle("FrameBox"),
                 GUILayout.MinHeight(100), GUILayout.MaxHeight(300), GUILayout.ExpandHeight(true));
             {
                 foreach (var property in registry.GetDirectChildren())
@@ -118,7 +121,7 @@ namespace Editor.Inspectors
         {
             var entry = property.FindPropertyRelative(Entry);
             var fields = entry.GetDirectChildren();
-            if (string.IsNullOrEmpty(_searchField) || entry.type.ToLower().Contains(_searchField.ToLower()))
+            if (string.IsNullOrEmpty(SEARCH_FIELD) || entry.type.ToLower().Contains(SEARCH_FIELD.ToLower()))
             {
                 EditorGUILayout.BeginVertical(new GUIStyle("IN ThumbnailShadow")
                 {
@@ -140,7 +143,8 @@ namespace Editor.Inspectors
                             var treeModEntry = treeMods.FindPropertyRelative(treeModName).FindPropertyRelative(Entry);
                             var treeModObj = treeModEntry.boxedValue as TreeModifier;
                             GUI.enabled = false;
-                            EditorGUILayout.TextArea(treeModObj.GetEditorDescription());
+                            EditorGUILayout.TextArea(
+                                LocalizationManager.GetEditorLocalization("Stats", treeModObj.GetLocalizationKeys()));
                             GUI.enabled = true;
                         }
                     }

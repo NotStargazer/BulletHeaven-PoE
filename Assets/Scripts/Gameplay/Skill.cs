@@ -1,9 +1,40 @@
 using System;
+using Gameplay.Data;
 using Global;
+using UI.Localization;
 using UnityEngine;
 
 namespace Gameplay
 {
+#if UNITY_EDITOR
+    using UnityEditor;
+    [InitializeOnLoad]
+    static class SkillLocalization
+    {
+        static SkillLocalization()
+        {
+            LocalizationKeyGenerator.OpenEntry("Conditions");
+            {
+                foreach (BaseType baseType in Enum.GetValues(typeof(BaseType)))
+                {
+                    LocalizationKeyGenerator.AddKey($"Condition.{baseType}");
+                }
+            }
+            LocalizationKeyGenerator.CloseEntry();
+        }
+    }
+#endif
+    
+    [Flags]
+    public enum SkillTags
+    {
+        Melee = 1 << 0,
+        Attack = 1 << 1,
+        Spell = 1 << 2,
+        Projectile = 1 << 3,
+        Minion = 1 << 4,
+    }
+    
     [Serializable]
     public abstract class Skill : IRegistrableData
     {

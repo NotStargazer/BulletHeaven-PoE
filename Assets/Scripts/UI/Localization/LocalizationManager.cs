@@ -1,13 +1,67 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using AYellowpaper.SerializedCollections;
+using System.Linq;
+using Gameplay;
+using Gameplay.Data;
+using Gameplay.Modifiers;
 using UnityEditor;
 using UnityEngine;
-using Utility;
 
 namespace UI.Localization
 {
+    public struct LocalizationBuilder
+    {
+        private string _key;
+        private string _final;
+        private int _variable;
+        
+        public LocalizationBuilder(string key, string s)
+        {
+            _key = key;
+            _final = s;
+            _variable = 1;
+        }
+
+        public LocalizationBuilder SelectFormatter(bool selectOther)
+        {
+            var first = _final.IndexOf('{');
+            var split = _final.IndexOf(':');
+            var last = _final.IndexOf('}');
+            var formatter = _final.Substring(first, last - first + 1);
+
+            if (first == -1 || split == -1 || last == -1)
+            {
+                throw new LocalizationException($"{_key} has invalid formatter syntax.");
+            }
+
+            _final = _final.Replace(formatter, selectOther 
+                ? _final.Substring(split + 1, last) 
+                : _final.Substring(first + 1, split));
+
+            return this;
+        }
+        
+        public LocalizationBuilder ReplaceVariable(object variable)
+        {
+            var v = $"#{_variable}#";
+            
+            if (_final.Contains(v))
+            {
+                throw new LocalizationException($"Could not find variable {v} in {_key}");
+            }
+
+            _final = _final.Replace(v, variable.ToString());
+
+            return this;
+        }
+
+        public string Finalize()
+        {
+            return _final;
+        }
+    }
+    
     public static class LocalizationManager
     {
         public enum LocalizationKey
@@ -40,6 +94,53 @@ namespace UI.Localization
             so.Validate(keys);
             AssetDatabase.SaveAssetIfDirty(so);
         }
-        #endif
+
+        public static string GetEditorLocalization(string assetName, string[] keys)
+        {
+            return keys.Aggregate(string.Empty,
+                (current, key) => current + $"{GetEditorLocalization(assetName, key)}\n").TrimEnd();
+            
+        }
+        
+        public static LocalizationBuilder GetEditorLocalization(string assetName, string key)
+        {
+            return new LocalizationBuilder(key,
+                AssetDatabase.LoadAssetAtPath<LocalizationAsset>($"Assets/Localization/{assetName}.asset").Get(key));
+        }
+#endif
+        public static string LocalizeStat(StatType statType, StatFactor statFactor, float value, string append = "")
+        {
+            var negative = Mathf.Sign(value) < 0;
+            var key = $"{statType.BaseName}.{statFactor}.{statType.SubName}";
+#if UNITY_EDITOR
+            var builder = GetEditorLocalization("Stats", key);
+#else
+            var builder = Localization.GetLocalization(key);
+#endif
+
+            return builder
+                .SelectFormatter(negative)
+                .ReplaceVariable(value)
+                .ReplaceVariable(append)
+                .Finalize();
+        }
+
+        public static string GetCondition(SkillTags condition)
+        {
+            var key = $"Condition.{condition.ToString()}";
+            
+#if UNITY_EDITOR
+            var builder = GetEditorLocalization("Stats", key);
+#else
+            var builder = Localization.GetLocalization(key);
+#endif
+
+            return builder.Finalize();
+        }
+    }
+
+    public class LocalizationException : Exception
+    {
+        public LocalizationException(string message) : base(message) { }
     }
 }

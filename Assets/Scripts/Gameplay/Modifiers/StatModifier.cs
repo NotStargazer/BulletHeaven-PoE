@@ -1,5 +1,5 @@
 using System;
-using Global;
+using UI.Localization;
 using UnityEngine;
 
 namespace Gameplay.Modifiers
@@ -29,18 +29,15 @@ namespace Gameplay.Modifiers
             return null;
         }
 
-        public override string GetEditorDescription()
+        public override string GetDescription()
         {
-            var returnString = string.Empty;
-
-            for (var index = 0; index < _stats.Length - 1; index++)
+            var loc = new string[_stats.Length];
+            for (var i = 0; i < loc.Length; i++)
             {
-                returnString += _stats[index].GetEditorDescription(_condition != 0 ? " with " + _condition + "s" : string.Empty);
-                returnString += "\n";
+                loc[i] = _stats[i].GetDescription(LocalizationManager.GetCondition(_condition));
             }
-            returnString += _stats[^1].GetEditorDescription(_condition != 0 ? " with " + _condition + "s" : string.Empty);
 
-            return returnString;
+            return loc;
         }
     }
 }

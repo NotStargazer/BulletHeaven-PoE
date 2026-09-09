@@ -1,5 +1,4 @@
-﻿using Gameplay.Data;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 namespace Gameplay.Enemies
@@ -8,11 +7,6 @@ namespace Gameplay.Enemies
     public class SimpleEnemy : Enemy
     {
         [SerializeField] private NavMeshAgent _agent;
-
-        private void Start()
-        {
-            
-        }
 
         private void Update()
         {

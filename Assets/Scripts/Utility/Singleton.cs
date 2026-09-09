@@ -4,11 +4,12 @@ using UnityEngine;
 namespace Utility
 {
     /// <summary>
-    /// Instantiates Singletons from Prefabs only.
+    /// Auto instantiated singleton when level object loads. Can be set to destroy on level change.
     /// </summary>
     /// <typeparam name="T">MonoBehaviour Class</typeparam>
-    public abstract class SingletonPrefab<T> : Singleton where T : MonoBehaviour
+    public abstract class SingletonBehaviour<T> : Singleton where T : MonoBehaviour
     {
+        [SerializeField] private bool _destroyOnLevelChange;
         private static T INSTANCE;
         public static bool HasInstance => INSTANCE;
 
@@ -20,42 +21,43 @@ namespace Utility
                 {
                     return INSTANCE;
                 }
-
-                throw new SingletonException(typeof(T).ToString(), false);
+                
+                throw new SingletonException(typeof(T).ToString());
             }
         }
 
-        public override void Instantiate()
+        public void Awake()
         {
             if (INSTANCE)
             {
-                Debug.LogWarning($"Singleton of type {typeof(T)} has already been created");
+                Debug.LogWarning($"Multiple singletons of type {typeof(T)} detected. Destroying duplicates.");
+                Destroy(gameObject);
                 return;
             }
-        
-            if (gameObject.activeInHierarchy)
-            {
-                throw new SingletonException(typeof(T).ToString(), true);
-            }
 
-            var single = Instantiate(gameObject);
-            single.name = $"[{Name}]";
-            DontDestroyOnLoad(single);
-            INSTANCE = single.GetComponent<T>();
+            var o = gameObject;
+            o.name = $"[{Name}]";
+            if (!_destroyOnLevelChange)
+            {
+                DontDestroyOnLoad(o);
+            }
+            INSTANCE = o.GetComponent<T>();
+
+            Instantiate();
         }
     }
-
+    
     /// <summary>
-    /// Auto instantiated singleton when level object loads. Can be set to destroy on level change.
+    /// Auto instantiated singleton when level object loads. Can be set to destroy on level change. Hides Instance.
     /// </summary>
     /// <typeparam name="T">MonoBehaviour Class</typeparam>
-    public abstract class SingletonBehaviour<T> : Singleton where T : MonoBehaviour
+    public abstract class ProtectedSingletonBehaviour<T> : Singleton where T : MonoBehaviour
     {
         [SerializeField] private bool _destroyOnLevelChange;
         private static T INSTANCE;
-        public static bool HasInstance => INSTANCE;
+        protected static bool HasInstance => INSTANCE;
 
-        public static T Instance
+        protected static T Instance
         {
             get
             {

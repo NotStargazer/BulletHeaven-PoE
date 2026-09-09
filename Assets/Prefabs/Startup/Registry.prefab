@@ -86,45 +86,39 @@ MonoBehaviour:
         _stats:
         - _statType:
             _baseType: 0
-            _subType: 0
+            _subType: 15
           _flat: 0
           _increase: 25
           _multiplier: 0
           _fixed: 0
           _fixedStat: 0
         _condition: 8
-        _alignment: 1
-        _minDistance: 0
         _treeIcon: {fileID: 0}
     ProjectileDamage:
       _entry:
         _stats:
         - _statType:
             _baseType: 0
-            _subType: 0
+            _subType: 15
           _flat: 0
           _increase: 10
           _multiplier: 0
           _fixed: 0
           _fixedStat: 0
         _condition: 8
-        _alignment: 1
-        _minDistance: 0
         _treeIcon: {fileID: 0}
     AttackSpeed:
       _entry:
         _stats:
         - _statType:
             _baseType: 2
-            _subType: 1
+            _subType: 7
           _flat: 0
           _increase: 5
           _multiplier: 0
           _fixed: 0
           _fixedStat: 0
         _condition: 0
-        _alignment: 1
-        _minDistance: 0
         _treeIcon: {fileID: 0}
     TravelNode:
       _entry:
@@ -154,8 +148,6 @@ MonoBehaviour:
           _fixed: 0
           _fixedStat: 0
         _condition: 0
-        _alignment: 0
-        _minDistance: 0
         _treeIcon: {fileID: 0}
   Clusters:
     ProjectileDPS:

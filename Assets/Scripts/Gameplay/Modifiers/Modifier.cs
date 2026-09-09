@@ -8,6 +8,6 @@ namespace Gameplay.Modifiers
         private StatType _validTypes;
         public abstract bool IsConditional { get; }
         public abstract Stat[] Calculate(IEntity entity, Skill skill = null);
-        public abstract string GetEditorDescription();
+        public abstract string GetDescription();
     }
 }

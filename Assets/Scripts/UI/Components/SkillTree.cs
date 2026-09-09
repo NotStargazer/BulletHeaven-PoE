@@ -58,6 +58,7 @@ namespace UI.Components
         }
     }
 
+    [SelectionBase]
     public class SkillTree : BaseMenu, IModifierSource
     {
         [Serializable]

@@ -16,7 +16,6 @@ namespace Editor.Inspectors
             private Dictionary<string, LocHierarchy> _children;
             private SerializedProperty _property;
             private string _label;
-            
 
             public LocHierarchy()
             {
@@ -73,7 +72,7 @@ namespace Editor.Inspectors
                             value.Variables++;
                             return $"<color=#55ff55>{match.Value}</color>";
                         });
-                        result = Regex.Replace(result, "\\{\\w*:.+\\}", match =>
+                        result = Regex.Replace(result, "\\{\\.*:.+\\}", match =>
                         {
                             value.Formatters++;
                             return $"<color=#5555ff>{match.Value}</color>";
@@ -111,35 +110,35 @@ namespace Editor.Inspectors
             public int Formatters;
         }
 
-        private LocalizationManager.LocalizationKey _localizationKey;
-        private string _searchField;
-        private LocHierarchy _rootHierarchy;
-        private Dictionary<string, FormattedValue> _formattedValues;
+        private static Dictionary<string, FormattedValue> FORMATTED_VALUES;
+        private static LocalizationManager.LocalizationKey LOCALIZATION_KEY;
+        private static string SEARCH_FIELD;
 
         private void Awake()
         {
-            _formattedValues = new Dictionary<string, FormattedValue>();
+            FORMATTED_VALUES ??= new Dictionary<string, FormattedValue>();
         }
 
         public override void OnInspectorGUI()
         {
-            _rootHierarchy = new LocHierarchy();
-            _localizationKey = (LocalizationManager.LocalizationKey)EditorGUILayout.EnumPopup("Current Localization", _localizationKey);
+            serializedObject.Update();
+            var rootHierarchy = new LocHierarchy();
+            LOCALIZATION_KEY = (LocalizationManager.LocalizationKey)EditorGUILayout.EnumPopup("Current Localization", LOCALIZATION_KEY);
             var entries = serializedObject.FindProperty("_entries");
-            _searchField = EditorGUILayout.TextField(_searchField, new GUIStyle("ToolbarSearchTextField"));
+            SEARCH_FIELD = EditorGUILayout.TextField(SEARCH_FIELD, new GUIStyle("ToolbarSearchTextField"));
 
             for (var i = 0; i < entries.arraySize; i++)
             {
                 var entry = entries.GetArrayElementAtIndex(i);
                 var key = entry.FindPropertyRelative("Key");
-                var currentString = entry.FindPropertyRelative("Strings").GetArrayElementAtIndex((int)_localizationKey);
-                if (string.IsNullOrEmpty(_searchField) || key.stringValue.ToLower().Contains(_searchField.ToLower()))
+                var currentString = entry.FindPropertyRelative("Strings").GetArrayElementAtIndex((int)LOCALIZATION_KEY);
+                if (string.IsNullOrEmpty(SEARCH_FIELD) || key.stringValue.ToLower().Contains(SEARCH_FIELD.ToLower()))
                 {
-                    _rootHierarchy.Add(new Queue<string>(key.stringValue.Split('.')), currentString);
+                    rootHierarchy.Add(new Queue<string>(key.stringValue.Split('.')), currentString);
                 }
             }
 
-            _rootHierarchy.Draw(_formattedValues);
+            rootHierarchy.Draw(FORMATTED_VALUES);
             serializedObject.ApplyModifiedProperties();
         }
     }

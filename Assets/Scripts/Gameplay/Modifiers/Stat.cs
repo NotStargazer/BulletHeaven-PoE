@@ -1,9 +1,18 @@
 using System;
 using Gameplay.Data;
+using UI.Localization;
 using UnityEngine;
 
 namespace Gameplay.Modifiers
 {
+    public enum StatFactor
+    {
+        Flat,
+        Increased,
+        Multiplier,
+        Fixed,
+    }
+    
     [Serializable]
     public struct Stat
     {
@@ -67,30 +76,27 @@ namespace Gameplay.Modifiers
             _fixedStat = fixedStat;
         }
 
-        public string GetEditorDescription(string append = "")
+        public string GetDescription(string append = "")
         {
             var returnString = new string[3];
 
             if (_fixed)
             {
-                return $"{_statType.EditorStatName} is {_fixedStat}";
+                return LocalizationManager.LocalizeStat(_statType, StatFactor.Fixed, _fixedStat, append);
             }
             
             if (_flat != 0)
             {
-                var direction = _flat > 0 ? "+" : "-";
-                returnString[0] = $"{direction}{_flat} to {_statType.EditorStatName}{append}";
+                returnString[0] = LocalizationManager.LocalizeStat(_statType, StatFactor.Flat, _flat, append);
             }
             if (_increase != 0)
             {
-                var direction = _increase > 0 ? "increased" : "decreased";
-                returnString[1] = $"{_increase}% {direction} {_statType.EditorStatName}{append}";
+                returnString[1] = LocalizationManager.LocalizeStat(_statType, StatFactor.Flat, _increase, append);
             }
 
             if (_multiplier != 0)
             {
-                var direction = _flat > 0 ? "more" : "less";
-                returnString[2] = $"{Mathf.RoundToInt(_multiplier * 100)}% {direction} {_statType.EditorStatName}{append}";
+                returnString[2] = LocalizationManager.LocalizeStat(_statType, StatFactor.Flat, _multiplier, append);
             }
 
             for (var index = 0; index < returnString.Length - 1; index++)

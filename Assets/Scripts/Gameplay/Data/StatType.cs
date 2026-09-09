@@ -1,12 +1,12 @@
 ﻿using System;
 using UI.Localization;
-using UnityEditor;
 using UnityEngine;
 using Utility.Attributes;
 
 namespace Gameplay.Data
 {
 #if UNITY_EDITOR
+    using UnityEditor;
     [InitializeOnLoad]
     public static class StatLocalization
     {
@@ -18,8 +18,13 @@ namespace Gameplay.Data
                 {
                     var baseTypeName = baseType.ToString();
                     var field = typeof(BaseType).GetField(baseTypeName);
-                    var subType = Attribute.GetCustomAttribute(field, typeof(SubTypeAttribute)) as SubTypeAttribute;
-                    var subTypeNames = Enum.GetNames(subType!.SubType);
+                    if (Attribute.GetCustomAttribute(field, typeof(SubTypeAttribute)) 
+                        is not SubTypeAttribute subType)
+                    {
+                        Debug.LogWarning(baseType + " has no SubType Attribute.");
+                        continue;
+                    }
+                    var subTypeNames = Enum.GetNames(subType.SubType);
                     foreach (var subTypeName in subTypeNames)
                     {
                         LocalizationKeyGenerator.AddKey($"{baseTypeName}.Flat.{subTypeName}");
@@ -41,13 +46,14 @@ namespace Gameplay.Data
         [SubType(typeof(ActionType))] Speed,
         [SubType(typeof(ResourceType))] Resource,
         [SubType(typeof(ResourceType))] ResourceRecovery,
-        [DisplayNameOverride] [SubType(typeof(DefenceType))] Defence,
+        [SubType(typeof(DefenceType))] Defence,
+        [SubType(typeof(SkillStat))] Skill,
+        [SubType(typeof(ProjectileStat))] Projectile,
     }
 
     [Flags]
     public enum DamageType
     {
-        [DisplayNameOverride] 
         Generic = Physical | Fire | Cold | Lightning,
         Elemental = Fire | Cold | Lightning,
         Physical = 1 << 0,
@@ -59,11 +65,9 @@ namespace Gameplay.Data
     [Flags]
     public enum ActionType
     {
-        [DisplayNameOverride("Action ")] 
         Generic = Attack | Cast | Move,
         Attack = 1 << 0,
         Cast = 1 << 1,
-        [DisplayNameOverride("Movement ")] 
         Move = 1 << 2,
     }
 
@@ -79,11 +83,27 @@ namespace Gameplay.Data
     [Flags]
     public enum DefenceType
     {
-        [DisplayNameOverride("Defences")]
         Generic = Armor | Evasion | Barrier,
         Armor = 1 << 0,
         Evasion = 1 << 1,
-        Barrier = 1 << 2
+        Barrier = 1 << 2,
+    }
+
+    [Flags]
+    public enum SkillStat
+    {
+        Repeat = 1 << 0,
+        Targets = 1 << 1,
+        Chain = 1 << 2,
+        Area = 1 << 3,
+    }
+    
+    [Flags]
+    public enum ProjectileStat
+    {
+        Count = 1 << 0,
+        Speed = 1 << 1,
+        Range = 1 << 2,
     }
 
     [Serializable]
@@ -98,23 +118,17 @@ namespace Gameplay.Data
         [SerializeField] protected BaseType _baseType;
         [SerializeField] protected int _subType;
 
-        public string EditorStatName
+        public string BaseName => typeof(BaseType).GetFields()[(int)_baseType + 1].Name;
+
+        public string SubName
         {
             get
             {
-                var returnString = string.Empty;
                 var field = typeof(BaseType).GetFields()[(int)_baseType + 1];
-                var baseTypeName = (DisplayNameOverrideAttribute)Attribute.GetCustomAttribute(field, typeof(DisplayNameOverrideAttribute));
                 var subType = (SubTypeAttribute)Attribute.GetCustomAttribute(field, typeof(SubTypeAttribute));
-                var subField = subType.SubType.GetFields()[_subType + 1];
-                var subTypeName = (DisplayNameOverrideAttribute)Attribute.GetCustomAttribute(subField, typeof(DisplayNameOverrideAttribute));
-
-                returnString += subTypeName != null ? subTypeName.DisplayName : $"{subField.Name} ";
-                returnString += baseTypeName != null ? baseTypeName.DisplayName : $"{field.Name}";
-                return returnString;
+                return subType.SubType.GetFields()[_subType + 1].Name;
             }
         }
-
 
         public virtual bool Equals(StatType other)
         {
