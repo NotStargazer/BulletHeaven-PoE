@@ -1,5 +1,4 @@
 using System;
-using Gameplay.Data;
 using Global;
 using UI.Localization;
 using UnityEngine;
@@ -15,9 +14,10 @@ namespace Gameplay
         {
             LocalizationKeyGenerator.OpenEntry("Conditions");
             {
-                foreach (BaseType baseType in Enum.GetValues(typeof(BaseType)))
+                foreach (SkillTags baseType in Enum.GetValues(typeof(SkillTags)))
                 {
-                    LocalizationKeyGenerator.AddKey($"Condition.{baseType}");
+                    LocalizationKeyGenerator.AddKey($"Condition.Direct.{baseType}");
+                    LocalizationKeyGenerator.AddKey($"Condition.With.{baseType}");
                 }
             }
             LocalizationKeyGenerator.CloseEntry();
@@ -28,11 +28,12 @@ namespace Gameplay
     [Flags]
     public enum SkillTags
     {
-        Melee = 1 << 0,
-        Attack = 1 << 1,
-        Spell = 1 << 2,
+        Attack = 1 << 0,
+        Spell = 1 << 1,
+        Melee = 1 << 2,
         Projectile = 1 << 3,
-        Minion = 1 << 4,
+        Area = 1 << 4,
+        Minion = 1 << 5,
     }
     
     [Serializable]

@@ -57,25 +57,33 @@ namespace Editor.Inspectors
                     EditorGUILayout.LabelField(_label, new GUIStyle("CN Box"));
                 }
 
-                if (_property != null)
+                if (_property != null && values != null)
                 {
-                    var controlRect = EditorGUILayout.GetControlRect(false);
+                    EditorGUI.indentLevel = 0;
+                    var controlRect = EditorGUILayout.GetControlRect(false, -2);
                     GUI.contentColor = Color.clear;
-                    var newValue = EditorGUI.TextArea(controlRect, _property.stringValue);
+                    var newValue = EditorGUILayout.TextArea(_property.stringValue, new GUIStyle(EditorStyles.textArea)
+                    {
+                        clipping = TextClipping.Overflow,
+                        margin = new RectOffset(3 + 15 * (depth - 1), 0, 0, 0)
+                    });
                     GUI.contentColor = Color.white;
+                    EditorGUI.indentLevel = depth - 1;
+                    
                     if (_property.stringValue != newValue || !values.ContainsKey(_property.propertyPath))
                     {
                         var value = new FormattedValue();
                         _property.stringValue = newValue;
+                        
                         var result = Regex.Replace(_property.stringValue, "#\\d#", match =>
                         {
                             value.Variables++;
                             return $"<color=#55ff55>{match.Value}</color>";
                         });
-                        result = Regex.Replace(result, "\\{\\.*:.+\\}", match =>
+                        result = Regex.Replace(result, "\\{.*?\\|.*?\\}", match =>
                         {
                             value.Formatters++;
-                            return $"<color=#5555ff>{match.Value}</color>";
+                            return $"<color=#7777ff>{match.Value}</color>";
                         });
                         value.Text = result;
                         if (!values.TryAdd(_property.propertyPath, value))
@@ -83,11 +91,34 @@ namespace Editor.Inspectors
                             values[_property.propertyPath] = value;
                         }
                     }
-
+                    
                     if (values.TryGetValue(_property.propertyPath, out var formattedValue))
                     {
-                        EditorGUI.LabelField(controlRect, formattedValue.Text, new GUIStyle("CN Message"));
-                        EditorGUILayout.LabelField($"<color=#55ff55>{formattedValue.Variables}</color> Variables | <color=#5555ff>{formattedValue.Formatters}</color> Formaters", new GUIStyle("CN Message"));
+                        var error = 0;
+                        for (var i = 1; i < formattedValue.Variables + 1; i++)
+                        {
+                            if (!_property.stringValue.Contains($"#{i}#"))
+                            {
+                                error = i;
+                                break;
+                            }
+                        }
+
+                        if (error != 0)
+                        {
+                            formattedValue.Text = formattedValue.Text.Replace("#55ff55", "#ff0000");
+                        }
+
+                        controlRect.width -= 2;
+                        EditorGUI.LabelField(controlRect, formattedValue.Text, new GUIStyle("CN Message")
+                        {
+                            clipping = TextClipping.Overflow
+                        });
+                        EditorGUILayout.LabelField($"<color=#55ff55>{formattedValue.Variables}</color> Variables | <color=#7777ff>{formattedValue.Formatters}</color> Formaters", new GUIStyle("CN Message"));
+                        if (error != 0)
+                        {
+                            EditorGUILayout.LabelField($"<color=#ff0000>Variables must be in ascending order starting from 1\nmissing #{error}#", new GUIStyle("CN Message"));
+                        }
                     }
                 }
 
@@ -110,13 +141,13 @@ namespace Editor.Inspectors
             public int Formatters;
         }
 
-        private static Dictionary<string, FormattedValue> FORMATTED_VALUES;
+        private Dictionary<string, FormattedValue> _formattedValues;
         private static LocalizationManager.LocalizationKey LOCALIZATION_KEY;
         private static string SEARCH_FIELD;
 
         private void Awake()
         {
-            FORMATTED_VALUES ??= new Dictionary<string, FormattedValue>();
+            _formattedValues ??= new Dictionary<string, FormattedValue>();
         }
 
         public override void OnInspectorGUI()
@@ -138,7 +169,7 @@ namespace Editor.Inspectors
                 }
             }
 
-            rootHierarchy.Draw(FORMATTED_VALUES);
+            rootHierarchy.Draw(_formattedValues);
             serializedObject.ApplyModifiedProperties();
         }
     }

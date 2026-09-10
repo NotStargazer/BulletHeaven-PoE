@@ -13,6 +13,7 @@ namespace UI.Localization
             if (count != 0)
             {
                 Strings = new string[count];
+                return;
             }
             Strings = null;
         }
@@ -39,6 +40,12 @@ namespace UI.Localization
         {
             return (Key != null ? Key.GetHashCode() : 0);
         }
+
+        public LocalizationEntry Resize(int size)
+        {
+            Array.Resize(ref Strings, size);
+            return this;
+        }
     }
     
     public class LocalizationAsset : ScriptableObject
@@ -49,12 +56,21 @@ namespace UI.Localization
         public void Validate(HashSet<string> keys)
         {
             _entries ??= new List<LocalizationEntry>();
+            var numLangKeys = LocalizationManager.LanguageKeys.Length;
             
             foreach (var key in keys)
             {
-                if (!_entries.Contains(new LocalizationEntry(key, 0)))
+                var index = _entries.IndexOf(new LocalizationEntry(key, 0));
+                if (index == -1)
                 {
-                    _entries.Add(new LocalizationEntry(key, LocalizationManager.LocalizationKeys.Length));
+                    _entries.Add(new LocalizationEntry(key, numLangKeys));
+                }
+                else
+                {
+                    if (_entries[index].Strings.Length != numLangKeys)
+                    {
+                        _entries[index] = _entries[index].Resize(numLangKeys);
+                    }
                 }
             }
 

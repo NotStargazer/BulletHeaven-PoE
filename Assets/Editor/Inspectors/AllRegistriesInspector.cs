@@ -143,8 +143,7 @@ namespace Editor.Inspectors
                             var treeModEntry = treeMods.FindPropertyRelative(treeModName).FindPropertyRelative(Entry);
                             var treeModObj = treeModEntry.boxedValue as TreeModifier;
                             GUI.enabled = false;
-                            EditorGUILayout.TextArea(
-                                LocalizationManager.GetEditorLocalization("Stats", treeModObj.GetLocalizationKeys()));
+                            EditorGUILayout.TextArea(treeModObj.GetDescription());
                             GUI.enabled = true;
                         }
                     }

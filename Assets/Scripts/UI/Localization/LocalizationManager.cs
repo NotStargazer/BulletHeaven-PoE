@@ -12,7 +12,7 @@ namespace UI.Localization
 {
     public struct LocalizationBuilder
     {
-        private string _key;
+        private readonly string _key;
         private string _final;
         private int _variable;
         
@@ -26,7 +26,7 @@ namespace UI.Localization
         public LocalizationBuilder SelectFormatter(bool selectOther)
         {
             var first = _final.IndexOf('{');
-            var split = _final.IndexOf(':');
+            var split = _final.IndexOf('|');
             var last = _final.IndexOf('}');
             var formatter = _final.Substring(first, last - first + 1);
 
@@ -45,6 +45,7 @@ namespace UI.Localization
         public LocalizationBuilder ReplaceVariable(object variable)
         {
             var v = $"#{_variable}#";
+            _variable++;
             
             if (_final.Contains(v))
             {
@@ -55,8 +56,8 @@ namespace UI.Localization
 
             return this;
         }
-
-        public string Finalize()
+        
+        public string Build()
         {
             return _final;
         }
@@ -69,8 +70,9 @@ namespace UI.Localization
             en_US,
             sv_SE,
         }
-
-        public static string[] LocalizationKeys => Enum.GetNames(typeof(LocalizationKey));
+        
+        
+        public static string[] LanguageKeys => Enum.GetNames(typeof(LocalizationKey));
 
 #if UNITY_EDITOR
         public static void ValidateLocalizationFile(HashSet<string> keys, string file)
@@ -110,19 +112,22 @@ namespace UI.Localization
 #endif
         public static string LocalizeStat(StatType statType, StatFactor statFactor, float value, string append = "")
         {
-            var negative = Mathf.Sign(value) < 0;
             var key = $"{statType.BaseName}.{statFactor}.{statType.SubName}";
 #if UNITY_EDITOR
-            var builder = GetEditorLocalization("Stats", key);
+            var loc = GetEditorLocalization("Stats", key);
 #else
-            var builder = Localization.GetLocalization(key);
+            var loc = Localization.GetLocalization(key);
 #endif
 
-            return builder
+            var negative = Mathf.Sign(value) < 0;
+            var hasCondition = !string.IsNullOrEmpty(append);
+            
+            return loc
                 .SelectFormatter(negative)
                 .ReplaceVariable(value)
                 .ReplaceVariable(append)
-                .Finalize();
+                .SelectFormatter(hasCondition)
+                .Build();
         }
 
         public static string GetCondition(SkillTags condition)
@@ -130,12 +135,12 @@ namespace UI.Localization
             var key = $"Condition.{condition.ToString()}";
             
 #if UNITY_EDITOR
-            var builder = GetEditorLocalization("Stats", key);
+            var loc = GetEditorLocalization("Stats", key);
 #else
-            var builder = Localization.GetLocalization(key);
+            var loc = Localization.GetLocalization(key);
 #endif
 
-            return builder.Finalize();
+            return loc.Build();
         }
     }
 

@@ -35,9 +35,14 @@ namespace Gameplay.Modifiers
             for (var i = 0; i < loc.Length; i++)
             {
                 loc[i] = _stats[i].GetDescription(LocalizationManager.GetCondition(_condition));
+
+                if (i != loc.Length - 1)
+                {
+                    loc[i] += "\n";
+                }
             }
 
-            return loc;
+            return string.Concat(loc);
         }
     }
 }
