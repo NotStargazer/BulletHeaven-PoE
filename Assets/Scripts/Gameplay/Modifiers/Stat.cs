@@ -107,7 +107,7 @@ namespace Gameplay.Modifiers
                         LocalizationManager.GetCondition(conditional, _statType.GetConditional(StatFactor.Multiplier)));
             }
 
-            for (var index = 0; index < returnString.Length - 1; index++)
+            for (var index = 0; index < returnString.Length; index++)
             {
                 if (!string.IsNullOrEmpty(returnString[index]))
                 {
@@ -115,7 +115,7 @@ namespace Gameplay.Modifiers
                 }
             }
 
-            return string.Concat(returnString);
+            return string.Concat(returnString).TrimEnd('\n');
         }
 
         public static Stat operator +(Stat lhs, Stat rhs)
