@@ -13,6 +13,7 @@ namespace Editor.Inspectors
     {
         private record LocHierarchy
         {
+            private static string FORMATTERS = LocalizationBuilder.FormatterCharacters;
             private Dictionary<string, LocHierarchy> _children;
             private SerializedProperty _property;
             private string _label;
@@ -75,14 +76,19 @@ namespace Editor.Inspectors
                         var value = new FormattedValue();
                         _property.stringValue = newValue;
                         
-                        var result = Regex.Replace(_property.stringValue, "#\\d#", match =>
+                        var result = Regex.Replace(_property.stringValue, $"\\[[{FORMATTERS}]=.*?\\]\\#", match =>
+                        {
+                            value.Formatters++;
+                            return $"<color=#D8F02F>{match.Value.TrimEnd('#')}</color>#";
+                        });
+                        result = Regex.Replace(result, "#\\d#", match =>
                         {
                             value.Variables++;
                             return $"<color=#55ff55>{match.Value}</color>";
                         });
                         result = Regex.Replace(result, "\\{.*?\\|.*?\\}", match =>
                         {
-                            value.Formatters++;
+                            value.Conditionals++;
                             return $"<color=#7777ff>{match.Value}</color>";
                         });
                         value.Text = result;
@@ -114,7 +120,9 @@ namespace Editor.Inspectors
                         {
                             clipping = TextClipping.Overflow
                         });
-                        EditorGUILayout.LabelField($"<color=#55ff55>{formattedValue.Variables}</color> Variables | <color=#7777ff>{formattedValue.Formatters}</color> Formaters", new GUIStyle("CN Message"));
+                        EditorGUILayout.LabelField($"<color=#55ff55>{formattedValue.Variables}</color> Variables " +
+                                                   $"| <color=#7777ff>{formattedValue.Conditionals}</color> Conditionals " +
+                                                   $"| <color=#D8F02F>{formattedValue.Formatters}</color> Formatters", new GUIStyle("CN Message"));
                         if (error != 0)
                         {
                             EditorGUILayout.LabelField($"<color=#ff0000>Variables must be in ascending order starting from 1\nmissing #{error}#", new GUIStyle("CN Message"));
@@ -138,6 +146,7 @@ namespace Editor.Inspectors
         {
             public string Text;
             public int Variables;
+            public int Conditionals;
             public int Formatters;
         }
 

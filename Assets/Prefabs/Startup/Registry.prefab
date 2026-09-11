@@ -112,7 +112,7 @@ MonoBehaviour:
         _stats:
         - _statType:
             _baseType: 2
-            _subType: 7
+            _subType: 1
           _flat: 0
           _increase: 5
           _multiplier: 0

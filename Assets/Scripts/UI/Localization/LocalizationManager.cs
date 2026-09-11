@@ -12,6 +12,32 @@ namespace UI.Localization
 {
     public struct LocalizationBuilder
     {
+        public static string FormatterCharacters => string.Concat(Enum.GetNames(typeof(LocalizationFormatter.ValidFormatters)));
+
+        private static class LocalizationFormatter
+        {
+            public enum ValidFormatters
+            {
+                R,
+                P
+            }
+
+            public static string Format(string input, int value, float variable)
+            {
+                if (Enum.TryParse(input, out ValidFormatters formatter))
+                {
+                    return formatter switch
+                    {
+                        ValidFormatters.R => variable.ToString($"F{value}"),
+                        ValidFormatters.P => variable.ToString("F0").PadLeft(value, '0'),
+                        _ => string.Empty
+                    };
+                }
+
+                return variable.ToString("F0");
+            }
+        }
+        
         private readonly string _key;
         private string _final;
         private int _variable;
@@ -23,23 +49,61 @@ namespace UI.Localization
             _variable = 1;
         }
 
-        public LocalizationBuilder SelectFormatter(bool selectOther)
+        public LocalizationBuilder SetConditional(bool selectOther)
         {
             var first = _final.IndexOf('{');
             var split = _final.IndexOf('|');
             var last = _final.IndexOf('}');
-            var formatter = _final.Substring(first, last - first + 1);
+            var conditional = _final.Substring(first, last - first + 1);
 
             if (first == -1 || split == -1 || last == -1)
             {
                 throw new LocalizationException($"{_key} has invalid formatter syntax.");
             }
 
-            _final = _final.Replace(formatter, selectOther 
-                ? _final.Substring(split + 1, last) 
-                : _final.Substring(first + 1, split));
+            var selected = selectOther
+                ? _final.Substring(split + 1, last - split - 1)
+                : _final.Substring(first + 1, split - first - 1);
+            _final = _final.Replace(conditional, selected);
 
             return this;
+        }
+
+        public LocalizationBuilder ReplaceVariable(float variable)
+        {
+            var v = $"#{_variable}#";
+            _variable++;
+            
+            if (!_final.Contains(v))
+            {
+                throw new LocalizationException($"Could not find variable {v} in {_key}");
+            }
+
+            _final = _final.Replace(v, FormatSingle(variable));
+
+            return this;
+        }
+
+        private string FormatSingle(float variable)
+        {
+            var endIndex = _final.IndexOf('#') - 1;
+            if (endIndex > 0 && _final[endIndex - 1] == ']')
+            {
+                var startIndex = endIndex - 1;
+                for (; startIndex > 0; startIndex--)
+                {
+                    if (_final[startIndex] == '[')
+                    {
+                        break;
+                    }
+                }
+
+                var formatter = _final.Remove(startIndex, endIndex);
+                var split = formatter.Trim('[', ']').Split('=');
+                return LocalizationFormatter.Format(split[0], int.Parse(split[1]), Mathf.Abs(variable));
+            }
+
+            return variable.ToString("F0");
         }
         
         public LocalizationBuilder ReplaceVariable(object variable)
@@ -47,7 +111,7 @@ namespace UI.Localization
             var v = $"#{_variable}#";
             _variable++;
             
-            if (_final.Contains(v))
+            if (!_final.Contains(v))
             {
                 throw new LocalizationException($"Could not find variable {v} in {_key}");
             }
@@ -110,8 +174,9 @@ namespace UI.Localization
                 AssetDatabase.LoadAssetAtPath<LocalizationAsset>($"Assets/Localization/{assetName}.asset").Get(key));
         }
 #endif
-        public static string LocalizeStat(StatType statType, StatFactor statFactor, float value, string append = "")
+        public static string LocalizeStat(StatType statType, StatFactor statFactor, float value, string conditional)
         {
+            value = Mathf.Abs(value);
             var key = $"{statType.BaseName}.{statFactor}.{statType.SubName}";
 #if UNITY_EDITOR
             var loc = GetEditorLocalization("Stats", key);
@@ -120,22 +185,22 @@ namespace UI.Localization
 #endif
 
             var negative = Mathf.Sign(value) < 0;
-            var hasCondition = !string.IsNullOrEmpty(append);
+            var hasCondition = !string.IsNullOrEmpty(conditional);
             
             return loc
-                .SelectFormatter(negative)
+                .SetConditional(negative)
                 .ReplaceVariable(value)
-                .ReplaceVariable(append)
-                .SelectFormatter(hasCondition)
+                .ReplaceVariable(conditional)
+                .SetConditional(hasCondition)
                 .Build();
         }
 
-        public static string GetCondition(SkillTags condition)
+        public static string GetCondition(SkillTags condition, string type)
         {
-            var key = $"Condition.{condition.ToString()}";
+            var key = $"Condition.{type}.{condition.ToString()}";
             
 #if UNITY_EDITOR
-            var loc = GetEditorLocalization("Stats", key);
+            var loc = GetEditorLocalization("Conditions", key);
 #else
             var loc = Localization.GetLocalization(key);
 #endif

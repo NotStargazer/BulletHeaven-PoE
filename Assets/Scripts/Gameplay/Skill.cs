@@ -63,8 +63,8 @@ namespace Gameplay
         
         public object GetInstance()
         {
-            var skill = (Skill)MemberwiseClone();
-            skill.Construct();
+            var skill = MemberwiseClone() as Skill;
+            skill!.Construct();
             return skill;
         }
     }

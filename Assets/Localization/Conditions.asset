@@ -13,27 +13,51 @@ MonoBehaviour:
   m_Name: Conditions
   m_EditorClassIdentifier: Assembly-CSharp::UI.Localization.LocalizationAsset
   _entries:
-  - Key: Condition.SkillTag.Attack
+  - Key: Condition.Direct.Attack
+    Strings:
+    - to Attacks
+    - 
+  - Key: Condition.With.Attack
     Strings:
     - with Attack Skills
     - 
-  - Key: Condition.SkillTag.Spell
+  - Key: Condition.Direct.Spell
+    Strings:
+    - to Spells
+    - 
+  - Key: Condition.With.Spell
     Strings:
     - with Spell Skills
     - 
-  - Key: Condition.SkillTag.Melee
+  - Key: Condition.Direct.Melee
+    Strings:
+    - to Melee Skills
+    - 
+  - Key: Condition.With.Melee
     Strings:
     - with Melee Skills
     - 
-  - Key: Condition.SkillTag.Projectile
+  - Key: Condition.Direct.Projectile
+    Strings:
+    - to Projectile Skills
+    - 
+  - Key: Condition.With.Projectile
     Strings:
     - with Projectile Skills
     - 
-  - Key: Condition.SkillTag.Area
+  - Key: Condition.Direct.Area
+    Strings:
+    - to Area Skills
+    - 
+  - Key: Condition.With.Area
     Strings:
     - with Area Skills
     - 
-  - Key: Condition.SkillTag.Minion
+  - Key: Condition.Direct.Minion
+    Strings:
+    - to Minion Skills
+    - 
+  - Key: Condition.With.Minion
     Strings:
     - with Minion Skills
     - 

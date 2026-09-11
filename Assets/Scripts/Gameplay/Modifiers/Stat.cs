@@ -76,27 +76,35 @@ namespace Gameplay.Modifiers
             _fixedStat = fixedStat;
         }
 
-        public string GetDescription(string append = "")
+        public string GetDescription(SkillTags conditional)
         {
-            var returnString = new string[3];
-
             if (_fixed)
             {
-                return LocalizationManager.LocalizeStat(_statType, StatFactor.Fixed, _fixedStat, append);
+                return LocalizationManager.LocalizeStat(_statType, StatFactor.Fixed, _fixedStat, 
+                    conditional == 0 ? string.Empty :
+                    LocalizationManager.GetCondition(conditional, _statType.GetConditional(StatFactor.Fixed)));
             }
+            
+            var returnString = new string[3];
             
             if (_flat != 0)
             {
-                returnString[0] = LocalizationManager.LocalizeStat(_statType, StatFactor.Flat, _flat, append);
+                returnString[0] = LocalizationManager.LocalizeStat(_statType, StatFactor.Flat, _flat, 
+                    conditional == 0 ? string.Empty :
+                        LocalizationManager.GetCondition(conditional, _statType.GetConditional(StatFactor.Flat)));
             }
             if (_increase != 0)
             {
-                returnString[1] = LocalizationManager.LocalizeStat(_statType, StatFactor.Flat, _increase, append);
+                returnString[1] = LocalizationManager.LocalizeStat(_statType, StatFactor.Increased, _increase, 
+                    conditional == 0 ? string.Empty :
+                        LocalizationManager.GetCondition(conditional, _statType.GetConditional(StatFactor.Increased)));
             }
 
             if (_multiplier != 0)
             {
-                returnString[2] = LocalizationManager.LocalizeStat(_statType, StatFactor.Flat, _multiplier, append);
+                returnString[2] = LocalizationManager.LocalizeStat(_statType, StatFactor.Multiplier, _multiplier,
+                    conditional == 0 ? string.Empty :
+                        LocalizationManager.GetCondition(conditional, _statType.GetConditional(StatFactor.Multiplier)));
             }
 
             for (var index = 0; index < returnString.Length - 1; index++)

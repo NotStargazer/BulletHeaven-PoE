@@ -1,4 +1,5 @@
 ﻿using System;
+using Gameplay.Modifiers;
 using UI.Localization;
 using UnityEngine;
 using Utility.Attributes;
@@ -41,7 +42,7 @@ namespace Gameplay.Data
 
     public enum BaseType
     {
-        [SubType(typeof(DamageType))] Damage,
+        [SubType(typeof(DamageType), flatStat: ConditionalType.Direct)] Damage,
         [SubType(typeof(DamageType))] Resistance,
         [SubType(typeof(ActionType))] Speed,
         [SubType(typeof(ResourceType))] Resource,
@@ -126,7 +127,7 @@ namespace Gameplay.Data
             {
                 var field = typeof(BaseType).GetFields()[(int)_baseType + 1];
                 var subType = (SubTypeAttribute)Attribute.GetCustomAttribute(field, typeof(SubTypeAttribute));
-                return subType.SubType.GetFields()[_subType + 1].Name;
+                return Enum.GetName(subType.SubType, _subType);
             }
         }
 
@@ -138,6 +139,13 @@ namespace Gameplay.Data
         public override int GetHashCode()
         {
             return unchecked((int)_baseType * 31 + _subType);
+        }
+
+        public string GetConditional(StatFactor factor)
+        {
+            var field = typeof(BaseType).GetFields()[(int)_baseType + 1];
+            var subType = (SubTypeAttribute)Attribute.GetCustomAttribute(field, typeof(SubTypeAttribute));
+            return subType.GetConditionalKey(factor);
         }
     }
 }

@@ -27,7 +27,7 @@ MonoBehaviour:
     - 
   - Key: Damage.Fixed.Physical
     Strings:
-    - Physical Damage is {|-}#1# {| #2#}
+    - Physical Damage is {|-}#1#{| #2#}
     - 
   - Key: Damage.Flat.Fire
     Strings:
@@ -43,7 +43,7 @@ MonoBehaviour:
     - 
   - Key: Damage.Fixed.Fire
     Strings:
-    - Fire Damage is {|-}#1# {| #2#}
+    - Fire Damage is {|-}#1#{| #2#}
     - 
   - Key: Damage.Flat.Cold
     Strings:
@@ -59,7 +59,7 @@ MonoBehaviour:
     - 
   - Key: Damage.Fixed.Cold
     Strings:
-    - Cold Damage is {|-}#1# {| #2#}
+    - Cold Damage is {|-}#1#{| #2#}
     - 
   - Key: Damage.Flat.Lightning
     Strings:
@@ -75,7 +75,7 @@ MonoBehaviour:
     - 
   - Key: Damage.Fixed.Lightning
     Strings:
-    - Lightning Damage is {|-}#1# {| #2#}
+    - Lightning Damage is {|-}#1#{| #2#}
     - 
   - Key: Damage.Flat.Elemental
     Strings:
@@ -91,7 +91,7 @@ MonoBehaviour:
     - 
   - Key: Damage.Fixed.Elemental
     Strings:
-    - Elemental Damage is {|-}#1# {| #2#}
+    - Elemental Damage is {|-}#1#{| #2#}
     - 
   - Key: Damage.Flat.Generic
     Strings:
@@ -107,7 +107,7 @@ MonoBehaviour:
     - 
   - Key: Damage.Fixed.Generic
     Strings:
-    - All Damage is {|-}#1# {| #2#}
+    - All Damage is {|-}#1#{| #2#}
     - 
   - Key: Resistance.Flat.Physical
     Strings:
@@ -123,7 +123,7 @@ MonoBehaviour:
     - 
   - Key: Resistance.Fixed.Physical
     Strings:
-    - Physical Resistance is {|-}#1#% {| #2#}
+    - Physical Resistance is {|-}#1#%{| #2#}
     - 
   - Key: Resistance.Flat.Fire
     Strings:
@@ -139,7 +139,7 @@ MonoBehaviour:
     - 
   - Key: Resistance.Fixed.Fire
     Strings:
-    - Fire Resistance is {|-}#1#% {| #2#}
+    - Fire Resistance is {|-}#1#%{| #2#}
     - 
   - Key: Resistance.Flat.Cold
     Strings:
@@ -155,7 +155,7 @@ MonoBehaviour:
     - 
   - Key: Resistance.Fixed.Cold
     Strings:
-    - Cold Resistance is {|-}#1#% {| #2#}
+    - Cold Resistance is {|-}#1#%{| #2#}
     - 
   - Key: Resistance.Flat.Lightning
     Strings:
@@ -171,7 +171,7 @@ MonoBehaviour:
     - 
   - Key: Resistance.Fixed.Lightning
     Strings:
-    - Lightning Resistance is {|-}#1#% {| #2#}
+    - Lightning Resistance is {|-}#1#%{| #2#}
     - 
   - Key: Resistance.Flat.Elemental
     Strings:
@@ -187,7 +187,7 @@ MonoBehaviour:
     - 
   - Key: Resistance.Fixed.Elemental
     Strings:
-    - Elemental Resistances are {|-}#1#% {| #2#}
+    - Elemental Resistances are {|-}#1#%{| #2#}
     - 
   - Key: Resistance.Flat.Generic
     Strings:
@@ -203,373 +203,373 @@ MonoBehaviour:
     - 
   - Key: Resistance.Fixed.Generic
     Strings:
-    - All Resistances are {|-}#1#% {| #2#}
+    - All Resistances are {|-}#1#%{| #2#}
     - 
   - Key: Speed.Flat.Attack
     Strings:
-    - '{+|-}#1# Seconds to Attack Time {| #2#}'
+    - '{+|-}#1# Seconds to Attack Time{| #2#}'
     - 
   - Key: Speed.Increased.Attack
     Strings:
-    - '{+|-}#1#% Attack Speed {| #2#}'
+    - '#1#% {Increased|Decreased} Attack Speed{| #2#}'
     - 
   - Key: Speed.Multiplier.Attack
     Strings:
-    - 
+    - '#1#% {More|Less} Attack Speed{| #2#}'
     - 
   - Key: Speed.Fixed.Attack
     Strings:
-    - 
+    - Attack Time is {|-}#1#{| #2#}
     - 
   - Key: Speed.Flat.Cast
     Strings:
-    - '{+|-}#1# Seconds to Cast Time {| #2#}'
+    - '{+|-}#1# Seconds to Cast Time{| #2#}'
     - 
   - Key: Speed.Increased.Cast
     Strings:
-    - '{+|-}#1#% Cast Speed {| #2#}'
+    - '#1#% {Increased|Decreased} Cast Speed{| #2#}'
     - 
   - Key: Speed.Multiplier.Cast
     Strings:
-    - 
+    - '#1#% {More|Less} Cast Speed{| #2#}'
     - 
   - Key: Speed.Fixed.Cast
     Strings:
-    - 
+    - Cast Time is {|-}#1#{| #2#}
     - 
   - Key: Speed.Flat.Move
     Strings:
-    - '{+|-}#1# Base Movement Speed {| #2#}'
+    - '{+|-}#1# Movement units per second{| #2#}'
     - 
   - Key: Speed.Increased.Move
     Strings:
-    - '{+|-}#1#% Movement Speed {| #2#}'
+    - '#1#% {Increased|Decreased} Movement Speed{| #2#}'
     - 
   - Key: Speed.Multiplier.Move
     Strings:
-    - 
+    - '#1#% {More|Less} Movement Speed{| #2#}'
     - 
   - Key: Speed.Fixed.Move
     Strings:
-    - 
+    - Movement is {|-}#1# units per second{| #2#}
     - 
   - Key: Speed.Flat.Generic
     Strings:
-    - '{+|-}#1# Base Action Speed {| #2#}'
+    - '{+|-}#1# Base Action Speed{| #2#}'
     - 
   - Key: Speed.Increased.Generic
     Strings:
-    - '{+|-}#1#% Action Speed {| #2#}'
+    - '#1#% {Increased|Decreased} Action Speed{| #2#}'
     - 
   - Key: Speed.Multiplier.Generic
     Strings:
-    - 
+    - '#1#% {More|Less} Action Speed{| #2#}'
     - 
   - Key: Speed.Fixed.Generic
     Strings:
-    - 
+    - Actions per second is {|-}#1#{| #2#}
     - 
   - Key: Resource.Flat.Life
     Strings:
-    - 
+    - '{+|-}#1# to Maximum Life{| #2#}'
     - 
   - Key: Resource.Increased.Life
     Strings:
-    - 
+    - '#1#% {Increased|Decreased} Maximum Life{| #2#}'
     - 
   - Key: Resource.Multiplier.Life
     Strings:
-    - 
+    - '#1#% {More|Less} Maximum Life{| #2#}'
     - 
   - Key: Resource.Fixed.Life
     Strings:
-    - 
+    - Maximum Life is {|-}#1#{| #2#}
     - 
   - Key: Resource.Flat.Mana
     Strings:
-    - 
+    - '{+|-}#1# to Maximum Mana{| #2#}'
     - 
   - Key: Resource.Increased.Mana
     Strings:
-    - 
+    - '#1#% {Increased|Decreased} Maximum Mana{| #2#}'
     - 
   - Key: Resource.Multiplier.Mana
     Strings:
-    - 
+    - '#1#% {More|Less} Maximum Mana{| #2#}'
     - 
   - Key: Resource.Fixed.Mana
     Strings:
-    - 
+    - Maximum Mana is {|-}#1#{| #2#}
     - 
   - Key: Resource.Flat.Stamina
     Strings:
-    - 
+    - '{+|-}#1# to Maximum Stamina{| #2#}'
     - 
   - Key: Resource.Increased.Stamina
     Strings:
-    - 
+    - '#1#% {Increased|Decreased} Maximum Stamina{| #2#}'
     - 
   - Key: Resource.Multiplier.Stamina
     Strings:
-    - 
+    - '#1#% {More|Less} Maximum Stamina{| #2#}'
     - 
   - Key: Resource.Fixed.Stamina
     Strings:
-    - 
+    - Maximum Stamina is {|-}#1#{| #2#}
     - 
   - Key: Resource.Flat.Ammo
     Strings:
-    - 
+    - '{+|-}#1# to Maximum Ammo{| #2#}'
     - 
   - Key: Resource.Increased.Ammo
     Strings:
-    - 
+    - '#1#% {Increased|Decreased} Maximum Ammo{| #2#}'
     - 
   - Key: Resource.Multiplier.Ammo
     Strings:
-    - 
+    - '#1#% {More|Less} Maximum Ammo{| #2#}'
     - 
   - Key: Resource.Fixed.Ammo
     Strings:
-    - 
+    - Maximum Ammo is {|-}#1#{| #2#}
     - 
   - Key: ResourceRecovery.Flat.Life
     Strings:
-    - 
+    - Recover [R=2]#1# Life per Second{| #2#}
     - 
   - Key: ResourceRecovery.Increased.Life
     Strings:
-    - 
+    - '#1#% {Increased|Decreased} Life Regeneration{| #2#}'
     - 
   - Key: ResourceRecovery.Multiplier.Life
     Strings:
-    - 
+    - '#1#% {More|Less} Life Regeneration{| #2#}'
     - 
   - Key: ResourceRecovery.Fixed.Life
     Strings:
-    - 
+    - Life Regeneration is [R=2]#1#{| #2#}
     - 
   - Key: ResourceRecovery.Flat.Mana
     Strings:
-    - 
+    - Recover [R=2]#1# Mana per Second{| #2#}
     - 
   - Key: ResourceRecovery.Increased.Mana
     Strings:
-    - 
+    - '#1#% {Increased|Decreased} Mana Regeneration{| #2#}'
     - 
   - Key: ResourceRecovery.Multiplier.Mana
     Strings:
-    - 
+    - '#1#% {More|Less} Mana Regeneration{| #2#}'
     - 
   - Key: ResourceRecovery.Fixed.Mana
     Strings:
-    - 
+    - Mana Regeneration is [R=2]#1#{| #2#}
     - 
   - Key: ResourceRecovery.Flat.Stamina
     Strings:
-    - 
+    - Recover [R=2]#1# Stamina per Second{| #2#}
     - 
   - Key: ResourceRecovery.Increased.Stamina
     Strings:
-    - 
+    - '#1#% {Increased|Decreased} Stamina Recovery{| #2#}'
     - 
   - Key: ResourceRecovery.Multiplier.Stamina
     Strings:
-    - 
+    - '#1#% {More|Less} Stamina Recovery{| #2#}'
     - 
   - Key: ResourceRecovery.Fixed.Stamina
     Strings:
-    - 
+    - Stamina Recovery is [R=2]#1#{| #2#}
     - 
   - Key: ResourceRecovery.Flat.Ammo
     Strings:
-    - 
+    - '{+|-}#1# to Reload Time{| #2#}'
     - 
   - Key: ResourceRecovery.Increased.Ammo
     Strings:
-    - 
+    - '#1#% {Increased|Decreased} Reload Speed{| #2#}'
     - 
   - Key: ResourceRecovery.Multiplier.Ammo
     Strings:
-    - 
+    - '#1#% {More|Less} Reload Speed{| #2#}'
     - 
   - Key: ResourceRecovery.Fixed.Ammo
     Strings:
-    - 
+    - Reload Time is [R=2]#1#{| #2#}
     - 
   - Key: Defence.Flat.Armor
     Strings:
-    - 
+    - '{+|-}#1# to Armor{| #2#}'
     - 
   - Key: Defence.Increased.Armor
     Strings:
-    - 
+    - '#1#% {Increased|Decreased} Armor{| #2#}'
     - 
   - Key: Defence.Multiplier.Armor
     Strings:
-    - 
+    - '#1#% {More|Less} Armor{| #2#}'
     - 
   - Key: Defence.Fixed.Armor
     Strings:
-    - 
+    - Armor is {|-}#1#{| #2#}
     - 
   - Key: Defence.Flat.Evasion
     Strings:
-    - 
+    - '{+|-}#1# to Evasion{| #2#}'
     - 
   - Key: Defence.Increased.Evasion
     Strings:
-    - 
+    - '#1#% {Increased|Decreased} Evasion{| #2#}'
     - 
   - Key: Defence.Multiplier.Evasion
     Strings:
-    - 
+    - '#1#% {More|Less} Evasion{| #2#}'
     - 
   - Key: Defence.Fixed.Evasion
     Strings:
-    - 
+    - Evasion is {|-}#1#{| #2#}
     - 
   - Key: Defence.Flat.Barrier
     Strings:
-    - 
+    - '{+|-}#1# to Barrier{| #2#}'
     - 
   - Key: Defence.Increased.Barrier
     Strings:
-    - 
+    - '#1#% {Increased|Decreased} Barrier{| #2#}'
     - 
   - Key: Defence.Multiplier.Barrier
     Strings:
-    - 
+    - '#1#% {More|Less} Barrier{| #2#}'
     - 
   - Key: Defence.Fixed.Barrier
     Strings:
-    - 
+    - Barrier is {|-}#1#{| #2#}
     - 
   - Key: Defence.Flat.Generic
     Strings:
-    - 
+    - '{+|-}#1# to All Defences{| #2#}'
     - 
   - Key: Defence.Increased.Generic
     Strings:
-    - 
+    - '#1#% {Increased|Decreased} Defences{| #2#}'
     - 
   - Key: Defence.Multiplier.Generic
     Strings:
-    - 
+    - '#1#% {More|Less} Defences{| #2#}'
     - 
   - Key: Defence.Fixed.Generic
     Strings:
-    - 
+    - All Defences are {|-}#1#{| #2#}
     - 
   - Key: Skill.Flat.Repeat
     Strings:
-    - 
+    - '{+|-}#1# Repeats{| #2#}'
     - 
   - Key: Skill.Increased.Repeat
     Strings:
-    - 
+    - '#1#% {Increased|Decreased} Repeats{| #2#}'
     - 
   - Key: Skill.Multiplier.Repeat
     Strings:
-    - 
+    - '#1#% {More|Less} Repeats{| #2#}'
     - 
   - Key: Skill.Fixed.Repeat
     Strings:
-    - 
+    - Number of Skill Repeats is {|-}#1#{| #2#}
     - 
   - Key: Skill.Flat.Targets
     Strings:
-    - 
+    - '{+|-}#1# Additional Targets{| #2#}'
     - 
   - Key: Skill.Increased.Targets
     Strings:
-    - 
+    - '#1#% {Increased|Decreased} Additional Targets{| #2#}'
     - 
   - Key: Skill.Multiplier.Targets
     Strings:
-    - 
+    - '#1#% {More|Less} Additional Targets{| #2#}'
     - 
   - Key: Skill.Fixed.Targets
     Strings:
-    - 
+    - Number of Skill Targets is{|-}#1#{| #2#}
     - 
   - Key: Skill.Flat.Chain
     Strings:
-    - 
+    - '{+|-}#1# Chains{| #2#}'
     - 
   - Key: Skill.Increased.Chain
     Strings:
-    - 
+    - '#1#% {Increased|Decreased} Chains{| #2#}'
     - 
   - Key: Skill.Multiplier.Chain
     Strings:
-    - 
+    - '#1#% {More|Less} Chains{| #2#}'
     - 
   - Key: Skill.Fixed.Chain
     Strings:
-    - 
+    - Number of Skill Chains is {|-}#1#{| #2#}
     - 
   - Key: Skill.Flat.Area
     Strings:
-    - 
+    - '{+|-}#1# Area of Effect{| #2#}'
     - 
   - Key: Skill.Increased.Area
     Strings:
-    - 
+    - '#1#% {Increased|Decreased} Area of Effect{| #2#}'
     - 
   - Key: Skill.Multiplier.Area
     Strings:
-    - 
+    - '#1#% {More|Less} Area of Effect{| #2#}'
     - 
   - Key: Skill.Fixed.Area
     Strings:
-    - 
+    - Area of Effect is {|-}#1#{| #2#}
     - 
   - Key: Projectile.Flat.Count
     Strings:
-    - 
+    - '{+|-}#1# Additional Projectiles{| #2#}'
     - 
   - Key: Projectile.Increased.Count
     Strings:
-    - 
+    - '#1#% {Increased|Decreased} Number of Projectiles{| #2#}'
     - 
   - Key: Projectile.Multiplier.Count
     Strings:
-    - 
+    - '#1#% {More|Less} Number of Projectiles{| #2#}'
     - 
   - Key: Projectile.Fixed.Count
     Strings:
-    - 
+    - Number of Projectiles is {|-}#1#{| #2#}
     - 
   - Key: Projectile.Flat.Speed
     Strings:
-    - 
+    - Projectiles Travel {+|-}#1# Units per Second{| #2#}
     - 
   - Key: Projectile.Increased.Speed
     Strings:
-    - 
+    - '#1#% {Increased|Decreased} Projectile Speed{| #2#}'
     - 
   - Key: Projectile.Multiplier.Speed
     Strings:
-    - 
+    - '#1#% {More|Less} Projectile Speed{| #2#}'
     - 
   - Key: Projectile.Fixed.Speed
     Strings:
-    - 
+    - Projectiles Travel at {|-}#1# Units per Second{| #2#}
     - 
   - Key: Projectile.Flat.Range
     Strings:
-    - 
+    - '{+|-}#1# Projectile Range{| #2#}'
     - 
   - Key: Projectile.Increased.Range
     Strings:
-    - 
+    - '#1#% {Increased|Decreased} Projectile Range{| #2#}'
     - 
   - Key: Projectile.Multiplier.Range
     Strings:
-    - 
+    - '#1#% {More|Less} Projectile Range{| #2#}'
     - 
   - Key: Projectile.Fixed.Range
     Strings:
-    - 
+    - Projectiles Range is {|-}#1#{| #2#}
     - 

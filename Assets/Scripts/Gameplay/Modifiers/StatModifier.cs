@@ -34,7 +34,7 @@ namespace Gameplay.Modifiers
             var loc = new string[_stats.Length];
             for (var i = 0; i < loc.Length; i++)
             {
-                loc[i] = _stats[i].GetDescription(LocalizationManager.GetCondition(_condition));
+                loc[i] = _stats[i].GetDescription(_condition);
 
                 if (i != loc.Length - 1)
                 {
