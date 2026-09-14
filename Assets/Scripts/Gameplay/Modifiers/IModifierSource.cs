@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 namespace Gameplay.Modifiers
 {
     public interface IModifierSource
     {
-        public IEnumerable<Modifier> GetModifiers();
+        public Action<Modifier> AddModifier { get; set; }
+        public Action<Modifier> RemoveModifier { get; set; }
     }
 }

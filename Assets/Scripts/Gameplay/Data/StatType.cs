@@ -120,16 +120,17 @@ namespace Gameplay.Data
         [SerializeField] protected int _subType;
 
         public string BaseName => typeof(BaseType).GetFields()[(int)_baseType + 1].Name;
-
-        public string SubName
+        public string SubName => Enum.GetName(SubTypeAttribute.SubType, _subType);
+        public SubTypeAttribute SubTypeAttribute
         {
             get
             {
                 var field = typeof(BaseType).GetFields()[(int)_baseType + 1];
                 var subType = (SubTypeAttribute)Attribute.GetCustomAttribute(field, typeof(SubTypeAttribute));
-                return Enum.GetName(subType.SubType, _subType);
+                return subType;
             }
         }
+
 
         public virtual bool Equals(StatType other)
         {
@@ -143,9 +144,21 @@ namespace Gameplay.Data
 
         public string GetConditional(StatFactor factor)
         {
-            var field = typeof(BaseType).GetFields()[(int)_baseType + 1];
-            var subType = (SubTypeAttribute)Attribute.GetCustomAttribute(field, typeof(SubTypeAttribute));
-            return subType.GetConditionalKey(factor);
+            return SubTypeAttribute.GetConditionalKey(factor);
+        }
+
+        public void Split(Action<StatType> splitFunction)
+        {
+            var num = _subType;
+            for (var i = 0; num != 0; i++)
+            {
+                if ((num & 1) == 1)
+                {
+                    splitFunction(
+                        new StatType(_baseType, (Enum)Enum.GetValues(SubTypeAttribute.SubType).GetValue(i)));
+                }
+                num >>= 1;
+            }
         }
     }
 }

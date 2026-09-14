@@ -83,15 +83,14 @@ namespace UI.Components
         [SerializeField] private NodeParameters[] _nodeParameters;
 
         private List<SkillNode> _selectedNodes;
-        private List<Modifier> _modifiers;
+        private int _allocatedPoints;
         private int _totalSkillPoints;
 
-        public int Points => _totalSkillPoints - (_modifiers.Count + _selectedNodes.Count);
+        public int Points => _totalSkillPoints - (_allocatedPoints + _selectedNodes.Count);
         
         protected override void MenuAwake()
         {
             _selectedNodes = new List<SkillNode>();
-            _modifiers = new List<Modifier>();
             _applyButton.onClick.AddListener(AllocateNodes);
             _cancelButton.onClick.AddListener(Cancel);
             _closeButton.onClick.AddListener(() =>
@@ -121,7 +120,7 @@ namespace UI.Components
                 return true;
             }
 
-            if (_modifiers.Count + _selectedNodes.Count < _totalSkillPoints)
+            if (_allocatedPoints + _selectedNodes.Count < _totalSkillPoints)
             {
                 _selectedNodes.Add(node);
                 UpdateAvailablePoints();
@@ -144,7 +143,7 @@ namespace UI.Components
         {
             foreach (var node in _selectedNodes)
             {
-                _modifiers.Add(node.Allocate());
+                AddModifier(node.Allocate());
             }
 
             _selectedNodes.Clear();
@@ -209,12 +208,10 @@ namespace UI.Components
         public void AddPoint()
         {
             _totalSkillPoints++;
-            UpdateAvailablePoints(); 
+            UpdateAvailablePoints();
         }
 
-        public IEnumerable<Modifier> GetModifiers()
-        {
-            return _modifiers;
-        }
+        public Action<Modifier> AddModifier { get; set; }
+        public Action<Modifier> RemoveModifier { get; set; }
     }
 }

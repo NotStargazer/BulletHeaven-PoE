@@ -44,6 +44,30 @@ namespace Gameplay.Modifiers
             return baseStat;
         }
         
+        public static float CalculateFlat(Stat[] stats)
+        {
+            var result = new Stat();
+
+            foreach (var stat in stats)
+            {
+                result += stat;
+            }
+
+            return result._flat;
+        }        
+        
+        public static float CalculateMultiplier(Stat[] stats)
+        {
+            var result = new Stat();
+
+            foreach (var stat in stats)
+            {
+                result += stat;
+            }
+
+            return 1 + result._increase * result._multiplier;
+        }
+        
         [SerializeField] private StatType _statType;
 
         [SerializeField] private float _flat;

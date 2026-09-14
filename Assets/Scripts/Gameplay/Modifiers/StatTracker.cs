@@ -24,50 +24,76 @@ namespace Gameplay.Modifiers
             _modifiers = new List<Modifier>();
             _outStats = new List<Stat>();
             
-            Recalculate();
+            foreach (var stat in _baseStats)
+            {
+                stat.Key.Split(splitType =>
+                {
+                    if (!_stats.TryAdd(splitType, new Stat(splitType, stat.Value, 0)))
+                    {
+                        _stats[splitType] += new Stat(splitType, stat.Value, 0);
+                    } 
+                });
+            }
         }
 
         public void AddSource(IModifierSource source)
         {
             _sources.Add(source);
+
+            source.AddModifier += AddModifer;
+            source.RemoveModifier += RemoveModifier;
         }
 
-        public void Recalculate()
+        private void AddModifer(Modifier mod)
         {
-            _stats.Clear();
-            _modifiers.Clear();
-            foreach (var stat in _baseStats)
+            if (mod == null)
             {
-                if (!_stats.TryAdd(stat.Key, new Stat(stat.Key, stat.Value, 0)))
-                {
-                    _stats[stat.Key] += new Stat(stat.Key, stat.Value, 0);
-                } 
+                return;
             }
-            foreach (var source in _sources)
+            
+            if (mod.IsConditional)
             {
-                var mods = source.GetModifiers();
-                foreach (var mod in mods)
+                _modifiers.Add(mod);
+            }
+            else
+            {
+                var stats = mod.Calculate(_entity.I);
+                foreach (var stat in stats)
                 {
-                    if (mod == null)
+                    stat.StatType.Split(splitType =>
                     {
-                        continue;
-                    }
-
-                    if (mod.IsConditional)
-                    {
-                        _modifiers.Add(mod);
-                    }
-                    else
-                    {
-                        var stats = mod.Calculate(_entity.I);
-                        foreach (var stat in stats)
+                        if (!_stats.TryAdd(splitType, stat))
                         {
-                            if (!_stats.TryAdd(stat.StatType, stat))
-                            {
-                                _stats[stat.StatType] += stat;
-                            } 
-                        }
-                    }
+                            _stats[splitType] += stat;
+                        } 
+                    });
+                }
+            }
+        }
+
+        private void RemoveModifier(Modifier mod)
+        {
+            if (mod == null)
+            {
+                return;
+            }
+            
+            if (mod.IsConditional)
+            {
+                _modifiers.Remove(mod);
+            }
+            else
+            {
+                var stats = mod.Calculate(_entity.I);
+                foreach (var stat in stats)
+                {
+                    stat.StatType.Split(splitType =>
+                    {
+                        if (!_stats.ContainsKey(splitType))
+                        {
+                            _stats[splitType] -= stat;
+                        } 
+                    });
                 }
             }
         }
@@ -76,18 +102,23 @@ namespace Gameplay.Modifiers
         {
             foreach (var statType in statTypes)
             {
-                if (_stats.TryGetValue(statType, out var stat))
+                if (statType is null)
                 {
-                    _outStats.Add(stat);
+                    continue;
                 }
-            }
-            
-            foreach (var modifier in _modifiers)
-            {
-                var modStats = modifier.Calculate(_entity.I, skill);
-                foreach (var modStat in modStats)
+                
+                statType.Split(splitType =>
                 {
-                    foreach (var statType in statTypes)
+                    if (_stats.TryGetValue(splitType, out var stat))
+                    {
+                        _outStats.Add(stat);
+                    }
+                });
+                
+                foreach (var modifier in _modifiers)
+                {
+                    var modStats = modifier.Calculate(_entity.I, skill);
+                    foreach (var modStat in modStats)
                     {
                         if (modStat.StatType == statType)
                         {
@@ -105,8 +136,6 @@ namespace Gameplay.Modifiers
 
         public DamageSnapshot CalculateDamage(FlatDamage baseDamage, Skill skill, params StatType[] scalers)
         {
-            Array.Resize(ref scalers, scalers.Length + 1);
-            scalers[^1] = new StatType(BaseType.Damage, baseDamage.DamageType);
             var stats = GetStats(skill, scalers);
             return new DamageSnapshot(Stat.CalculateStats(baseDamage, stats));
         }
@@ -119,6 +148,22 @@ namespace Gameplay.Modifiers
             damage.Lightning = CalculateResistance(damage.Lightning);
 
             return damage;
+        }
+        
+        public SpeedSnapshot GetSkillSpeed(Skill skill, SkillTags skillTags)
+        {
+            var isSpell = (skillTags & SkillTags.Spell) == SkillTags.Spell;
+            var isAttack = (skillTags & SkillTags.Attack) == SkillTags.Attack;
+                          var stats = GetStats(skill, 
+                isSpell ? new StatType(BaseType.Speed, ActionType.Cast) : null,
+                isAttack ? new StatType(BaseType.Speed, ActionType.Attack) : null);
+            return new SpeedSnapshot(stats);
+        }
+
+        public float GetMovementSpeed()
+        {
+            var speed = GetStats(statTypes: new StatType(BaseType.Speed, ActionType.Move));
+            return Stat.CalculateStats(speed);
         }
 
         private float CalculateResistance(FlatDamage flatDamage)

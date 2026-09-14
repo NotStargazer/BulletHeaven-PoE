@@ -41,15 +41,17 @@ namespace Gameplay
     {
         [SerializeField] protected SkillTags _tags;
         [SerializeField] protected CooldownTimer _skillCooldown;
+        
         protected abstract void Construct();
         
         protected abstract void Use(IEntity user, Vector3 aimPosition, Support[] supports);
 
-        public bool TryUse(IEntity entity, Vector3 aimPosition, Support[] supports)
+        public bool TryUse(IEntity user, Vector3 aimPosition, Support[] supports)
         {
-            if (_skillCooldown.Check(Time.time, 1))
+            var speed = user.StatTracker.GetSkillSpeed(this, _tags);
+            if (_skillCooldown.Check(Time.time, speed.SpeedMultiplier, speed.BaseTimeMod))
             {
-                Use(entity, aimPosition, supports);
+                Use(user, aimPosition, supports);
                 return true;
             }
 
@@ -60,10 +62,11 @@ namespace Gameplay
         {
             return (_tags & compare) == compare;
         }
-        
+
         public object GetInstance()
         {
             var skill = MemberwiseClone() as Skill;
+            _skillCooldown.Reset(Time.time);
             skill!.Construct();
             return skill;
         }

@@ -61,7 +61,7 @@ MonoBehaviour:
         _damageScalers: []
     ChainLightning:
       _entry:
-        _tags: 4
+        _tags: 2
         _skillCooldown:
           _baseDuration: 2
         _lightningVFX: {fileID: 7078883702330429524, guid: 44df1781e988b0c4d851533dd099adaa, type: 3}
@@ -77,7 +77,9 @@ MonoBehaviour:
         _baseDamage:
           DamageType: 8
           Damage: 20
-        _damageScalers: []
+        _damageScalers:
+        - _baseType: 0
+          _subType: 8
   Collectables:
     _experience: {fileID: 1380669470238152779, guid: dc348e75cdfdc794cb7252d1c225a686, type: 3}
   TreeModifiers:
