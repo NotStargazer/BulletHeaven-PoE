@@ -8,56 +8,6 @@ using UnityEngine.UI;
 
 namespace UI.Components
 {
-    [Serializable]
-    public record Cluster
-    {
-        [SerializeField] private List<SkillNode> _big;
-        [SerializeField] private List<SkillNode> _small;
-
-        public Cluster(SkillNode bigNode)
-        {
-            _big = new List<SkillNode>();
-            _small = new List<SkillNode>();
-
-            if (bigNode.AddCluster(this))
-            {
-                _big.Add(bigNode);
-                SearchAdjacent(bigNode);
-            }
-        }
-
-        private void SearchAdjacent(SkillNode node)
-        {
-            foreach (var connection in node.AdjacentNodes)
-            {
-                if (connection.NodeType == SkillType.Big)
-                {
-                    if (connection.AddCluster(this))
-                    {
-                        _big.Add(connection);
-                        SearchAdjacent(connection);
-                    }
-                }
-                else if (connection.NodeType == SkillType.Small)
-                {
-                    if (connection.AddCluster(this))
-                    {
-                        _small.Add(connection);
-                        SearchAdjacent(connection);
-                    }
-                }
-            }
-        }
-
-        public int Big => _big.Count;
-        public int Small => _small.Count;
-
-        public override int GetHashCode()
-        {
-            return unchecked(Big * 31 + Small);
-        }
-    }
-
     [SelectionBase]
     public class SkillTree : BaseMenu, IModifierSource
     {
@@ -75,7 +25,6 @@ namespace UI.Components
         [SerializeField] private Button _closeButton;
         [SerializeField] private Button _openButton;
         [SerializeField] private List<SkillNode> _rootNodes;
-        [SerializeField] private List<Cluster> _clusters;
         [SerializeField] private ZoomableScrollRect _scrollView;
         [SerializeField] private RectTransform _connectionTransform;
         [SerializeField] private SkillNode _skillNodePrefab;

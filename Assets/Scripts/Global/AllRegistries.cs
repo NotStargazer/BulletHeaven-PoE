@@ -10,7 +10,6 @@ namespace Global
         {
             Skills.CreateRegistry();
             TreeModifiers.CreateRegistry();
-            Clusters.CreateRegistry();
             Collectables.Initialize();
         }
         public SkillRegistry Skills;
@@ -19,6 +18,5 @@ namespace Global
         public CollectableRegistry Collectables;
 
         public TreeModifierRegistry TreeModifiers;
-        public ClusterRegistry Clusters;
     }
 }

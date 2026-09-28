@@ -15,6 +15,9 @@ namespace Global.Registries
         //Small
         [RegistryFilter("Small")] public RegistryEntry<TreeModifier> ProjectileDamage;
         [RegistryFilter("Small")] public RegistryEntry<TreeModifier> AttackSpeed;
+        
+        //Merge
+        [RegistryFilter("Merge")] public RegistryEntry<TreeModifier> ProjectileDamageAndAttackSpeed;
 
         //Travel
         [RegistryFilter("Travel")] public RegistryEntry<TreeModifier> TravelNode;

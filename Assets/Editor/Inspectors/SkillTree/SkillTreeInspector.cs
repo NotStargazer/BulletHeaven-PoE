@@ -1,4 +1,3 @@
-using System;
 using UI.Elements.Skill_Tree;
 using UnityEditor;
 using UnityEditor.SceneManagement;
@@ -96,6 +95,7 @@ namespace Editor.Inspectors.SkillTree
             GUILayout.Space(10);
             if (_selectedNode)
             {
+                
                 EditorGUILayout.BeginVertical(new GUIStyle("IN ThumbnailShadow"));
                 EditorGUILayout.LabelField("Selected Node", new GUIStyle("LargeBoldLabel"));
                 EditorGUI.BeginChangeCheck();
@@ -105,15 +105,14 @@ namespace Editor.Inspectors.SkillTree
                     Undo.RecordObject(_selectedNode, "Change Node Type");
                     _selectedNode.SetSkillType((SkillType)nodeType);
                 }
-                _selectedNode.Fixed = EditorGUILayout.Toggle("Fixed Node", _selectedNode.Fixed);
-                if (_selectedNode.Fixed)
-                {
-                    var sNode = new SerializedObject(_selectedNode);
-                    EditorGUI.indentLevel = 1;
-                    EditorGUILayout.PropertyField(sNode.FindProperty("_fixedModifier"));
-                    sNode.ApplyModifiedProperties();
-                    EditorGUI.indentLevel = 0;
-                }
+                var sNode = new SerializedObject(_selectedNode);
+                sNode.Update();
+                EditorGUI.indentLevel = 1;
+                var mod = sNode.FindProperty("_modifier");
+                EditorGUILayout.PropertyField(mod.FindPropertyRelative("_stats"));
+                EditorGUILayout.PropertyField(mod.FindPropertyRelative("_condition"));
+                sNode.ApplyModifiedProperties();
+                EditorGUI.indentLevel = 0;
                 GUI.backgroundColor = Color.red;
                 GUILayout.Space(10);
                 if (GUILayout.Button("Remove Connections"))
@@ -295,6 +294,7 @@ namespace Editor.Inspectors.SkillTree
         private void ConnectionWindow(int id)
         {
             var sc = new SerializedObject(_selectedNode.Connections[_selectedConnection.Value]);
+            sc.Update();
             var radius = sc.FindProperty("_radius");
             radius.floatValue = EditorGUILayout.Slider(radius.floatValue, -1, 1);
             sc.ApplyModifiedProperties();

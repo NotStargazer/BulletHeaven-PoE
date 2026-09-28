@@ -2,10 +2,13 @@ using System;
 using System.Linq;
 using AYellowpaper.SerializedCollections;
 using Gameplay.Modifiers;
+using Global;
+using Global.Registries;
 using UI.Components;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Utility.Attributes;
 
 namespace UI.Elements.Skill_Tree
 {
@@ -28,14 +31,13 @@ namespace UI.Elements.Skill_Tree
     {
         private Modifier _modifier;
         [SerializeField] private RectTransform _rectTransform;
-        [SerializeField] private Cluster _cluster;
         [SerializeField] private SkillType _nodeType;
         [SerializeField] private SkillTree _tree;
         [SerializedDictionary("Adjacent Node", "Connection")]
         [SerializeField] private SerializedDictionary<SkillNode, NodeConnection> _connections;
         [SerializeField] private Image _nodeImage;
-        [SerializeField] private bool _fixed;
-        [SerializeField] private StatModifier _fixedModifier;
+        [RegistryDropdown(typeof(TreeModifierRegistry))]
+        [SerializeField] private string _treeModifier;
         public SkillNode[] AdjacentNodes => _connections.Keys.ToArray();
         public NodeConnection[] Connections => _connections.Values.ToArray();
         public SkillType NodeType => _nodeType;
@@ -49,12 +51,21 @@ namespace UI.Elements.Skill_Tree
             set => _tree = value;
         }
 
-        public bool Fixed
+        private void Awake()
         {
-            get => _fixed;
-            set => _fixed = value;
+            _modifier = AllRegistries.Instance.TreeModifiers.GetByID(_treeModifier).CreateInstance();
         }
 
+        private void Update()
+        {
+            if (_state == NodeState.Unlocked)
+            {
+                var col = _nodeImage.color;
+                col.b = _tree.Points > 0 ? 1f : 0f;
+                _nodeImage.color = col;
+            }
+        }
+        
         private void SelectNode()
         {
             if (_state is NodeState.Locked or NodeState.Allocated)
@@ -103,16 +114,6 @@ namespace UI.Elements.Skill_Tree
                 case NodeState.Allocated:
                     _nodeImage.color = new Color(1f, 1f, 0f);
                     break;
-            }
-        }
-
-        private void Update()
-        {
-            if (_state == NodeState.Unlocked)
-            {
-                var col = _nodeImage.color;
-                col.b = _tree.Points > 0 ? 1f : 0f;
-                _nodeImage.color = col;
             }
         }
 
@@ -188,17 +189,6 @@ namespace UI.Elements.Skill_Tree
             }
         }
 
-        public bool AddCluster(Cluster cluster)
-        {
-            if (_cluster != null)
-            {
-                return false;
-            }
-
-            _cluster = cluster;
-            return true;
-        }
-
         public void RemoveConnections()
         {
             var keys = _connections.Keys.ToArray();
@@ -220,6 +210,11 @@ namespace UI.Elements.Skill_Tree
             {
                 _nodeImage = gameObject.AddComponent<Image>();
             }
+        }
+
+        public void SetModifier(Modifier modifier)
+        {
+            
         }
     }
 }

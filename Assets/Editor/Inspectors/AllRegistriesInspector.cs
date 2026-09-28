@@ -1,7 +1,6 @@
 using System;
 using Gameplay.Modifiers;
 using Global;
-using UI.Localization;
 using UnityEditor;
 using UnityEngine;
 
@@ -14,19 +13,18 @@ namespace Editor.Inspectors
         {
             Skills,
             Collectables,
-            TreeModifiers,
-            Clusters,
+            TreeModifiers
         }
 
-        private static Tab CURRENT_TAB;
+        private static Tab _currentTab;
         
-        private const string SkillRegistry = "Skills";
-        private const string TreeModifierRegistry = "TreeModifiers";
-        private const string ClusterRegistry = "Clusters";
-        private const string Entry = "_entry";
+        private const string SKILL_REGISTRY = "Skills";
+        private const string TREE_MODIFIER_REGISTRY = "TreeModifiers";
+        private const string CLUSTER_REGISTRY = "Clusters";
+        private const string ENTRY = "_entry";
 
-        private static Vector2 SCROLL;
-        private static string SEARCH_FIELD;
+        private static Vector2 _scroll;
+        private static string _searchField;
 
         private SerializedProperty _skills;
         private SerializedProperty _treeModifiers;
@@ -35,27 +33,24 @@ namespace Editor.Inspectors
         {
             serializedObject.Update();
             
-            var newTab = (Tab)GUILayout.Toolbar((int)CURRENT_TAB, Enum.GetNames(typeof(Tab)));
-            if (newTab != CURRENT_TAB)
+            var newTab = (Tab)GUILayout.Toolbar((int)_currentTab, Enum.GetNames(typeof(Tab)));
+            if (newTab != _currentTab)
             {
-                SCROLL = Vector2.zero;
-                SEARCH_FIELD = string.Empty;
-                CURRENT_TAB = newTab;
+                _scroll = Vector2.zero;
+                _searchField = string.Empty;
+                _currentTab = newTab;
             }
             
-            switch (CURRENT_TAB)
+            switch (_currentTab)
             {
                 case Tab.Skills:
-                    DrawRegistry(serializedObject.FindProperty(SkillRegistry), "Skills");
+                    DrawRegistry(serializedObject.FindProperty(SKILL_REGISTRY), "Skills");
                     break;
                 case Tab.Collectables:
                     EditorGUILayout.PropertyField(serializedObject.FindProperty("Collectables"));
                     break;
                 case Tab.TreeModifiers:
-                    DrawRegistry(serializedObject.FindProperty(TreeModifierRegistry), "Tree Modifiers");
-                    break;
-                case Tab.Clusters:
-                    DrawClusterRegistry();
+                    DrawRegistry(serializedObject.FindProperty(TREE_MODIFIER_REGISTRY), "Tree Modifiers");
                     break;
             }
             
@@ -65,8 +60,8 @@ namespace Editor.Inspectors
         private void DrawRegistry(SerializedProperty registry, string registryName)
         {
             EditorGUILayout.LabelField(registryName, new GUIStyle("ToolbarBoldLabel"));
-            SEARCH_FIELD = EditorGUILayout.TextField(SEARCH_FIELD, new GUIStyle("ToolbarSearchTextField"));
-            SCROLL = EditorGUILayout.BeginScrollView(SCROLL, new GUIStyle("FrameBox"),
+            _searchField = EditorGUILayout.TextField(_searchField, new GUIStyle("ToolbarSearchTextField"));
+            _scroll = EditorGUILayout.BeginScrollView(_scroll, new GUIStyle("FrameBox"),
                 GUILayout.MinHeight(100), GUILayout.MaxHeight(300), GUILayout.ExpandHeight(true));
             {
                 foreach (var property in registry.GetDirectChildren())
@@ -79,9 +74,9 @@ namespace Editor.Inspectors
 
         private void DrawEntry(SerializedProperty property)
         {
-            var entry = property.FindPropertyRelative(Entry);
+            var entry = property.FindPropertyRelative(ENTRY);
             var fields = entry.GetDirectChildren();
-            if (string.IsNullOrEmpty(SEARCH_FIELD) || property.displayName.ToLower().Contains(SEARCH_FIELD.ToLower()))
+            if (string.IsNullOrEmpty(_searchField) || property.displayName.ToLower().Contains(_searchField.ToLower()))
             {
                 EditorGUILayout.BeginVertical(new GUIStyle("IN ThumbnailShadow")
                 {
@@ -102,11 +97,11 @@ namespace Editor.Inspectors
         
         private void DrawClusterRegistry()
         {
-            var registry = serializedObject.FindProperty(ClusterRegistry);
-            var treeMods = serializedObject.FindProperty(TreeModifierRegistry);
+            var registry = serializedObject.FindProperty(CLUSTER_REGISTRY);
+            var treeMods = serializedObject.FindProperty(TREE_MODIFIER_REGISTRY);
             EditorGUILayout.LabelField("Clusters", new GUIStyle("ToolbarBoldLabel"));
-            SEARCH_FIELD = EditorGUILayout.TextField(SEARCH_FIELD, new GUIStyle("ToolbarSearchTextField"));
-            SCROLL = EditorGUILayout.BeginScrollView(SCROLL, new GUIStyle("FrameBox"),
+            _searchField = EditorGUILayout.TextField(_searchField, new GUIStyle("ToolbarSearchTextField"));
+            _scroll = EditorGUILayout.BeginScrollView(_scroll, new GUIStyle("FrameBox"),
                 GUILayout.MinHeight(100), GUILayout.MaxHeight(300), GUILayout.ExpandHeight(true));
             {
                 foreach (var property in registry.GetDirectChildren())
@@ -119,9 +114,9 @@ namespace Editor.Inspectors
 
         private void DrawClusterEntry(SerializedProperty property, SerializedProperty treeMods)
         {
-            var entry = property.FindPropertyRelative(Entry);
+            var entry = property.FindPropertyRelative(ENTRY);
             var fields = entry.GetDirectChildren();
-            if (string.IsNullOrEmpty(SEARCH_FIELD) || entry.type.ToLower().Contains(SEARCH_FIELD.ToLower()))
+            if (string.IsNullOrEmpty(_searchField) || entry.type.ToLower().Contains(_searchField.ToLower()))
             {
                 EditorGUILayout.BeginVertical(new GUIStyle("IN ThumbnailShadow")
                 {
@@ -140,7 +135,7 @@ namespace Editor.Inspectors
                             {
                                 continue;
                             }
-                            var treeModEntry = treeMods.FindPropertyRelative(treeModName).FindPropertyRelative(Entry);
+                            var treeModEntry = treeMods.FindPropertyRelative(treeModName).FindPropertyRelative(ENTRY);
                             var treeModObj = treeModEntry.boxedValue as TreeModifier;
                             GUI.enabled = false;
                             EditorGUILayout.TextArea(treeModObj.GetDescription());
