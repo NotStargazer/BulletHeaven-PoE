@@ -11,7 +11,7 @@ namespace Editor.PropertyDrawers
     [CustomPropertyDrawer(typeof(RegistryDropdownAttribute))]
     public class RegistryDropdownPropertyDrawer : PropertyDrawer
     {
-        private List<FieldInfo> _filtered = new();
+        private readonly List<FieldInfo> _filtered = new();
         
         public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
         {

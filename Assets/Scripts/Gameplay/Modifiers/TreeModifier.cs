@@ -7,8 +7,9 @@ namespace Gameplay.Modifiers
     [Serializable]
     public class TreeModifier : StatModifier, IRegistrableData
     {
-        [SerializeField] private Texture _treeIcon;
-        
+        [SerializeField] private Sprite _treeIcon;
+        public Sprite TreeIcon => _treeIcon;
+
         public object GetInstance()
         {
             return (TreeModifier)MemberwiseClone();

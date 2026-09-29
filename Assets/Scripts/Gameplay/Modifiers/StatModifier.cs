@@ -1,5 +1,4 @@
 using System;
-using UI.Localization;
 using UnityEngine;
 
 namespace Gameplay.Modifiers

@@ -1,7 +1,17 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using Gameplay.Data;
+using Gameplay.Modifiers;
+using Global;
+using Global.Registries;
 using UI.Elements.Skill_Tree;
+using UI.Localization;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using Utility.Attributes;
 using Object = UnityEngine.Object;
 
 namespace Editor.Inspectors.SkillTree
@@ -9,6 +19,7 @@ namespace Editor.Inspectors.SkillTree
     [CustomEditor(typeof(UI.Components.SkillTree))]
     public class SkillTreeInspector : UnityEditor.Editor
     {
+        private readonly List<FieldInfo> _filtered = new();
         private SkillNode _attachNode;
         private SkillNode _selectedNode;
         private bool _addMode;
@@ -107,12 +118,8 @@ namespace Editor.Inspectors.SkillTree
                 }
                 var sNode = new SerializedObject(_selectedNode);
                 sNode.Update();
-                EditorGUI.indentLevel = 1;
-                var mod = sNode.FindProperty("_modifier");
-                EditorGUILayout.PropertyField(mod.FindPropertyRelative("_stats"));
-                EditorGUILayout.PropertyField(mod.FindPropertyRelative("_condition"));
+                TreeMod(sNode.FindProperty("_treeModifier"), _selectedNode.NodeType.ToString());
                 sNode.ApplyModifiedProperties();
-                EditorGUI.indentLevel = 0;
                 GUI.backgroundColor = Color.red;
                 GUILayout.Space(10);
                 if (GUILayout.Button("Remove Connections"))
@@ -134,6 +141,51 @@ namespace Editor.Inspectors.SkillTree
                     node.Tree = (UI.Components.SkillTree)target;
                     node.SetSkillType(node.NodeType);
                 }
+            }
+        }
+        
+        private void TreeMod(SerializedProperty property, string filter)
+        {
+            var fields = typeof(TreeModifierRegistry).GetFields();
+            
+            if (!string.IsNullOrEmpty(filter))
+            {
+                foreach (var field in fields)
+                {
+                    if (Attribute.GetCustomAttribute(field, typeof(RegistryFilterAttribute)) is RegistryFilterAttribute fieldFilter
+                        && fieldFilter.Filter == filter)
+                    {
+                        _filtered.Add(field);
+                    }
+                }
+
+                fields = _filtered.ToArray();
+                _filtered.Clear();
+            }
+            
+            var fieldNames = fields.Select(field => field.Name).ToList();
+            var popupValue = fieldNames.IndexOf(property.stringValue);
+            popupValue = EditorGUILayout.Popup(property.displayName, popupValue, fieldNames.ToArray());
+            if (popupValue >= 0)
+            {
+                property.stringValue = fieldNames[popupValue];
+            }
+            else
+            {
+                return;
+            }
+
+            var registry =
+                new SerializedObject(
+                    AssetDatabase.LoadAssetAtPath<AllRegistries>("Assets/Prefabs/Startup/Registry.prefab"));
+            var mod = registry.FindProperty("TreeModifiers")
+                .FindPropertyRelative(property.stringValue)
+                .FindPropertyRelative("_entry");
+            if (mod.boxedValue is TreeModifier treeMod)
+            {
+                GUI.enabled = false;
+                EditorGUILayout.TextArea(treeMod.GetDescription());
+                GUI.enabled = true;
             }
         }
         

@@ -54,7 +54,7 @@ namespace Gameplay.Modifiers
             }
 
             return result._flat;
-        }        
+        }
         
         public static float CalculateMultiplier(Stat[] stats)
         {
@@ -66,6 +66,41 @@ namespace Gameplay.Modifiers
             }
 
             return 1 + result._increase * result._multiplier;
+        }
+        
+        public static Stat[] Transform(StatType finalType, params Stat[] scalers)
+        {
+            for (var i = 0; i < scalers.Length; i++)
+            {
+                scalers[i]._statType = finalType;
+            }
+
+            return scalers;
+        }
+        
+        public static Stat[] IsolateFactor(StatFactor factor, params Stat[] scalers)
+        {
+            for (var i = 0; i < scalers.Length; i++)
+            {
+                if (factor != StatFactor.Flat)
+                {
+                    scalers[i]._flat = 0;
+                }
+                if (factor != StatFactor.Increased)
+                {
+                    scalers[i]._increase = 0;
+                }
+                if (factor != StatFactor.Multiplier)
+                {
+                    scalers[i]._multiplier = 0;
+                }
+                if (factor != StatFactor.Fixed)
+                {
+                    scalers[i]._fixedStat = 0;
+                }
+            }
+            
+            return scalers;
         }
         
         [SerializeField] private StatType _statType;
@@ -119,14 +154,14 @@ namespace Gameplay.Modifiers
             }
             if (_increase != 0)
             {
-                returnString[1] = LocalizationManager.LocalizeStat(_statType, StatFactor.Increased, _increase, 
+                returnString[1] = LocalizationManager.LocalizeStat(_statType, StatFactor.Increased, _increase * 100, 
                     conditional == 0 ? string.Empty :
                         LocalizationManager.GetCondition(conditional, _statType.GetConditional(StatFactor.Increased)));
             }
 
             if (_multiplier != 0)
             {
-                returnString[2] = LocalizationManager.LocalizeStat(_statType, StatFactor.Multiplier, _multiplier,
+                returnString[2] = LocalizationManager.LocalizeStat(_statType, StatFactor.Multiplier, _multiplier * 100,
                     conditional == 0 ? string.Empty :
                         LocalizationManager.GetCondition(conditional, _statType.GetConditional(StatFactor.Multiplier)));
             }

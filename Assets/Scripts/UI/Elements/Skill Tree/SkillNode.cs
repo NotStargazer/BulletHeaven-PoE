@@ -29,7 +29,7 @@ namespace UI.Elements.Skill_Tree
     }
     public class SkillNode : MonoBehaviour, IPointerClickHandler
     {
-        private Modifier _modifier;
+        private TreeModifier _modifier;
         [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private SkillType _nodeType;
         [SerializeField] private SkillTree _tree;
@@ -54,6 +54,7 @@ namespace UI.Elements.Skill_Tree
         private void Awake()
         {
             _modifier = AllRegistries.Instance.TreeModifiers.GetByID(_treeModifier).CreateInstance();
+            _nodeImage.sprite = _modifier.TreeIcon;
         }
 
         private void Update()
