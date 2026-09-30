@@ -1,0 +1,155 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 468381dbdc234d1cb143f6074042b47e, type: 3}
+  m_Name: Stat Types
+  m_EditorClassIdentifier: Assembly-CSharp::UI.Localization.LocalizationAsset
+  _entries:
+  - Key: Damage.Physical
+    Strings:
+    - Physical Damage
+    - 
+  - Key: Damage.Fire
+    Strings:
+    - Fire Damage
+    - 
+  - Key: Damage.Cold
+    Strings:
+    - Cold Damage
+    - 
+  - Key: Damage.Lightning
+    Strings:
+    - Lightning Damage
+    - 
+  - Key: Damage.Elemental
+    Strings:
+    - Elemental Damage
+    - 
+  - Key: Damage.Generic
+    Strings:
+    - Damage
+    - 
+  - Key: Resistance.Physical
+    Strings:
+    - Physical Resistance
+    - 
+  - Key: Resistance.Fire
+    Strings:
+    - Physical Resistance
+    - 
+  - Key: Resistance.Cold
+    Strings:
+    - Physical Resistance
+    - 
+  - Key: Resistance.Lightning
+    Strings:
+    - Physical Resistance
+    - 
+  - Key: Resistance.Elemental
+    Strings:
+    - Elemental Resistance
+    - 
+  - Key: Resistance.Generic
+    Strings:
+    - All Resistance
+    - 
+  - Key: Speed.Attack
+    Strings:
+    - Attack Speed
+    - 
+  - Key: Speed.Cast
+    Strings:
+    - Cast Speed
+    - 
+  - Key: Speed.Move
+    Strings:
+    - Movement Speed
+    - 
+  - Key: Speed.Generic
+    Strings:
+    - Action Speed
+    - 
+  - Key: Resource.Life
+    Strings:
+    - Maximum Life
+    - 
+  - Key: Resource.Mana
+    Strings:
+    - Maximum Mana
+    - 
+  - Key: Resource.Stamina
+    Strings:
+    - Maximum Stamina
+    - 
+  - Key: Resource.Ammo
+    Strings:
+    - Maximum Ammo
+    - 
+  - Key: ResourceRecovery.Life
+    Strings:
+    - Life Regeneration
+    - 
+  - Key: ResourceRecovery.Mana
+    Strings:
+    - Mana Regeneration
+    - 
+  - Key: ResourceRecovery.Stamina
+    Strings:
+    - Stamina Recovery
+    - 
+  - Key: ResourceRecovery.Ammo
+    Strings:
+    - Reload Speed
+    - 
+  - Key: Defence.Armor
+    Strings:
+    - Armor
+    - 
+  - Key: Defence.Evasion
+    Strings:
+    - Evasion
+    - 
+  - Key: Defence.Barrier
+    Strings:
+    - Barrier
+    - 
+  - Key: Defence.Generic
+    Strings:
+    - Defences
+    - 
+  - Key: Skill.Repeat
+    Strings:
+    - Skill Repeats
+    - 
+  - Key: Skill.Targets
+    Strings:
+    - Skill Targets
+    - 
+  - Key: Skill.Chain
+    Strings:
+    - Skill Chains
+    - 
+  - Key: Skill.Area
+    Strings:
+    - Area of Effect
+    - 
+  - Key: Projectile.Count
+    Strings:
+    - Number of Projectiles fired
+    - 
+  - Key: Projectile.Speed
+    Strings:
+    - Projectile Speed
+    - 
+  - Key: Projectile.Range
+    Strings:
+    - Projectile Range
+    - 

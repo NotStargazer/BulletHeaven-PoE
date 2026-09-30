@@ -2,6 +2,7 @@ using System;
 using Gameplay.Data;
 using UI.Localization;
 using UnityEngine;
+using Utility.Attributes;
 
 namespace Gameplay.Modifiers
 {
@@ -103,11 +104,48 @@ namespace Gameplay.Modifiers
             return scalers;
         }
         
+        public static Stat[] Scale(float multiplier, params Stat[] scalers)
+        {
+            for (var i = 0; i < scalers.Length; i++)
+            {
+                scalers[i]._flat *= multiplier;
+                scalers[i]._increase *= multiplier;
+                scalers[i]._multiplier *= multiplier;
+                scalers[i]._fixedStat *= multiplier;
+            }
+
+            return scalers;
+        }
+        
+        public static Stat[] Scale(float multiplier, StatFactor factor, params Stat[] scalers)
+        {
+            for (var i = 0; i < scalers.Length; i++)
+            {
+                switch (factor)
+                {
+                    case StatFactor.Flat:
+                        scalers[i]._flat *= multiplier;
+                        break;
+                    case StatFactor.Increased:
+                        scalers[i]._increase *= multiplier;
+                        break;
+                    case StatFactor.Multiplier:
+                        scalers[i]._multiplier *= multiplier;
+                        break;
+                    case StatFactor.Fixed:
+                        scalers[i]._fixedStat *= multiplier;
+                        break;
+                }
+            }
+
+            return scalers;
+        }
+        
         [SerializeField] private StatType _statType;
 
         [SerializeField] private float _flat;
-        [SerializeField] private float _increase;
-        [SerializeField] private float _multiplier;
+        [Percentage] [SerializeField] private float _increase;
+        [Percentage] [SerializeField] private float _multiplier;
         [SerializeField] private bool _fixed;
         [SerializeField] private float _fixedStat;
 
@@ -139,31 +177,27 @@ namespace Gameplay.Modifiers
         {
             if (_fixed)
             {
-                return LocalizationManager.LocalizeStat(_statType, StatFactor.Fixed, _fixedStat, 
-                    conditional == 0 ? string.Empty :
-                    LocalizationManager.GetCondition(conditional, _statType.GetConditional(StatFactor.Fixed)));
+                return LocalizationManager.LocalizeStat(_statType, StatFactor.Fixed, _fixedStat,
+                    conditional);
             }
             
             var returnString = new string[3];
             
             if (_flat != 0)
             {
-                returnString[0] = LocalizationManager.LocalizeStat(_statType, StatFactor.Flat, _flat, 
-                    conditional == 0 ? string.Empty :
-                        LocalizationManager.GetCondition(conditional, _statType.GetConditional(StatFactor.Flat)));
+                returnString[0] = LocalizationManager.LocalizeStat(_statType, StatFactor.Flat, _flat,
+                    conditional);
             }
             if (_increase != 0)
             {
                 returnString[1] = LocalizationManager.LocalizeStat(_statType, StatFactor.Increased, _increase * 100, 
-                    conditional == 0 ? string.Empty :
-                        LocalizationManager.GetCondition(conditional, _statType.GetConditional(StatFactor.Increased)));
+                    conditional);
             }
 
             if (_multiplier != 0)
             {
                 returnString[2] = LocalizationManager.LocalizeStat(_statType, StatFactor.Multiplier, _multiplier * 100,
-                    conditional == 0 ? string.Empty :
-                        LocalizationManager.GetCondition(conditional, _statType.GetConditional(StatFactor.Multiplier)));
+                    conditional);
             }
 
             for (var index = 0; index < returnString.Length; index++)

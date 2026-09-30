@@ -146,7 +146,7 @@ namespace Editor.Inspectors.SkillTree
         
         private void TreeMod(SerializedProperty property, string filter)
         {
-            var fields = typeof(TreeModifierRegistry).GetFields();
+            var fields = typeof(SkillTreeModifierRegistry).GetFields();
             
             if (!string.IsNullOrEmpty(filter))
             {
@@ -178,10 +178,10 @@ namespace Editor.Inspectors.SkillTree
             var registry =
                 new SerializedObject(
                     AssetDatabase.LoadAssetAtPath<AllRegistries>("Assets/Prefabs/Startup/Registry.prefab"));
-            var mod = registry.FindProperty("TreeModifiers")
+            var mod = registry.FindProperty("SkillTreeModifiers")
                 .FindPropertyRelative(property.stringValue)
                 .FindPropertyRelative("_entry");
-            if (mod.boxedValue is TreeModifier treeMod)
+            if (mod.boxedValue is Modifier treeMod)
             {
                 GUI.enabled = false;
                 EditorGUILayout.TextArea(treeMod.GetDescription());

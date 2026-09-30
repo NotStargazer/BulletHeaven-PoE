@@ -2,11 +2,12 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Gameplay;
 using Gameplay.Data;
 using Gameplay.Modifiers;
-using UnityEditor;
 using UnityEngine;
+using Utility.Attributes;
 
 namespace UI.Localization
 {
@@ -38,67 +39,50 @@ namespace UI.Localization
             }
         }
         
-        private readonly string _key;
-        private string _final;
-        private int _variable;
+        private string _locString;
+        public bool IsEmpty => string.IsNullOrEmpty(_locString);
         
-        public LocalizationBuilder(string key, string s)
+        public LocalizationBuilder(string s)
         {
-            _key = key;
-            _final = s;
-            _variable = 1;
+            _locString = s;
         }
 
-        public LocalizationBuilder SetConditional(bool selectOther)
+        public LocalizationBuilder SetConditional(string identifier, bool selectOther)
         {
-            var first = _final.IndexOf('{');
-            var split = _final.IndexOf('|');
-            var last = _final.IndexOf('}');
-            var conditional = _final.Substring(first, last - first + 1);
-
-            if (first == -1 || split == -1 || last == -1)
+            _locString = Regex.Replace(_locString, "\\{\\\"" + identifier + "\\\".*?\\|.*?\\}", match =>
             {
-                throw new LocalizationException($"{_key} has invalid formatter syntax.");
-            }
-
-            var selected = selectOther
-                ? _final.Substring(split + 1, last - split - 1)
-                : _final.Substring(first + 1, split - first - 1);
-            _final = _final.Replace(conditional, selected);
+                var val = match.Value.Replace($"\"{identifier}\"", "");
+                var split = val.Split('|');
+                return selectOther
+                    ? split[1].TrimEnd('}')
+                    : split[0].TrimStart('{');
+            });
 
             return this;
         }
 
-        public LocalizationBuilder ReplaceVariable(float variable)
+        public LocalizationBuilder ReplaceVariable(string identifier, float variable)
         {
-            var v = $"#{_variable}#";
-            _variable++;
-            
-            if (!_final.Contains(v))
-            {
-                throw new LocalizationException($"Could not find variable {v} in {_key}");
-            }
-
-            _final = _final.Replace(v, FormatSingle(variable));
-
+            var v = $"#{identifier}#";
+            _locString = _locString.Replace(v, FormatSingle(variable));
             return this;
         }
 
         private string FormatSingle(float variable)
         {
-            var endIndex = _final.IndexOf('#') - 1;
-            if (endIndex > 0 && _final[endIndex - 1] == ']')
+            var endIndex = _locString.IndexOf('#') - 1;
+            if (endIndex > 0 && _locString[endIndex - 1] == ']')
             {
                 var startIndex = endIndex - 1;
                 for (; startIndex > 0; startIndex--)
                 {
-                    if (_final[startIndex] == '[')
+                    if (_locString[startIndex] == '[')
                     {
                         break;
                     }
                 }
 
-                var formatter = _final.Remove(startIndex, endIndex);
+                var formatter = _locString.Remove(startIndex, endIndex);
                 var split = formatter.Trim('[', ']').Split('=');
                 return LocalizationFormatter.Format(split[0], int.Parse(split[1]), Mathf.Abs(variable));
             }
@@ -106,34 +90,30 @@ namespace UI.Localization
             return variable.ToString("F0");
         }
         
-        public LocalizationBuilder ReplaceVariable(object variable)
+        public LocalizationBuilder ReplaceVariable(string identifier, object variable)
         {
-            var v = $"#{_variable}#";
-            _variable++;
-            
-            if (!_final.Contains(v))
-            {
-                throw new LocalizationException($"Could not find variable {v} in {_key}");
-            }
+            var v = $"#{identifier}#";
 
-            _final = _final.Replace(v, variable.ToString());
+            _locString = _locString.Replace(v, variable.ToString());
 
             return this;
         }
         
         public string Build()
         {
-            return _final;
+            return _locString;
         }
     }
     
     public static class LocalizationManager
     {
+        // ReSharper disable InconsistentNaming
         public enum LocalizationKey
         {
             en_US,
             sv_SE,
         }
+        // ReSharper restore InconsistentNaming
         
         
         public static string[] LanguageKeys => Enum.GetNames(typeof(LocalizationKey));
@@ -141,58 +121,76 @@ namespace UI.Localization
 #if UNITY_EDITOR
         public static void ValidateLocalizationFile(HashSet<string> keys, string file)
         {
-            var assets = AssetDatabase.FindAssets("t:LocalizationAsset", new[] { "Assets/Localization" });
+            var assets = UnityEditor.AssetDatabase.FindAssets("t:LocalizationAsset", new[] { "Assets/Localization" });
             foreach (var guid in assets)
             {
-                var path = AssetDatabase.GUIDToAssetPath(guid);
+                var path = UnityEditor.AssetDatabase.GUIDToAssetPath(guid);
                 var name = Path.GetFileNameWithoutExtension(path);
                 if (name == file)
                 {
-                    AssetDatabase.LoadAssetAtPath<LocalizationAsset>(path).Validate(keys);
-                    AssetDatabase.SaveAssets();
+                    UnityEditor.AssetDatabase.LoadAssetAtPath<LocalizationAsset>(path).Validate(keys);
+                    UnityEditor.AssetDatabase.SaveAssets();
                     return;
                 }
             }
 
             var so = ScriptableObject.CreateInstance<LocalizationAsset>();
             so.name = file;
-            AssetDatabase.CreateAsset(so, $"Assets/Localization/{file}.asset");
+            UnityEditor.AssetDatabase.CreateAsset(so, $"Assets/Localization/{file}.asset");
             so.Validate(keys);
-            AssetDatabase.SaveAssetIfDirty(so);
+            UnityEditor.AssetDatabase.SaveAssetIfDirty(so);
         }
 
         public static string GetEditorLocalization(string assetName, string[] keys)
         {
             return keys.Aggregate(string.Empty,
                 (current, key) => current + $"{GetEditorLocalization(assetName, key)}\n").TrimEnd();
-            
         }
         
-        public static LocalizationBuilder GetEditorLocalization(string assetName, string key)
+        public static LocalizationBuilder GetEditorLocalization(string assetName, string key, string fallbackKey = null)
         {
-            return new LocalizationBuilder(key,
-                AssetDatabase.LoadAssetAtPath<LocalizationAsset>($"Assets/Localization/{assetName}.asset").Get(key));
+            var result = UnityEditor.AssetDatabase.LoadAssetAtPath<LocalizationAsset>
+                    ($"Assets/Localization/{assetName}.asset").Get(key);
+            return new LocalizationBuilder(result);
         }
 #endif
-        public static string LocalizeStat(StatType statType, StatFactor statFactor, float value, string conditional)
+        public static string LocalizeStat(StatType statType, StatFactor statFactor, float value, SkillTags conditional)
         {
+            var specificSkill = statType.GetConditional(statFactor) == ConditionalType.Flat;
+            var condition = conditional == 0
+                ? string.Empty
+                : GetCondition(conditional, statType.GetConditionalKey(statFactor));
+            
             value = Mathf.Abs(value);
-            var key = $"{statType.BaseName}.{statFactor}.{statType.SubName}";
+            var statTypeKey = $"{statType.BaseName}.{statType.SubName}";
+            var statModKey = $"{statType.BaseName}.{statFactor}.{statType.SubName}";
+            var statModKeyFallback = $"Generic.{statFactor}";
 #if UNITY_EDITOR
-            var loc = GetEditorLocalization("Stats", key);
+            var statMod = GetEditorLocalization("Stat Modifier Overrides", statModKey);
+            if (statMod.IsEmpty)
+            {
+                statMod = GetEditorLocalization("Stat Modifiers", statModKeyFallback);
+            }
+            var statTypeLoc = GetEditorLocalization("Stat Types", statTypeKey);
 #else
-            var loc = Localization.GetLocalization(key);
+            var statMod = Localization.GetLocalization(statModKey, statModKeyFallback);
+            var statTypeLoc = Localization.GetLocalization(statTypeKey);
 #endif
 
             var negative = Mathf.Sign(value) < 0;
-            var hasCondition = !string.IsNullOrEmpty(conditional);
-            
-            return loc
-                .SetConditional(negative)
-                .ReplaceVariable(value)
-                .ReplaceVariable(conditional)
-                .SetConditional(hasCondition)
-                .Build();
+            var hasCondition = conditional > 0;
+
+            statMod = statMod.SetConditional("Sign", negative)
+                .ReplaceVariable("StatType", statTypeLoc.Build())
+                .ReplaceVariable("Value", value)
+                .SetConditional("Conditional", hasCondition && !specificSkill)
+                .SetConditional("Specific", hasCondition && specificSkill)
+                .SetConditional("Plural", value > 1);
+            if (hasCondition)
+            {
+                statMod = statMod.ReplaceVariable(specificSkill ? "SkillType" : "Condition", condition);
+            }
+            return statMod.Build();
         }
 
         public static string GetCondition(SkillTags condition, string type)
@@ -207,10 +205,5 @@ namespace UI.Localization
 
             return loc.Build();
         }
-    }
-
-    public class LocalizationException : Exception
-    {
-        public LocalizationException(string message) : base(message) { }
     }
 }

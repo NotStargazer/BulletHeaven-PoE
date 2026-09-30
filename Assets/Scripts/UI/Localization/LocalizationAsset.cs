@@ -87,7 +87,8 @@ namespace UI.Localization
 
         public string Get(string key)
         {
-            return _entries.Find(p => p.Equals(key)).Strings[(int)LocalizationManager.LocalizationKey.en_US];
+            var entry = _entries.Find(p => p.Equals(key));
+            return entry.Strings?[(int)LocalizationManager.LocalizationKey.en_US];
         }
 
         public void AppendStrings(Dictionary<string, string[]> stringList)

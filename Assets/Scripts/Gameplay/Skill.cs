@@ -2,6 +2,7 @@ using System;
 using Global;
 using UI.Localization;
 using UnityEngine;
+using Utility.Attributes;
 
 namespace Gameplay
 {
@@ -16,8 +17,10 @@ namespace Gameplay
             {
                 foreach (SkillTags baseType in Enum.GetValues(typeof(SkillTags)))
                 {
-                    LocalizationKeyGenerator.AddKey($"Condition.Direct.{baseType}");
-                    LocalizationKeyGenerator.AddKey($"Condition.With.{baseType}");
+                    foreach (ConditionalType conditionalType in Enum.GetValues(typeof(ConditionalType)))
+                    {
+                        LocalizationKeyGenerator.AddKey($"Condition.{conditionalType}.{baseType}");
+                    }
                 }
             }
             LocalizationKeyGenerator.CloseEntry();

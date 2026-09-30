@@ -29,14 +29,14 @@ namespace UI.Elements.Skill_Tree
     }
     public class SkillNode : MonoBehaviour, IPointerClickHandler
     {
-        private TreeModifier _modifier;
+        private Modifier _modifier;
         [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private SkillType _nodeType;
         [SerializeField] private SkillTree _tree;
         [SerializedDictionary("Adjacent Node", "Connection")]
         [SerializeField] private SerializedDictionary<SkillNode, NodeConnection> _connections;
         [SerializeField] private Image _nodeImage;
-        [RegistryDropdown(typeof(TreeModifierRegistry))]
+        [RegistryDropdown(typeof(SkillTreeModifierRegistry))]
         [SerializeField] private string _treeModifier;
         public SkillNode[] AdjacentNodes => _connections.Keys.ToArray();
         public NodeConnection[] Connections => _connections.Values.ToArray();
@@ -53,8 +53,8 @@ namespace UI.Elements.Skill_Tree
 
         private void Awake()
         {
-            _modifier = AllRegistries.Instance.TreeModifiers.GetByID(_treeModifier).CreateInstance();
-            _nodeImage.sprite = _modifier.TreeIcon;
+            _modifier = AllRegistries.Instance.SkillTreeModifiers.GetByID(_treeModifier).CreateInstance();
+            _nodeImage.sprite = _modifier.Icon;
         }
 
         private void Update()

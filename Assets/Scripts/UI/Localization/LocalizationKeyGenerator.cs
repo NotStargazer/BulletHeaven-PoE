@@ -31,29 +31,29 @@ namespace UI.Localization
             }
         }
         
-        private static KeyLocker CURRENT_LOCKER;
+        private static KeyLocker _currentLocker;
         
         public static void OpenEntry(string key)
         {
-            if (CURRENT_LOCKER != null)
+            if (_currentLocker != null)
             {
                 throw new Exception("Cannot open a new entry while creating another.");
             }
 
-            CURRENT_LOCKER = new KeyLocker(key);
+            _currentLocker = new KeyLocker(key);
         }
 
-        public static void AddKey(string key) => CURRENT_LOCKER.AddKey(key);
+        public static void AddKey(string key) => _currentLocker.AddKey(key);
 
         public static void CloseEntry()
         {
-            if (CURRENT_LOCKER == null)
+            if (_currentLocker == null)
             {
                 throw new Exception("Cannot close entry, no entry is currently open.");
             }
             
-            CURRENT_LOCKER.Close();
-            CURRENT_LOCKER = null;
+            _currentLocker.Close();
+            _currentLocker = null;
         }
     }
     #endif

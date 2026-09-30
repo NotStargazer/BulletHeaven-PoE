@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UI.Localization;
 using UnityEditor;
@@ -13,8 +12,8 @@ namespace Editor.Inspectors
     {
         private record LocHierarchy
         {
-            private static string FORMATTERS = LocalizationBuilder.FormatterCharacters;
-            private Dictionary<string, LocHierarchy> _children;
+            private static readonly string FORMATTERS = LocalizationBuilder.FormatterCharacters;
+            private readonly Dictionary<string, LocHierarchy> _children;
             private SerializedProperty _property;
             private string _label;
 
@@ -79,17 +78,17 @@ namespace Editor.Inspectors
                         var result = Regex.Replace(_property.stringValue, $"\\[[{FORMATTERS}]=.*?\\]\\#", match =>
                         {
                             value.Formatters++;
-                            return $"<color=#D8F02F>{match.Value.TrimEnd('#')}</color>#";
+                            return $"<color=orange>{match.Value.TrimEnd('#')}</color>#";
                         });
-                        result = Regex.Replace(result, "#\\d#", match =>
+                        result = Regex.Replace(result, "\\#.+?\\#", match =>
                         {
                             value.Variables++;
-                            return $"<color=#55ff55>{match.Value}</color>";
+                            return $"<color=lime>{match.Value}</color>";
                         });
-                        result = Regex.Replace(result, "\\{.*?\\|.*?\\}", match =>
+                        result = Regex.Replace(result, "\\{\\\".+?\\\".*?\\|.*?\\}", match =>
                         {
                             value.Conditionals++;
-                            return $"<color=#7777ff>{match.Value}</color>";
+                            return $"<color=cyan>{match.Value}</color>";
                         });
                         value.Text = result;
                         if (!values.TryAdd(_property.propertyPath, value))
@@ -100,33 +99,14 @@ namespace Editor.Inspectors
                     
                     if (values.TryGetValue(_property.propertyPath, out var formattedValue))
                     {
-                        var error = 0;
-                        for (var i = 1; i < formattedValue.Variables + 1; i++)
-                        {
-                            if (!_property.stringValue.Contains($"#{i}#"))
-                            {
-                                error = i;
-                                break;
-                            }
-                        }
-
-                        if (error != 0)
-                        {
-                            formattedValue.Text = formattedValue.Text.Replace("#55ff55", "#ff0000");
-                        }
-
                         controlRect.width -= 2;
                         EditorGUI.LabelField(controlRect, formattedValue.Text, new GUIStyle("CN Message")
                         {
                             clipping = TextClipping.Overflow
                         });
-                        EditorGUILayout.LabelField($"<color=#55ff55>{formattedValue.Variables}</color> Variables " +
-                                                   $"| <color=#7777ff>{formattedValue.Conditionals}</color> Conditionals " +
-                                                   $"| <color=#D8F02F>{formattedValue.Formatters}</color> Formatters", new GUIStyle("CN Message"));
-                        if (error != 0)
-                        {
-                            EditorGUILayout.LabelField($"<color=#ff0000>Variables must be in ascending order starting from 1\nmissing #{error}#", new GUIStyle("CN Message"));
-                        }
+                        EditorGUILayout.LabelField($"<color=lime>{formattedValue.Variables}</color> Variables " +
+                                                   $"| <color=yellow>{formattedValue.Conditionals}</color> Conditionals " +
+                                                   $"| <color=orange>{formattedValue.Formatters}</color> Formatters", new GUIStyle("CN Message"));
                     }
                 }
 

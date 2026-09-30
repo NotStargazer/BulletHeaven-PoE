@@ -13,7 +13,7 @@ namespace Gameplay.Data
     {
         static StatLocalization()
         {
-            LocalizationKeyGenerator.OpenEntry("Stats");
+            LocalizationKeyGenerator.OpenEntry("Stat Types");
             {
                 foreach (BaseType baseType in Enum.GetValues(typeof(BaseType)))
                 {
@@ -28,10 +28,41 @@ namespace Gameplay.Data
                     var subTypeNames = Enum.GetNames(subType.SubType);
                     foreach (var subTypeName in subTypeNames)
                     {
-                        LocalizationKeyGenerator.AddKey($"{baseTypeName}.Flat.{subTypeName}");
-                        LocalizationKeyGenerator.AddKey($"{baseTypeName}.Increased.{subTypeName}");
-                        LocalizationKeyGenerator.AddKey($"{baseTypeName}.Multiplier.{subTypeName}");
-                        LocalizationKeyGenerator.AddKey($"{baseTypeName}.Fixed.{subTypeName}");
+                        LocalizationKeyGenerator.AddKey($"{baseTypeName}.{subTypeName}");
+                    }
+                }
+            }
+            LocalizationKeyGenerator.CloseEntry();
+            
+            LocalizationKeyGenerator.OpenEntry("Stat Modifiers");
+            {
+                foreach (StatFactor factor in Enum.GetValues(typeof(StatFactor)))
+                {
+                    LocalizationKeyGenerator.AddKey($"Generic.{factor}");
+                }
+            }
+            LocalizationKeyGenerator.CloseEntry();
+            
+            
+            LocalizationKeyGenerator.OpenEntry("Stat Modifier Overrides");
+            {
+                foreach (BaseType baseType in Enum.GetValues(typeof(BaseType)))
+                {
+                    var baseTypeName = baseType.ToString();
+                    var field = typeof(BaseType).GetField(baseTypeName);
+                    if (Attribute.GetCustomAttribute(field, typeof(SubTypeAttribute)) 
+                        is not SubTypeAttribute subType)
+                    {
+                        Debug.LogWarning(baseType + " has no SubType Attribute.");
+                        continue;
+                    }
+                    var subTypeNames = Enum.GetNames(subType.SubType);
+                    foreach (var subTypeName in subTypeNames)
+                    {
+                        foreach (StatFactor factor in Enum.GetValues(typeof(StatFactor)))
+                        {
+                            LocalizationKeyGenerator.AddKey($"{baseTypeName}.{factor}.{subTypeName}");
+                        }
                     }
                 }
             }
@@ -49,7 +80,7 @@ namespace Gameplay.Data
         [SubType(typeof(ResourceType))] ResourceRecovery,
         [SubType(typeof(DefenceType))] Defence,
         [SubType(typeof(SkillStat))] Skill,
-        [SubType(typeof(ProjectileStat))] Projectile,
+        [SubType(typeof(ProjectileStat), flatStat: ConditionalType.Flat)] Projectile,
     }
 
     [Flags]
@@ -142,9 +173,14 @@ namespace Gameplay.Data
             return unchecked((int)_baseType * 31 + _subType);
         }
 
-        public string GetConditional(StatFactor factor)
+        public string GetConditionalKey(StatFactor factor)
         {
             return SubTypeAttribute.GetConditionalKey(factor);
+        }
+        
+        public ConditionalType GetConditional(StatFactor factor)
+        {
+            return SubTypeAttribute.GetConditional(factor);
         }
 
         public void Split(Action<StatType> splitFunction)

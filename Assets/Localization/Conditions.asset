@@ -61,3 +61,27 @@ MonoBehaviour:
     Strings:
     - with Minion Skills
     - 
+  - Key: Condition.Flat.Attack
+    Strings:
+    - Attacks
+    - 
+  - Key: Condition.Flat.Spell
+    Strings:
+    - Spells
+    - 
+  - Key: Condition.Flat.Melee
+    Strings:
+    - Melee Skills
+    - 
+  - Key: Condition.Flat.Projectile
+    Strings:
+    - Projectile Skills
+    - 
+  - Key: Condition.Flat.Area
+    Strings:
+    - Area Skills
+    - 
+  - Key: Condition.Flat.Minion
+    Strings:
+    - Minion Skills
+    - 

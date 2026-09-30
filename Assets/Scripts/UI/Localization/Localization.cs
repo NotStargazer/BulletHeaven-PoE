@@ -30,9 +30,22 @@ namespace UI.Localization
             }
         }
 
-        public static LocalizationBuilder GetLocalization(string key)
+        public static LocalizationBuilder GetLocalization(string key, string fallbackKey = null)
         {
-            return new LocalizationBuilder(key, Instance._stringList[key][(int)Instance._currentLang]);
+            var result = string.Empty;
+            if (Instance._stringList.ContainsKey(key))
+            {
+                result = Instance._stringList[key][(int)Instance._currentLang];
+                if (string.IsNullOrEmpty(result) && !string.IsNullOrEmpty(fallbackKey))
+                {
+                    result = Instance._stringList[fallbackKey][(int)Instance._currentLang];
+                }
+            }
+            else if (!string.IsNullOrEmpty(fallbackKey))
+            {
+                result = Instance._stringList[fallbackKey][(int)Instance._currentLang];
+            }
+            return new LocalizationBuilder(result);
         }
 #endif
     }

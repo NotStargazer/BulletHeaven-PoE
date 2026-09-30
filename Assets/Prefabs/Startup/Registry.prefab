@@ -82,14 +82,10 @@ MonoBehaviour:
           _subType: 8
   Collectables:
     _experience: {fileID: 1380669470238152779, guid: dc348e75cdfdc794cb7252d1c225a686, type: 3}
-  TreeModifiers:
-    BigProjectileSpeedDamageScale:
-      _entry:
-        _stats: []
-        _condition: 8
-        _treeIcon: {fileID: 0}
+  SkillTreeModifiers:
     BigAdditionalProjectiles:
       _entry:
+        _icon: {fileID: 0}
         _stats:
         - _statType:
             _baseType: 7
@@ -100,75 +96,174 @@ MonoBehaviour:
           _fixed: 0
           _fixedStat: 0
         _condition: 0
-        _treeIcon: {fileID: 0}
-    BigMovementSpeedEvasionScale:
+    BigProjectileSpeedDamageScale:
       _entry:
-        _stats: []
+        _icon: {fileID: 0}
+        _scalers:
+        - _baseType: 7
+          _subType: 2
+        _finalType:
+          _baseType: 0
+          _subType: 15
+        _multiplier: 1
+        _condition: 8
+        _factor: 1
+    BigMovementSpeedAndEvasion:
+      _entry:
+        _icon: {fileID: 0}
+        _stats:
+        - _statType:
+            _baseType: 2
+            _subType: 4
+          _flat: 0
+          _increase: 0.1
+          _multiplier: 0
+          _fixed: 0
+          _fixedStat: 0
+        - _statType:
+            _baseType: 0
+            _subType: 0
+          _flat: 0
+          _increase: 0.5
+          _multiplier: 0
+          _fixed: 0
+          _fixedStat: 0
         _condition: 0
-        _treeIcon: {fileID: 0}
     ProjectileDamage:
       _entry:
+        _icon: {fileID: 0}
         _stats:
         - _statType:
             _baseType: 0
             _subType: 15
           _flat: 0
-          _increase: 10
+          _increase: 0.1
           _multiplier: 0
           _fixed: 0
           _fixedStat: 0
         _condition: 8
-        _treeIcon: {fileID: 0}
     ProjectileSpeed:
       _entry:
-        _stats: []
-        _condition: 0
-        _treeIcon: {fileID: 0}
-    ProjectileRange:
-      _entry:
-        _stats: []
-        _condition: 0
-        _treeIcon: {fileID: 0}
-    AttackSpeed:
-      _entry:
+        _icon: {fileID: 0}
         _stats:
         - _statType:
-            _baseType: 2
-            _subType: 1
+            _baseType: 7
+            _subType: 2
           _flat: 0
-          _increase: 5
+          _increase: 0.1
           _multiplier: 0
           _fixed: 0
           _fixedStat: 0
         _condition: 0
-        _treeIcon: {fileID: 0}
+    ProjectileRange:
+      _entry:
+        _icon: {fileID: 0}
+        _stats:
+        - _statType:
+            _baseType: 7
+            _subType: 4
+          _flat: 0
+          _increase: 0.2
+          _multiplier: 0
+          _fixed: 0
+          _fixedStat: 0
+        _condition: 0
+    AttackSpeed:
+      _entry:
+        _icon: {fileID: 0}
+        _stats: []
+        _condition: 0
     Evasion:
       _entry:
-        _stats: []
+        _icon: {fileID: 0}
+        _stats:
+        - _statType:
+            _baseType: 5
+            _subType: 2
+          _flat: 50
+          _increase: 0
+          _multiplier: 0
+          _fixed: 0
+          _fixedStat: 0
         _condition: 0
-        _treeIcon: {fileID: 0}
     MovementSpeed:
       _entry:
-        _stats: []
+        _icon: {fileID: 0}
+        _stats:
+        - _statType:
+            _baseType: 2
+            _subType: 4
+          _flat: 0
+          _increase: 0.05
+          _multiplier: 0
+          _fixed: 0
+          _fixedStat: 0
         _condition: 0
-        _treeIcon: {fileID: 0}
     ProjectileDamageAndAttackSpeed:
       _entry:
-        _stats: []
-        _condition: 0
-        _treeIcon: {fileID: 0}
+        _icon: {fileID: 0}
+        _stats:
+        - _statType:
+            _baseType: 0
+            _subType: 15
+          _flat: 0
+          _increase: 0.05
+          _multiplier: 0
+          _fixed: 0
+          _fixedStat: 0
+        - _statType:
+            _baseType: 2
+            _subType: 1
+          _flat: 0
+          _increase: 0.05
+          _multiplier: 0
+          _fixed: 0
+          _fixedStat: 0
+        _condition: 8
     ProjectileSpeedAndRange:
       _entry:
-        _stats: []
+        _icon: {fileID: 0}
+        _stats:
+        - _statType:
+            _baseType: 7
+            _subType: 2
+          _flat: 0
+          _increase: 0.05
+          _multiplier: 0
+          _fixed: 0
+          _fixedStat: 0
+        - _statType:
+            _baseType: 7
+            _subType: 4
+          _flat: 0
+          _increase: 0.1
+          _multiplier: 0
+          _fixed: 0
+          _fixedStat: 0
         _condition: 0
-        _treeIcon: {fileID: 0}
     EvasionAndMovementSpeed:
       _entry:
-        _stats: []
+        _icon: {fileID: 0}
+        _stats:
+        - _statType:
+            _baseType: 2
+            _subType: 4
+          _flat: 0
+          _increase: 3
+          _multiplier: 0
+          _fixed: 0
+          _fixedStat: 0
+        - _statType:
+            _baseType: 5
+            _subType: 2
+          _flat: 0
+          _increase: 0.1
+          _multiplier: 0
+          _fixed: 0
+          _fixedStat: 0
         _condition: 0
-        _treeIcon: {fileID: 0}
     DamageNode:
       _entry:
+        _icon: {fileID: 0}
         _stats: []
         _condition: 0
-        _treeIcon: {fileID: 0}

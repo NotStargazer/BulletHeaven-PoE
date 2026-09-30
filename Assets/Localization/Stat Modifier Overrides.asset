@@ -1,0 +1,579 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 468381dbdc234d1cb143f6074042b47e, type: 3}
+  m_Name: Stat Modifier Overrides
+  m_EditorClassIdentifier: Assembly-CSharp::UI.Localization.LocalizationAsset
+  _entries:
+  - Key: Damage.Flat.Physical
+    Strings:
+    - Adds {"Sign"|-}#Value# Physical Damage{"Conditional"| #Condition#}
+    - 
+  - Key: Damage.Increased.Physical
+    Strings:
+    - 
+    - 
+  - Key: Damage.Multiplier.Physical
+    Strings:
+    - 
+    - 
+  - Key: Damage.Fixed.Physical
+    Strings:
+    - 
+    - 
+  - Key: Damage.Flat.Fire
+    Strings:
+    - Adds {"Sign"|-}#Value# Fire Damage{"Conditional"| #Condition#}
+    - 
+  - Key: Damage.Increased.Fire
+    Strings:
+    - 
+    - 
+  - Key: Damage.Multiplier.Fire
+    Strings:
+    - 
+    - 
+  - Key: Damage.Fixed.Fire
+    Strings:
+    - 
+    - 
+  - Key: Damage.Flat.Cold
+    Strings:
+    - Adds {"Sign"|-}#Value# Cold Damage{"Conditional"| #Condition#}
+    - 
+  - Key: Damage.Increased.Cold
+    Strings:
+    - 
+    - 
+  - Key: Damage.Multiplier.Cold
+    Strings:
+    - 
+    - 
+  - Key: Damage.Fixed.Cold
+    Strings:
+    - 
+    - 
+  - Key: Damage.Flat.Lightning
+    Strings:
+    - Adds {"Sign"|-}#Value# Lightning Damage{"Conditional"| #Condition#}
+    - 
+  - Key: Damage.Increased.Lightning
+    Strings:
+    - 
+    - 
+  - Key: Damage.Multiplier.Lightning
+    Strings:
+    - 
+    - 
+  - Key: Damage.Fixed.Lightning
+    Strings:
+    - 
+    - 
+  - Key: Damage.Flat.Elemental
+    Strings:
+    - Adds {"Sign"|-}#Value# of All Elemental Damage{"Conditional"| #Condition#}
+    - 
+  - Key: Damage.Increased.Elemental
+    Strings:
+    - 
+    - 
+  - Key: Damage.Multiplier.Elemental
+    Strings:
+    - 
+    - 
+  - Key: Damage.Fixed.Elemental
+    Strings:
+    - 
+    - 
+  - Key: Damage.Flat.Generic
+    Strings:
+    - Adds {"Sign"|-}#Value# of All Damage types{"Conditional"| #Condition#}
+    - 
+  - Key: Damage.Increased.Generic
+    Strings:
+    - 
+    - 
+  - Key: Damage.Multiplier.Generic
+    Strings:
+    - 
+    - 
+  - Key: Damage.Fixed.Generic
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Flat.Physical
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Increased.Physical
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Multiplier.Physical
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Fixed.Physical
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Flat.Fire
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Increased.Fire
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Multiplier.Fire
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Fixed.Fire
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Flat.Cold
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Increased.Cold
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Multiplier.Cold
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Fixed.Cold
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Flat.Lightning
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Increased.Lightning
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Multiplier.Lightning
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Fixed.Lightning
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Flat.Elemental
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Increased.Elemental
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Multiplier.Elemental
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Fixed.Elemental
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Flat.Generic
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Increased.Generic
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Multiplier.Generic
+    Strings:
+    - 
+    - 
+  - Key: Resistance.Fixed.Generic
+    Strings:
+    - 
+    - 
+  - Key: Speed.Flat.Attack
+    Strings:
+    - '{"Sign"+|-}#Value# Seconds to Attack Time{"Conditional"| #Condition#}'
+    - 
+  - Key: Speed.Increased.Attack
+    Strings:
+    - 
+    - 
+  - Key: Speed.Multiplier.Attack
+    Strings:
+    - 
+    - 
+  - Key: Speed.Fixed.Attack
+    Strings:
+    - Attack Time is {"Sign"|-}#Value#{"Conditional"| #Condition#}
+    - 
+  - Key: Speed.Flat.Cast
+    Strings:
+    - '{"Sign"+|-}#Value# Seconds to Cast Time{"Conditional"| #Condition#}'
+    - 
+  - Key: Speed.Increased.Cast
+    Strings:
+    - 
+    - 
+  - Key: Speed.Multiplier.Cast
+    Strings:
+    - 
+    - 
+  - Key: Speed.Fixed.Cast
+    Strings:
+    - Cast Time is {|-}#Value#{"Conditional"| #Condition#}
+    - 
+  - Key: Speed.Flat.Move
+    Strings:
+    - '{"Sign"+|-}#Value# Movement units per second{"Conditional"| #Condition#}'
+    - 
+  - Key: Speed.Increased.Move
+    Strings:
+    - 
+    - 
+  - Key: Speed.Multiplier.Move
+    Strings:
+    - 
+    - 
+  - Key: Speed.Fixed.Move
+    Strings:
+    - Movement is {|-}#Value# units per second{"Conditional"| #Condition#}
+    - 
+  - Key: Speed.Flat.Generic
+    Strings:
+    - '{"Sign"+|-}#Value# Base Action Speed{"Conditional"| #Condition#}'
+    - 
+  - Key: Speed.Increased.Generic
+    Strings:
+    - 
+    - 
+  - Key: Speed.Multiplier.Generic
+    Strings:
+    - 
+    - 
+  - Key: Speed.Fixed.Generic
+    Strings:
+    - Actions per second is {|-}#Value#{"Conditional"| #Condition#}
+    - 
+  - Key: Resource.Flat.Life
+    Strings:
+    - 
+    - 
+  - Key: Resource.Increased.Life
+    Strings:
+    - 
+    - 
+  - Key: Resource.Multiplier.Life
+    Strings:
+    - 
+    - 
+  - Key: Resource.Fixed.Life
+    Strings:
+    - 
+    - 
+  - Key: Resource.Flat.Mana
+    Strings:
+    - 
+    - 
+  - Key: Resource.Increased.Mana
+    Strings:
+    - 
+    - 
+  - Key: Resource.Multiplier.Mana
+    Strings:
+    - 
+    - 
+  - Key: Resource.Fixed.Mana
+    Strings:
+    - 
+    - 
+  - Key: Resource.Flat.Stamina
+    Strings:
+    - 
+    - 
+  - Key: Resource.Increased.Stamina
+    Strings:
+    - 
+    - 
+  - Key: Resource.Multiplier.Stamina
+    Strings:
+    - 
+    - 
+  - Key: Resource.Fixed.Stamina
+    Strings:
+    - 
+    - 
+  - Key: Resource.Flat.Ammo
+    Strings:
+    - 
+    - 
+  - Key: Resource.Increased.Ammo
+    Strings:
+    - 
+    - 
+  - Key: Resource.Multiplier.Ammo
+    Strings:
+    - 
+    - 
+  - Key: Resource.Fixed.Ammo
+    Strings:
+    - 
+    - 
+  - Key: ResourceRecovery.Flat.Life
+    Strings:
+    - '{"Sign"Recover|Lose} [R=2]#Value# Life per Second{"Conditional"| #Condition#}'
+    - 
+  - Key: ResourceRecovery.Increased.Life
+    Strings:
+    - 
+    - 
+  - Key: ResourceRecovery.Multiplier.Life
+    Strings:
+    - 
+    - 
+  - Key: ResourceRecovery.Fixed.Life
+    Strings:
+    - Life Regeneration is {"Sign"|-}[R=2]#Value#{"Conditional"| #Condition#}
+    - 
+  - Key: ResourceRecovery.Flat.Mana
+    Strings:
+    - '{"Sign"Recover|Lose} [R=2]#Value# Mana per Second{"Conditional"| #Condition#}'
+    - 
+  - Key: ResourceRecovery.Increased.Mana
+    Strings:
+    - 
+    - 
+  - Key: ResourceRecovery.Multiplier.Mana
+    Strings:
+    - 
+    - 
+  - Key: ResourceRecovery.Fixed.Mana
+    Strings:
+    - Mana Regeneration is {"Sign"|-}[R=2]#Value#{"Conditional"| #Condition#}
+    - 
+  - Key: ResourceRecovery.Flat.Stamina
+    Strings:
+    - '{"Sign"Recover|Lose} [R=2]#Value# Stamina per Second{"Conditional"| #Condition#}'
+    - 
+  - Key: ResourceRecovery.Increased.Stamina
+    Strings:
+    - 
+    - 
+  - Key: ResourceRecovery.Multiplier.Stamina
+    Strings:
+    - 
+    - 
+  - Key: ResourceRecovery.Fixed.Stamina
+    Strings:
+    - Stamina Recovery is {"Sign"|-}[R=2]#Value#{"Conditional"| #Condition#}
+    - 
+  - Key: ResourceRecovery.Flat.Ammo
+    Strings:
+    - '{"Sign"+|-}[R=2]#Value# to Reload Time{"Conditional"| #Condition#}'
+    - 
+  - Key: ResourceRecovery.Increased.Ammo
+    Strings:
+    - 
+    - 
+  - Key: ResourceRecovery.Multiplier.Ammo
+    Strings:
+    - 
+    - 
+  - Key: ResourceRecovery.Fixed.Ammo
+    Strings:
+    - Reload Time is {"Sign"|-}[R=2]#Value#{"Conditional"| #Condition#}
+    - 
+  - Key: Defence.Flat.Armor
+    Strings:
+    - 
+    - 
+  - Key: Defence.Increased.Armor
+    Strings:
+    - 
+    - 
+  - Key: Defence.Multiplier.Armor
+    Strings:
+    - 
+    - 
+  - Key: Defence.Fixed.Armor
+    Strings:
+    - 
+    - 
+  - Key: Defence.Flat.Evasion
+    Strings:
+    - 
+    - 
+  - Key: Defence.Increased.Evasion
+    Strings:
+    - 
+    - 
+  - Key: Defence.Multiplier.Evasion
+    Strings:
+    - 
+    - 
+  - Key: Defence.Fixed.Evasion
+    Strings:
+    - 
+    - 
+  - Key: Defence.Flat.Barrier
+    Strings:
+    - 
+    - 
+  - Key: Defence.Increased.Barrier
+    Strings:
+    - 
+    - 
+  - Key: Defence.Multiplier.Barrier
+    Strings:
+    - 
+    - 
+  - Key: Defence.Fixed.Barrier
+    Strings:
+    - 
+    - 
+  - Key: Defence.Flat.Generic
+    Strings:
+    - '{"Sign"+|-}#Value# to All Defences{"Conditional"| #Condition#}'
+    - 
+  - Key: Defence.Increased.Generic
+    Strings:
+    - 
+    - 
+  - Key: Defence.Multiplier.Generic
+    Strings:
+    - 
+    - 
+  - Key: Defence.Fixed.Generic
+    Strings:
+    - All Defences are {"Sign"|-}#Value#{"Conditional"| #Condition#}
+    - 
+  - Key: Skill.Flat.Repeat
+    Strings:
+    - '{"Specific"Skills|#SkillType#} Repeat #Value# {"Sign"Additional|Less} time{"Plural"|s}{"Conditional"|
+      #Condition#}'
+    - 
+  - Key: Skill.Increased.Repeat
+    Strings:
+    - 
+    - 
+  - Key: Skill.Multiplier.Repeat
+    Strings:
+    - 
+    - 
+  - Key: Skill.Fixed.Repeat
+    Strings:
+    - 
+    - 
+  - Key: Skill.Flat.Targets
+    Strings:
+    - '{"Specific"Skills|#SkillType#} Target #Value# {"Sign"Additional|Less} target{"Plural"|s}{"Conditional"|
+      #Condition#}'
+    - 
+  - Key: Skill.Increased.Targets
+    Strings:
+    - 
+    - 
+  - Key: Skill.Multiplier.Targets
+    Strings:
+    - 
+    - 
+  - Key: Skill.Fixed.Targets
+    Strings:
+    - 
+    - 
+  - Key: Skill.Flat.Chain
+    Strings:
+    - '{"Specific"Skills|#SkillType#} Chain #Value# {"Sign"Additional|Less} target{"Plural"|s}{"Conditional"|
+      #Condition#}'
+    - 
+  - Key: Skill.Increased.Chain
+    Strings:
+    - 
+    - 
+  - Key: Skill.Multiplier.Chain
+    Strings:
+    - 
+    - 
+  - Key: Skill.Fixed.Chain
+    Strings:
+    - 
+    - 
+  - Key: Skill.Flat.Area
+    Strings:
+    - '{"Sign"+|-}#Value# to Area of Effect Radius{"Conditional"| #Condition#}'
+    - 
+  - Key: Skill.Increased.Area
+    Strings:
+    - 
+    - 
+  - Key: Skill.Multiplier.Area
+    Strings:
+    - 
+    - 
+  - Key: Skill.Fixed.Area
+    Strings:
+    - 
+    - 
+  - Key: Projectile.Flat.Count
+    Strings:
+    - '{"Specific"Projectile Skills|#SkillType#} fire #Value# {"Sign"Additional|Less}
+      Projectile{"Plural"|s}{"Conditional"| #Condition#}'
+    - 
+  - Key: Projectile.Increased.Count
+    Strings:
+    - 
+    - 
+  - Key: Projectile.Multiplier.Count
+    Strings:
+    - 
+    - 
+  - Key: Projectile.Fixed.Count
+    Strings:
+    - 
+    - 
+  - Key: Projectile.Flat.Speed
+    Strings:
+    - Projectiles Travel {"Sign"+|-}#Value# Units per Second{"Conditional"| #Condition#}
+    - 
+  - Key: Projectile.Increased.Speed
+    Strings:
+    - 
+    - 
+  - Key: Projectile.Multiplier.Speed
+    Strings:
+    - 
+    - 
+  - Key: Projectile.Fixed.Speed
+    Strings:
+    - Projectiles Travel at {"Sign"|-}#Value# Units per Second{"Conditional"|  #Condition#}
+    - 
+  - Key: Projectile.Flat.Range
+    Strings:
+    - 
+    - 
+  - Key: Projectile.Increased.Range
+    Strings:
+    - 
+    - 
+  - Key: Projectile.Multiplier.Range
+    Strings:
+    - 
+    - 
+  - Key: Projectile.Fixed.Range
+    Strings:
+    - 
+    - 

@@ -9,7 +9,7 @@ namespace Global
         public override void Instantiate()
         {
             Skills.CreateRegistry();
-            TreeModifiers.CreateRegistry();
+            SkillTreeModifiers.CreateRegistry();
             Collectables.Initialize();
         }
         public SkillRegistry Skills;
@@ -17,6 +17,6 @@ namespace Global
         
         public CollectableRegistry Collectables;
 
-        public TreeModifierRegistry TreeModifiers;
+        public SkillTreeModifierRegistry SkillTreeModifiers;
     }
 }

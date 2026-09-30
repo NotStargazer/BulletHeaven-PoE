@@ -8,6 +8,7 @@ namespace Utility.Attributes
         Direct,
         With,
         While,
+        Flat,
     }
     
     [AttributeUsage(AttributeTargets.Field)]
@@ -41,6 +42,17 @@ namespace Utility.Attributes
                 StatFactor.Increased => _increasedStat.ToString(),
                 StatFactor.Multiplier => _multiplierStat.ToString(),
                 _ => "With"
+            };
+        }
+        public ConditionalType GetConditional(StatFactor statFactor)
+        {
+            return statFactor switch
+            {
+                StatFactor.Fixed => _fixedStat,
+                StatFactor.Flat => _flatStat,
+                StatFactor.Increased => _increasedStat,
+                StatFactor.Multiplier => _multiplierStat,
+                _ => ConditionalType.With
             };
         }
     }
