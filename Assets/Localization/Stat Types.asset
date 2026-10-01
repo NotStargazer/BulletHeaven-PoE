@@ -153,3 +153,7 @@ MonoBehaviour:
     Strings:
     - Projectile Range
     - 
+  - Key: Speed.Skill
+    Strings:
+    - Skill Speed
+    - 

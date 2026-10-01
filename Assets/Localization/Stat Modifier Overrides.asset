@@ -577,3 +577,19 @@ MonoBehaviour:
     Strings:
     - 
     - 
+  - Key: Speed.Flat.Skill
+    Strings:
+    - '{"Sign"+|-}#Value# Seconds to Skill Use Time{"Conditional"| #Condition#}'
+    - 
+  - Key: Speed.Increased.Skill
+    Strings:
+    - 
+    - 
+  - Key: Speed.Multiplier.Skill
+    Strings:
+    - 
+    - 
+  - Key: Speed.Fixed.Skill
+    Strings:
+    - Skill Use Time is {"Sign"|-}#Value#{"Conditional"| #Condition#}
+    - 

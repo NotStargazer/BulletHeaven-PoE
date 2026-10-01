@@ -42,6 +42,22 @@ namespace Gameplay
     [Serializable]
     public abstract class Skill : IRegistrableData
     {
+        protected struct Target : IComparable<Target>
+        {
+            public Target(IEntity entity, float distance)
+            {
+                Entity = entity;
+                _distance = distance;
+            }
+            
+            public IEntity Entity;
+            private readonly float _distance;
+            public int CompareTo(Target other)
+            {
+                return _distance > other._distance ? 1 : -1;
+            }
+        }
+        
         [SerializeField] protected SkillTags _tags;
         [SerializeField] protected CooldownTimer _skillCooldown;
         

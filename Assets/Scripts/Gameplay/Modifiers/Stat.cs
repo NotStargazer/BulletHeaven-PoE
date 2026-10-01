@@ -23,6 +23,11 @@ namespace Gameplay.Modifiers
             baseDamage.Damage = CalculateStats(baseDamage.Damage, stats);
             return baseDamage;
         }
+
+        public static int CalculateStats(int baseStat, params Stat[] stats)
+        {
+            return Mathf.FloorToInt(CalculateStats((float)baseStat, stats));
+        }
         public static float CalculateStats(float baseStat, params Stat[] stats)
         {
             var result = new Stat();

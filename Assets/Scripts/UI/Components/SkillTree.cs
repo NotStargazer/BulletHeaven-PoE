@@ -92,6 +92,7 @@ namespace UI.Components
         {
             foreach (var node in _selectedNodes)
             {
+                _totalSkillPoints--;
                 AddModifier(node.Allocate());
             }
 

@@ -43,7 +43,7 @@ namespace Visuals.VisualEffects
             {
                 _renderer.GetPropertyBlock(properties);
             }
-            _duration = data.Duration * _durationMultiplier;
+            _duration = data.Duration * (data.HasTarget ? _durationMultiplier : _durationMultiplier / 2);
             _animation = data.HasTarget ? _animationTarget : _animationNoTarget;
             properties.SetInteger(SEED, Random.Range(-255, 256));
             var middle = (data.Source + data.Target) / 2;

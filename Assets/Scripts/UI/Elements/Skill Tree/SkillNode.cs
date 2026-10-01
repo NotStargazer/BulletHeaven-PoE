@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using System.Reflection;
 using AYellowpaper.SerializedCollections;
 using Gameplay.Modifiers;
 using Global;
@@ -53,6 +54,10 @@ namespace UI.Elements.Skill_Tree
 
         private void Awake()
         {
+            if (string.IsNullOrEmpty(_treeModifier))
+            {
+                return;
+            }
             _modifier = AllRegistries.Instance.SkillTreeModifiers.GetByID(_treeModifier).CreateInstance();
             _nodeImage.sprite = _modifier.Icon;
         }
@@ -211,11 +216,20 @@ namespace UI.Elements.Skill_Tree
             {
                 _nodeImage = gameObject.AddComponent<Image>();
             }
-        }
 
-        public void SetModifier(Modifier modifier)
-        {
-            
+#if UNITY_EDITOR
+            if (string.IsNullOrEmpty(_treeModifier))
+            {
+                return;
+            }
+            var registry = UnityEditor.AssetDatabase.LoadAssetAtPath<AllRegistries>("Assets/Prefabs/Startup/Registry.prefab");
+            var field = registry.SkillTreeModifiers.GetType().GetField(_treeModifier);
+            if (field != null && field.GetValue(registry.SkillTreeModifiers) is RegistryEntry mod)
+            {
+               var instance = mod.Get<Modifier>().CreateInstance();
+               _nodeImage.sprite = instance.Icon;
+            }
+#endif
         }
     }
 }

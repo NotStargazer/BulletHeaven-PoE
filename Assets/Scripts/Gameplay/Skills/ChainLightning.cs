@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Gameplay.Data;
+using Gameplay.Modifiers;
 using Gameplay.Projectiles;
 using UnityEngine;
 using Utility;
@@ -22,53 +24,75 @@ namespace Gameplay.Skills
         [SerializeField] private FlatDamage _baseDamage;
         [SerializeField] private StatType[] _damageScalers;
         private InstancePool<VisualEffect<LightningBoltData>> _vfxPool;
+        private Collider[] _colliders;
+        private List<Target> _targets;
         
         protected override void Construct()
         {
             _vfxPool = new InstancePool<VisualEffect<LightningBoltData>>(_lightningVFX, 10, 5, 30);
+            _colliders = new Collider[_maximumTargets];
+            _targets = new List<Target>(_maximumTargets);
         }
 
         protected override void Use(IEntity user, Vector3 aimPosition, Support[] supports)
         {
-            var colliders = new Collider[_maximumTargets];
-            Physics.OverlapSphereNonAlloc(aimPosition, _autoAimRadius, colliders, (int)DefinedLayers.Targetable);
-            var distanceFromCursor = Mathf.Infinity;
-            IEntity targetEntity = null;
-            foreach (var collider in colliders)
+            var numTargets = Stat.CalculateStats(1,
+                user.StatTracker.GetStats(this, new StatType(BaseType.Skill, SkillStat.Targets)));
+            var numChains = Stat.CalculateStats(_chains,
+                user.StatTracker.GetStats(this, new StatType(BaseType.Skill, SkillStat.Chain)));
+            
+            Array.Clear(_colliders, 0, _colliders.Length);
+            Physics.OverlapSphereNonAlloc(aimPosition, _autoAimRadius, _colliders, (int)DefinedLayers.Targetable);
+            _targets.Clear();
+            foreach (var collider in _colliders)
             {
                 if (!collider)
                 {
                     break;
                 }
-                var hitDistance = Vector3.Distance(collider.transform.position, aimPosition);
-                if (hitDistance < distanceFromCursor)
+
+                if (!collider.transform.TryGetComponent(out IEntity e))
                 {
-                    collider.transform.TryGetComponent(out targetEntity);
-                    distanceFromCursor = hitDistance;
+                    continue;
                 }
+
+                var hitDistance = Vector3.Distance(collider.transform.position, aimPosition);
+                _targets.Add(new Target(e, hitDistance));
             }
 
-            var targetPosition = targetEntity == null ? aimPosition : targetEntity.Transform.position;
-            var distanceToTarget = Vector3.Distance(user.SkillManager.SkillSpawnPosition, targetPosition);
-            
-            var duration = distanceToTarget / _velocity;
-            _vfxPool.Rent().Play(new LightningBoltData
+            var targets = _targets.OrderBy(x => x).Take(numTargets);
+            if (targets.Count() == 0)
             {
-                Duration = duration,
-                Source = user.SkillManager.SkillSpawnPosition,
-                Target = targetPosition,
-                HasTarget = targetEntity != null,
-            });
-            
-            if (targetEntity == null)
-            {
-                return;
+                var distanceToTarget = Vector3.Distance(user.SkillManager.SkillSpawnPosition, aimPosition);
+                var duration = distanceToTarget / _velocity;
+                _vfxPool.Rent().Play(new LightningBoltData
+                {
+                    Duration = duration,
+                    Source = user.SkillManager.SkillSpawnPosition,
+                    Target = aimPosition,
+                    HasTarget = false,
+                });
             }
+            
+            foreach(var target in targets)
+            {
+                var targetPosition = target.Entity.Transform.position;
+                var distanceToTarget = Vector3.Distance(user.SkillManager.SkillSpawnPosition, targetPosition);
 
-            var chain = EventManager.CreateChain();
-            chain.AddEvent(duration,
-                EventManager.ExecutionOrder.AfterDuration,
-                () => Chain(user, targetEntity, chain, _chains, new HashSet<IEntity>{targetEntity}));
+                var duration = distanceToTarget / _velocity;
+                _vfxPool.Rent().Play(new LightningBoltData
+                {
+                    Duration = duration,
+                    Source = user.SkillManager.SkillSpawnPosition,
+                    Target = targetPosition,
+                    HasTarget = true,
+                });
+
+                var chain = EventManager.CreateChain();
+                chain.AddEvent(duration,
+                    EventManager.ExecutionOrder.AfterDuration,
+                    () => Chain(user, target.Entity, chain, numChains, new HashSet<IEntity> { target.Entity }));
+            }
         }
 
         private void Chain(IEntity user, IEntity target, EventManager.EventChain chain, int chains, HashSet<IEntity> hitTargets)
@@ -83,11 +107,11 @@ namespace Gameplay.Skills
                 return;
             }
             
-            var colliders = new Collider[_maximumTargets];
-            Physics.OverlapSphereNonAlloc(targetPosition, _chainRadius, colliders, (int)DefinedLayers.Targetable);
+            Array.Clear(_colliders, 0, _colliders.Length);
+            Physics.OverlapSphereNonAlloc(targetPosition, _chainRadius, _colliders, (int)DefinedLayers.Targetable);
             var distanceFromNext = Mathf.Infinity;
             IEntity nextTarget = null;
-            foreach (var collider in colliders)
+            foreach (var collider in _colliders)
             {
                 if (!collider)
                 {

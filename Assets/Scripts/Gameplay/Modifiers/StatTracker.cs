@@ -118,6 +118,10 @@ namespace Gameplay.Modifiers
                 foreach (var modifier in _modifiers)
                 {
                     var modStats = modifier.Calculate(_entity.I, skill);
+                    if (modStats == null)
+                    {
+                        continue;
+                    }
                     foreach (var modStat in modStats)
                     {
                         if (modStat.StatType == statType)

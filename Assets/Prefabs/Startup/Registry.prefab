@@ -85,7 +85,7 @@ MonoBehaviour:
   SkillTreeModifiers:
     BigAdditionalProjectiles:
       _entry:
-        _icon: {fileID: 0}
+        _icon: {fileID: 21300000, guid: 44904e2c75e1bba478b8c3074a467062, type: 3}
         _stats:
         - _statType:
             _baseType: 7
@@ -98,7 +98,7 @@ MonoBehaviour:
         _condition: 0
     BigProjectileSpeedDamageScale:
       _entry:
-        _icon: {fileID: 0}
+        _icon: {fileID: 21300000, guid: 703a6018d8ae69e49ba06ae52461a0a4, type: 3}
         _scalers:
         - _baseType: 7
           _subType: 2
@@ -110,19 +110,19 @@ MonoBehaviour:
         _factor: 1
     BigMovementSpeedAndEvasion:
       _entry:
-        _icon: {fileID: 0}
+        _icon: {fileID: 21300000, guid: 68a59adfe8c404242b7ff39a6af3de4c, type: 3}
         _stats:
         - _statType:
             _baseType: 2
             _subType: 4
           _flat: 0
-          _increase: 0.1
+          _increase: 0.3
           _multiplier: 0
           _fixed: 0
           _fixedStat: 0
         - _statType:
-            _baseType: 0
-            _subType: 0
+            _baseType: 5
+            _subType: 2
           _flat: 0
           _increase: 0.5
           _multiplier: 0
@@ -131,7 +131,7 @@ MonoBehaviour:
         _condition: 0
     ProjectileDamage:
       _entry:
-        _icon: {fileID: 0}
+        _icon: {fileID: 21300000, guid: 093450c9b1425e945bc1592d76920c2c, type: 3}
         _stats:
         - _statType:
             _baseType: 0
@@ -144,7 +144,7 @@ MonoBehaviour:
         _condition: 8
     ProjectileSpeed:
       _entry:
-        _icon: {fileID: 0}
+        _icon: {fileID: 21300000, guid: 4baea4042776aa2489208ea62b8e9e00, type: 3}
         _stats:
         - _statType:
             _baseType: 7
@@ -157,7 +157,7 @@ MonoBehaviour:
         _condition: 0
     ProjectileRange:
       _entry:
-        _icon: {fileID: 0}
+        _icon: {fileID: 21300000, guid: 6ef0125024143fb45b913f0de0ac6c89, type: 3}
         _stats:
         - _statType:
             _baseType: 7
@@ -170,12 +170,20 @@ MonoBehaviour:
         _condition: 0
     AttackSpeed:
       _entry:
-        _icon: {fileID: 0}
-        _stats: []
+        _icon: {fileID: 21300000, guid: 126a9d7d663a9d54a833d4e4b12abed3, type: 3}
+        _stats:
+        - _statType:
+            _baseType: 2
+            _subType: 1
+          _flat: 0
+          _increase: 0.1
+          _multiplier: 0
+          _fixed: 0
+          _fixedStat: 0
         _condition: 0
     Evasion:
       _entry:
-        _icon: {fileID: 0}
+        _icon: {fileID: 21300000, guid: 32f1bf47105584d46ad3b93c1250f7ef, type: 3}
         _stats:
         - _statType:
             _baseType: 5
@@ -188,20 +196,20 @@ MonoBehaviour:
         _condition: 0
     MovementSpeed:
       _entry:
-        _icon: {fileID: 0}
+        _icon: {fileID: 21300000, guid: 37bfaa776b49cbe468f0e783d2fcb188, type: 3}
         _stats:
         - _statType:
             _baseType: 2
             _subType: 4
           _flat: 0
-          _increase: 0.05
+          _increase: 0.15
           _multiplier: 0
           _fixed: 0
           _fixedStat: 0
         _condition: 0
     ProjectileDamageAndAttackSpeed:
       _entry:
-        _icon: {fileID: 0}
+        _icon: {fileID: 21300000, guid: 3b5ac1bb7ce72a74daaaa8d6839d6217, type: 3}
         _stats:
         - _statType:
             _baseType: 0
@@ -222,7 +230,7 @@ MonoBehaviour:
         _condition: 8
     ProjectileSpeedAndRange:
       _entry:
-        _icon: {fileID: 0}
+        _icon: {fileID: 21300000, guid: 47ac0e91bdf709545badc6306314c026, type: 3}
         _stats:
         - _statType:
             _baseType: 7
@@ -243,13 +251,13 @@ MonoBehaviour:
         _condition: 0
     EvasionAndMovementSpeed:
       _entry:
-        _icon: {fileID: 0}
+        _icon: {fileID: 21300000, guid: 68a59adfe8c404242b7ff39a6af3de4c, type: 3}
         _stats:
         - _statType:
             _baseType: 2
             _subType: 4
           _flat: 0
-          _increase: 3
+          _increase: 0.05
           _multiplier: 0
           _fixed: 0
           _fixedStat: 0
@@ -264,6 +272,40 @@ MonoBehaviour:
         _condition: 0
     DamageNode:
       _entry:
-        _icon: {fileID: 0}
-        _stats: []
+        _icon: {fileID: 21300000, guid: 8c500f22563ee3449bb21cd137b8a368, type: 3}
+        _stats:
+        - _statType:
+            _baseType: 0
+            _subType: 15
+          _flat: 0
+          _increase: 0.1
+          _multiplier: 0
+          _fixed: 0
+          _fixedStat: 0
+        _condition: 0
+    LifeNode:
+      _entry:
+        _icon: {fileID: 21300000, guid: 1069b90fd28e2084c8b52f7ebcc92f85, type: 3}
+        _stats:
+        - _statType:
+            _baseType: 3
+            _subType: 1
+          _flat: 20
+          _increase: 0
+          _multiplier: 0
+          _fixed: 0
+          _fixedStat: 0
+        _condition: 0
+    SkillSpeedNode:
+      _entry:
+        _icon: {fileID: 21300000, guid: 1307ffae633a0e8419ff12e7a2377718, type: 3}
+        _stats:
+        - _statType:
+            _baseType: 2
+            _subType: 3
+          _flat: 0
+          _increase: 0.05
+          _multiplier: 0
+          _fixed: 0
+          _fixedStat: 0
         _condition: 0

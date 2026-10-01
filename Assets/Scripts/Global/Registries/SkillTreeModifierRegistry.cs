@@ -22,6 +22,8 @@ namespace Global.Registries
         [RegistryFilter("Small")] public RegistryEntry<StatModifier> EvasionAndMovementSpeed;
 
         //Travel
-        [RegistryFilter("Travel")] public RegistryEntry<StatModifier> DamageNode;
+        [RegistryFilter("Root")] public RegistryEntry<StatModifier> DamageNode;
+        [RegistryFilter("Root")] public RegistryEntry<StatModifier> LifeNode;
+        [RegistryFilter("Root")] public RegistryEntry<StatModifier> SkillSpeedNode;
     }
 }

@@ -98,6 +98,7 @@ namespace Gameplay.Data
     public enum ActionType
     {
         Generic = Attack | Cast | Move,
+        Skill = Attack | Cast,
         Attack = 1 << 0,
         Cast = 1 << 1,
         Move = 1 << 2,
