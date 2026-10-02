@@ -15,25 +15,31 @@ namespace Gameplay.Data
         public Action OnKill { get; set; }
 
         public bool Alive => _health > 0;
+        public float LastDamageTime { get; private set; }
 
-        public void ApplyDamage(DamageSnapshot damage)
+        public void ApplyDamage(DamageSnapshot damage, PenetrationSnapshot penetration)
         {
-            _health -= _entity.I.StatTracker.CalculateResistances(damage);
+            _health -= _entity.I.StatTracker.CalculateResistances(damage, penetration);
             
             if (_health <= 0)
             {
                 OnKill();
             }
+
+            LastDamageTime = Time.time;
         }
 
         private void FixedUpdate()
         {
-            
-        }
+            var hitPool = _entity.I.StatTracker.GetHitPoolStats();
+            var lifeRecovery = Time.fixedDeltaTime * hitPool.LifeRegen;
+            _health = Mathf.Min(_health + lifeRecovery, hitPool.MaxLife);
 
-        private void ApplyRegen()
-        {
-            var healthRecoveryStats = _entity.I.StatTracker.GetStats(statTypes: new StatType(BaseType.ResourceRecovery, ResourceType.Life));
+            if (LastDamageTime + hitPool.BarrierStartTime <= Time.time)
+            {
+                var barrierRecovery = Time.fixedDeltaTime * hitPool.MaxBarrier * (1 / hitPool.BarrierRecoveryRate);
+                _barrier = Mathf.Min(_barrier + barrierRecovery, hitPool.MaxBarrier);
+            }
         }
 
         public void Restore()

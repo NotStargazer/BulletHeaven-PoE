@@ -1,6 +1,5 @@
 using System;
 using Gameplay.Data;
-using Gameplay.Modifiers;
 using Gameplay.Projectiles;
 using UnityEngine;
 
@@ -10,8 +9,9 @@ namespace Gameplay.Skills
     public class TestSkill : Skill
     {
         [SerializeField] private SimpleProjectile _projectile;
-        [SerializeField] private float _projectileVelocity;
-        [SerializeField] private float _projectileDuration;
+        [SerializeField] private float _projectileSpeed;
+        [SerializeField] private float _projectileRange;
+        [SerializeField] private int _projectilePierce;
         [SerializeField] private FlatDamage _baseDamage;
         [SerializeField] private StatType[] _damageScalers;
         private InstancePool<Projectile> _projectilePool;
@@ -23,14 +23,16 @@ namespace Gameplay.Skills
 
         protected override void Use(IEntity user, Vector3 aimPosition, Support[] supports)
         {
-            var projectile = _projectilePool.Rent();
             var damage = user.StatTracker.CalculateDamage(_baseDamage, this, _damageScalers);
-            projectile.Fire(user, user.Transform.forward, _projectileVelocity, _projectileDuration);
+            var penetration = user.StatTracker.GetResistancePenetration(this);
+            var projectile = _projectilePool.Rent();
+            
+            projectile.Fire(user, user.Transform.forward, _projectileSpeed, _projectileRange, _projectilePierce);
             projectile.CollisionEvent += hits =>
             {
                 foreach (var hitEntity in hits)
                 {
-                    hitEntity.HitPool.ApplyDamage(damage);
+                    hitEntity.HitPool.ApplyDamage(damage, penetration);
                 }
             };
         }

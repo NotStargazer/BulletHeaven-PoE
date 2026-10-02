@@ -7,11 +7,10 @@ using Utility.Attributes;
 namespace Gameplay.Data
 {
 #if UNITY_EDITOR
-    using UnityEditor;
-    [InitializeOnLoad]
     public static class StatLocalization
     {
-        static StatLocalization()
+        [UnityEditor.MenuItem("Localization/Reload/Stats")]
+        private static void RunStatLocalization()
         {
             LocalizationKeyGenerator.OpenEntry("Stat Types");
             {
@@ -81,6 +80,8 @@ namespace Gameplay.Data
         [SubType(typeof(DefenceType))] Defence,
         [SubType(typeof(SkillStat))] Skill,
         [SubType(typeof(ProjectileStat), flatStat: ConditionalType.Flat)] Projectile,
+        [SubType(typeof(BarrierStat))] Barrier,
+        [SubType(typeof(DamageType))] Penetration,
     }
 
     [Flags]
@@ -137,6 +138,14 @@ namespace Gameplay.Data
         Count = 1 << 0,
         Speed = 1 << 1,
         Range = 1 << 2,
+        Pierce = 1 << 3,
+    }
+    
+    [Flags]
+    public enum BarrierStat
+    {
+        StartTime = 1 << 0,
+        RegenRate = 1 << 1,
     }
 
     [Serializable]

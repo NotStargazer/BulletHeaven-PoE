@@ -176,7 +176,7 @@ MonoBehaviour:
     - Key: {fileID: 2224534749291271871}
       Value: {fileID: 3263639162386318214}
   _nodeImage: {fileID: 1451698296502324262}
-  _treeModifier: 
+  _treeModifier: Life
 --- !u!222 &937407902224187859
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -205,7 +205,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 14880b1e755415b4390ccf35d634b877, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -422,7 +422,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 1307ffae633a0e8419ff12e7a2377718, type: 3}
+  m_Sprite: {fileID: 21300000, guid: dbfd8c8a99801464b8ce745b2eac3cd8, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1509,7 +1509,7 @@ MonoBehaviour:
     - Key: {fileID: 7397710251612724185}
       Value: {fileID: 3008830821481554007}
   _nodeImage: {fileID: 3412329471947931475}
-  _treeModifier: 
+  _treeModifier: Life
 --- !u!222 &7172833335255122492
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1538,7 +1538,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 14880b1e755415b4390ccf35d634b877, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1924,7 +1924,7 @@ MonoBehaviour:
     - Key: {fileID: 6611401765527931951}
       Value: {fileID: 4527042036811322581}
   _nodeImage: {fileID: 8243407405551649128}
-  _treeModifier: 
+  _treeModifier: LifeAndArmor
 --- !u!222 &3918728302692929419
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1953,7 +1953,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 7266252338912971452, guid: d47304c182f02974790a72e75db27a48, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2392,7 +2392,7 @@ MonoBehaviour:
     - Key: {fileID: 4768817455873082373}
       Value: {fileID: 2097962487989167838}
   _nodeImage: {fileID: 9198021054219898212}
-  _treeModifier: 
+  _treeModifier: MeleeAttackSpeed
 --- !u!222 &7191127446784314952
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2421,7 +2421,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -5289030749609111184, guid: 9f1d67267f4ad764ca858609e434b19a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -2883,7 +2883,7 @@ MonoBehaviour:
     - Key: {fileID: 6164802255763943189}
       Value: {fileID: 5089396817083799323}
   _nodeImage: {fileID: 1533541174743566393}
-  _treeModifier: 
+  _treeModifier: AreaOfEffect
 --- !u!222 &6160953835103667376
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2912,7 +2912,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 7285367564318326748, guid: 0bc423e02e138a64ea278ffb1b6c0196, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3233,7 +3233,7 @@ MonoBehaviour:
     - Key: {fileID: 5424469410016771519}
       Value: {fileID: 6709001547521833377}
   _nodeImage: {fileID: 4183242022688182192}
-  _treeModifier: 
+  _treeModifier: MeleeAttackSpeed
 --- !u!222 &8061839897820931758
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3262,7 +3262,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -5289030749609111184, guid: 9f1d67267f4ad764ca858609e434b19a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3332,7 +3332,7 @@ MonoBehaviour:
     - Key: {fileID: 7837175683692134507}
       Value: {fileID: 1244184868474280805}
   _nodeImage: {fileID: 1932630081767497799}
-  _treeModifier: 
+  _treeModifier: BigBarrierAndElementalResist
 --- !u!222 &6670686417943780573
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3361,7 +3361,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -7237394773039919861, guid: 26a6c8d997084c541ac610d0310175e3, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3549,7 +3549,7 @@ MonoBehaviour:
     - Key: {fileID: 403820366133184659}
       Value: {fileID: 4456346601514462543}
   _nodeImage: {fileID: 6748790231370873866}
-  _treeModifier: 
+  _treeModifier: DamageNode
 --- !u!222 &6883230234654303614
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3578,7 +3578,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 133518206c4b28a438f37b9d9db56213, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -3648,7 +3648,7 @@ MonoBehaviour:
     - Key: {fileID: 3587910257055836961}
       Value: {fileID: 1328331794081900304}
   _nodeImage: {fileID: 2168601404066144788}
-  _treeModifier: 
+  _treeModifier: AreaOfEffect
 --- !u!222 &78801159251980560
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3677,7 +3677,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 7285367564318326748, guid: 0bc423e02e138a64ea278ffb1b6c0196, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -4047,7 +4047,7 @@ MonoBehaviour:
     - Key: {fileID: 4639115458133518533}
       Value: {fileID: 5883372628945645446}
   _nodeImage: {fileID: 4385142367005227816}
-  _treeModifier: 
+  _treeModifier: MeleeDamageAndAttackSpeed
 --- !u!222 &8532521438345700390
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4076,7 +4076,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -7548862129755490768, guid: 1547bce32ecfa62489f5f2da6935c318, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6473,7 +6473,7 @@ MonoBehaviour:
     - Key: {fileID: 1081246599113787879}
       Value: {fileID: 586298262393660314}
   _nodeImage: {fileID: 4115398224977153107}
-  _treeModifier: 
+  _treeModifier: BigLifeLifeRegenAndArmor
 --- !u!222 &5295769120068906524
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6502,7 +6502,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 2077657650860744423, guid: 3d485641ebb56504d8d2fa26c9a12d31, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6572,7 +6572,7 @@ MonoBehaviour:
     - Key: {fileID: 3179378161592010720}
       Value: {fileID: 1054482441127188716}
   _nodeImage: {fileID: 888674668368596223}
-  _treeModifier: 
+  _treeModifier: BigAreaOfEffectAndDamage
 --- !u!222 &3524609715626882766
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6601,7 +6601,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 652306324982850052, guid: 5e453f1d7cee59b4e9003d458e2611c9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -6787,7 +6787,7 @@ MonoBehaviour:
     - Key: {fileID: 7325678167801693473}
       Value: {fileID: 7896725550825742490}
   _nodeImage: {fileID: 8642143283350559160}
-  _treeModifier: 
+  _treeModifier: BigSpellAdditionalRepeatsAndCastSpeed
 --- !u!222 &5098007400164996129
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -6816,7 +6816,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -6053523224661616462, guid: 36d488422e066f440bb5bc5e92c8292a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7200,7 +7200,7 @@ MonoBehaviour:
     - Key: {fileID: 5444291319279390396}
       Value: {fileID: 5483928461843266899}
   _nodeImage: {fileID: 1136460612591482245}
-  _treeModifier: 
+  _treeModifier: BigAdditionalChainsAndElementalDamage
 --- !u!222 &4573039016324729555
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7229,7 +7229,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -2586617787935518015, guid: 19ccb3452a114b04aad14fc1c7222762, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -7808,7 +7808,7 @@ MonoBehaviour:
     - Key: {fileID: 5424469410016771519}
       Value: {fileID: 2097962487989167838}
   _nodeImage: {fileID: 1344534001019920304}
-  _treeModifier: 
+  _treeModifier: BigAdditionalTargets
 --- !u!222 &1020706189711045399
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -7837,7 +7837,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 7626136249096560332, guid: b29a5493de482c144a03cafe2029e439, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8023,7 +8023,7 @@ MonoBehaviour:
     - Key: {fileID: 9153410406559662162}
       Value: {fileID: 6238350025271725350}
   _nodeImage: {fileID: 3584602164349575203}
-  _treeModifier: 
+  _treeModifier: MeleeDamage
 --- !u!222 &7503165918976554559
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8052,7 +8052,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 6510395048599843953, guid: 2f81cf9e10f9a4c458ee551698b75a4c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -8223,7 +8223,7 @@ MonoBehaviour:
     - Key: {fileID: 4134260929422066302}
       Value: {fileID: 3774207346262072705}
   _nodeImage: {fileID: 5635985350693329745}
-  _treeModifier: 
+  _treeModifier: LifeNode
 --- !u!222 &7104889662296196128
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -8252,7 +8252,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 21300000, guid: 14880b1e755415b4390ccf35d634b877, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9105,7 +9105,7 @@ MonoBehaviour:
     - Key: {fileID: 2224534749291271871}
       Value: {fileID: 586298262393660314}
   _nodeImage: {fileID: 636371719819735481}
-  _treeModifier: 
+  _treeModifier: LifeRegenAndArmor
 --- !u!222 &3506929552912813114
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9134,7 +9134,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 7123428166124197704, guid: 1f937659cdae33045bab0acf2214b69d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -9535,7 +9535,7 @@ MonoBehaviour:
     - Key: {fileID: 6164802255763943189}
       Value: {fileID: 1054482441127188716}
   _nodeImage: {fileID: 7218774512716143310}
-  _treeModifier: 
+  _treeModifier: AreaDamage
 --- !u!222 &2804939261658970911
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -9564,7 +9564,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 6740583002080129461, guid: b1a3d0106daa4b34b8418fbb8e793f04, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -10726,7 +10726,7 @@ MonoBehaviour:
     - Key: {fileID: 3179378161592010720}
       Value: {fileID: 9152464686361326497}
   _nodeImage: {fileID: 5474476318117372549}
-  _treeModifier: 
+  _treeModifier: AreaDamage
 --- !u!222 &2518731039318824253
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -10755,7 +10755,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 6740583002080129461, guid: b1a3d0106daa4b34b8418fbb8e793f04, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -11146,7 +11146,7 @@ MonoBehaviour:
     - Key: {fileID: 3252254225942208029}
       Value: {fileID: 8196762374157528152}
   _nodeImage: {fileID: 8436105417356694123}
-  _treeModifier: 
+  _treeModifier: AreaOfEffectAndDamage
 --- !u!222 &8879184412094791828
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11175,7 +11175,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: -4358988678181150032, guid: 4e9d98d69841a2246b4a0e3122a0572c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -11692,7 +11692,7 @@ MonoBehaviour:
     - Key: {fileID: 1081246599113787879}
       Value: {fileID: 6700675897133864314}
   _nodeImage: {fileID: 133359492382696032}
-  _treeModifier: 
+  _treeModifier: LifeRegenAndArmor
 --- !u!222 &7954451150782480248
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -11721,7 +11721,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 7123428166124197704, guid: 1f937659cdae33045bab0acf2214b69d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -14126,7 +14126,7 @@ MonoBehaviour:
     - Key: {fileID: 4768817455873082373}
       Value: {fileID: 5651907962542733207}
   _nodeImage: {fileID: 6222884607600145117}
-  _treeModifier: 
+  _treeModifier: MeleeDamage
 --- !u!222 &5446601564851398083
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -14155,7 +14155,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 6510395048599843953, guid: 2f81cf9e10f9a4c458ee551698b75a4c, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

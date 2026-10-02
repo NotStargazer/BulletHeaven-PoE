@@ -157,3 +157,39 @@ MonoBehaviour:
     Strings:
     - Skill Speed
     - 
+  - Key: Penetration.Physical
+    Strings:
+    - Physical Penetration
+    - 
+  - Key: Penetration.Fire
+    Strings:
+    - Fire Penetration
+    - 
+  - Key: Penetration.Cold
+    Strings:
+    - Cold Penetration
+    - 
+  - Key: Penetration.Lightning
+    Strings:
+    - Lightning Penetration
+    - 
+  - Key: Penetration.Elemental
+    Strings:
+    - Elemental Penetration
+    - 
+  - Key: Penetration.Generic
+    Strings:
+    - Resistance Penetration
+    - 
+  - Key: Projectile.Pierce
+    Strings:
+    - Projectile Pierce
+    - 
+  - Key: Barrier.StartTime
+    Strings:
+    - Barrier Regeneration Start Time
+    - 
+  - Key: Barrier.RegenRate
+    Strings:
+    - Barrier Regeneration Rate
+    - 

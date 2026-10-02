@@ -10,7 +10,8 @@ namespace Gameplay
     {
         private bool _fired;
         private float _velocity;
-        private float _expireTime;
+        private float _range;
+        private int _pierce;
         private Vector3 _direction;
         
         public Action<IEnumerable<IEntity>> CollisionEvent { get; set; }
@@ -18,11 +19,12 @@ namespace Gameplay
         public Action ExpireEvent { get; set; }
         [SerializeField] private ColliderData _collider;
         
-        public void Fire(IEntity entity, Vector3 direction, float velocity, float duration)
+        public void Fire(IEntity entity, Vector3 direction, float velocity, float range, int pierce)
         {
             _velocity = velocity;
             _direction = direction;
-            _expireTime = duration + Time.time;
+            _range = range;
+            _pierce = pierce;
             transform.localPosition = entity.SkillManager.SkillSpawnPosition;
             transform.forward = _direction;
             gameObject.SetActive(true);
@@ -49,7 +51,7 @@ namespace Gameplay
         {
             if (_fired)
             {
-                if (Time.time >= _expireTime)
+                if (Time.time >= _range)
                 {
                     Destroy();
                     ExpireEvent?.Invoke();
@@ -57,9 +59,7 @@ namespace Gameplay
                 }
 
                 var timeScaledVelocity = _velocity * Time.deltaTime;
-                //TODO overlap filter
-                //TODO replace 1s with pierce
-                if (_collider.Cast(transform, timeScaledVelocity, 1, out var hits, (int)DefinedLayers.Targetable))
+                if (_collider.Cast(transform, timeScaledVelocity, _pierce, out var hits, (int)DefinedLayers.Targetable))
                 {
                     CollisionEvent?.Invoke(hits);
                     Destroy();

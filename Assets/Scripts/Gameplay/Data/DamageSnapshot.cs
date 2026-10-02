@@ -78,4 +78,20 @@ namespace Gameplay.Data
             }
         }
     }
+    
+    public struct PenetrationSnapshot
+    {
+        public readonly float? Physical;
+        public readonly float? Fire;
+        public readonly float? Cold;
+        public readonly float? Lightning;
+
+        public PenetrationSnapshot(float? physical, float? fire, float? cold, float? lightning)
+        {
+            Physical = physical;
+            Fire = fire;
+            Cold = cold;
+            Lightning = lightning;
+        }
+    }
 }

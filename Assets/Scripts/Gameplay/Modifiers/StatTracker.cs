@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
 using Gameplay.Data;
+using Gameplay.Skills;
 using UnityEngine;
 using Utility;
 
@@ -138,18 +139,33 @@ namespace Gameplay.Modifiers
             return outStats;
         }
 
+        private float GetAndCalculate(Skill skill = null, params StatType[] statTypes)
+        {
+            return Stat.CalculateFlat(GetStats(skill, statTypes));
+        }
+
         public DamageSnapshot CalculateDamage(FlatDamage baseDamage, Skill skill, params StatType[] scalers)
         {
             var stats = GetStats(skill, scalers);
             return new DamageSnapshot(Stat.CalculateStats(baseDamage, stats));
         }
-
-        public DamageSnapshot CalculateResistances(DamageSnapshot damage)
+        
+        public PenetrationSnapshot GetResistancePenetration(Skill skill)
         {
-            damage.Physical = CalculateResistance(damage.Physical);
-            damage.Fire = CalculateResistance(damage.Fire);
-            damage.Cold = CalculateResistance(damage.Cold);
-            damage.Lightning = CalculateResistance(damage.Lightning);
+            var physical = GetAndCalculate(skill, new StatType(BaseType.Penetration, DamageType.Physical));
+            var fire = GetAndCalculate(skill, new StatType(BaseType.Penetration, DamageType.Fire));
+            var cold = GetAndCalculate(skill, new StatType(BaseType.Penetration, DamageType.Cold));
+            var lightning = GetAndCalculate(skill, new StatType(BaseType.Penetration, DamageType.Lightning));
+            //TODO Flag Mods for ignoring penetration?
+            return new PenetrationSnapshot(physical, fire, cold, lightning);
+        }
+
+        public DamageSnapshot CalculateResistances(DamageSnapshot damage, PenetrationSnapshot penetration)
+        {
+            damage.Physical = CalculateResistance(damage.Physical, penetration.Physical);
+            damage.Fire = CalculateResistance(damage.Fire, penetration.Fire);
+            damage.Cold = CalculateResistance(damage.Cold, penetration.Cold);
+            damage.Lightning = CalculateResistance(damage.Lightning, penetration.Lightning);
 
             return damage;
         }
@@ -169,13 +185,31 @@ namespace Gameplay.Modifiers
             var speed = GetStats(statTypes: new StatType(BaseType.Speed, ActionType.Move));
             return Stat.CalculateStats(speed);
         }
+        
+        public HitPoolSnapshot GetHitPoolStats()
+        {
+            return new HitPoolSnapshot(
+            GetAndCalculate(statTypes: new StatType(BaseType.Resource, ResourceType.Life)),
+            GetAndCalculate(statTypes: new StatType(BaseType.Defence, DefenceType.Barrier)),
+            GetAndCalculate(statTypes: new StatType(BaseType.ResourceRecovery, ResourceType.Life)),
+            GetAndCalculate(statTypes: new StatType(BaseType.Barrier, BarrierStat.StartTime)),
+            GetAndCalculate(statTypes: new StatType(BaseType.Barrier, BarrierStat.RegenRate)));
+        }
 
-        private float CalculateResistance(FlatDamage flatDamage)
+        private float CalculateResistance(FlatDamage flatDamage, float? penetration)
         {
             if (flatDamage.Damage > 0)
             {
                 var stats = GetStats(statTypes: new StatType(BaseType.Resistance, flatDamage.DamageType));
                 var resist = Stat.CalculateStats(stats);
+                if (penetration.HasValue)
+                {
+                    resist -= penetration.Value;
+                }
+                else
+                {
+                    resist = 0;
+                }
                 var cappedResist = Mathf.Min(resist, 75) / 100;
                 var adjustedResist = 1 - cappedResist;
                 return flatDamage * adjustedResist;

@@ -7,11 +7,10 @@ using Utility.Attributes;
 namespace Gameplay
 {
 #if UNITY_EDITOR
-    using UnityEditor;
-    [InitializeOnLoad]
-    static class SkillLocalization
+    public static class SkillLocalization
     {
-        static SkillLocalization()
+        [UnityEditor.MenuItem("Localization/Reload/Skills")]
+        private static void RunSkillLocalization()
         {
             LocalizationKeyGenerator.OpenEntry("Conditions");
             {

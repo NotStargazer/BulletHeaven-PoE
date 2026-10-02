@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -29,8 +30,8 @@ namespace UI.Localization
                 {
                     return formatter switch
                     {
-                        ValidFormatters.R => variable.ToString($"F{value}"),
-                        ValidFormatters.P => variable.ToString("F0").PadLeft(value, '0'),
+                        ValidFormatters.R => variable.ToString($"F{value}", CultureInfo.InvariantCulture),
+                        ValidFormatters.P => variable.ToString("").PadLeft(value, '0'),
                         _ => string.Empty
                     };
                 }
@@ -64,14 +65,15 @@ namespace UI.Localization
         public LocalizationBuilder ReplaceVariable(string identifier, float variable)
         {
             var v = $"#{identifier}#";
-            _locString = _locString.Replace(v, FormatSingle(variable));
+            var s = FormatSingle(v, variable);
+            _locString = _locString.Replace(v, s);
             return this;
         }
 
-        private string FormatSingle(float variable)
+        private string FormatSingle(string identifier, float variable)
         {
-            var endIndex = _locString.IndexOf('#') - 1;
-            if (endIndex > 0 && _locString[endIndex - 1] == ']')
+            var endIndex = _locString.IndexOf(identifier, StringComparison.InvariantCulture) - 1;
+            if (endIndex > 0 && _locString[endIndex] == ']')
             {
                 var startIndex = endIndex - 1;
                 for (; startIndex > 0; startIndex--)
@@ -82,8 +84,9 @@ namespace UI.Localization
                     }
                 }
 
-                var formatter = _locString.Remove(startIndex, endIndex);
-                var split = formatter.Trim('[', ']').Split('=');
+                var formatter = _locString[(startIndex + 1)..endIndex];
+                _locString = _locString.Remove(startIndex, 5);
+                var split = formatter.Split('=');
                 return LocalizationFormatter.Format(split[0], int.Parse(split[1]), Mathf.Abs(variable));
             }
 

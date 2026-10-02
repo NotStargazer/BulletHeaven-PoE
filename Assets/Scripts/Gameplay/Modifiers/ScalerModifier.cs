@@ -6,12 +6,10 @@ using UnityEngine;
 namespace Gameplay.Modifiers
 {
 #if UNITY_EDITOR
-    using UnityEditor;
-
-    [InitializeOnLoad]
     public static class StatLocalization
     {
-        static StatLocalization()
+        [UnityEditor.MenuItem("Localization/Reload/ScalerModifier")]
+        private static void RunStatLocalization()
         {
             LocalizationKeyGenerator.OpenEntry("Scaler Modifier");
             {

@@ -4,8 +4,8 @@ namespace Gameplay.Data
 {
     public struct SpeedSnapshot
     {
-        public float BaseTimeMod;
-        public float SpeedMultiplier;
+        public readonly float BaseTimeMod;
+        public readonly float SpeedMultiplier;
         
         public SpeedSnapshot(Stat[] stats)
         {

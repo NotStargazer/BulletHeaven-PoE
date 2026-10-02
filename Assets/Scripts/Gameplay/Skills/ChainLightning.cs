@@ -40,6 +40,8 @@ namespace Gameplay.Skills
                 user.StatTracker.GetStats(this, new StatType(BaseType.Skill, SkillStat.Targets)));
             var numChains = Stat.CalculateStats(_chains,
                 user.StatTracker.GetStats(this, new StatType(BaseType.Skill, SkillStat.Chain)));
+            var damage = user.StatTracker.CalculateDamage(_baseDamage, this, _damageScalers);
+            var penetration = user.StatTracker.GetResistancePenetration(this);
             
             Array.Clear(_colliders, 0, _colliders.Length);
             Physics.OverlapSphereNonAlloc(aimPosition, _autoAimRadius, _colliders, (int)DefinedLayers.Targetable);
@@ -91,15 +93,15 @@ namespace Gameplay.Skills
                 var chain = EventManager.CreateChain();
                 chain.AddEvent(duration,
                     EventManager.ExecutionOrder.AfterDuration,
-                    () => Chain(user, target.Entity, chain, numChains, new HashSet<IEntity> { target.Entity }));
+                    () => Chain(user, target.Entity, damage, penetration, chain, numChains, new HashSet<IEntity> { target.Entity }));
             }
         }
 
-        private void Chain(IEntity user, IEntity target, EventManager.EventChain chain, int chains, HashSet<IEntity> hitTargets)
+        private void Chain(IEntity user, IEntity target, DamageSnapshot damage, PenetrationSnapshot penetration,
+            EventManager.EventChain chain, int chains, HashSet<IEntity> hitTargets)
         {
-            var damage = user.StatTracker.CalculateDamage(_baseDamage, this, _damageScalers);
             var targetPosition = target.Transform.position;
-            target.HitPool.ApplyDamage(damage);
+            target.HitPool.ApplyDamage(damage, penetration);
 
             if (chains == 0)
             {
@@ -147,7 +149,7 @@ namespace Gameplay.Skills
                 hitTargets.Add(nextTarget);
                 chain.AddEvent(duration,
                     EventManager.ExecutionOrder.AfterDuration,
-                    () => Chain(user, nextTarget, chain, chains - 1, hitTargets));
+                    () => Chain(user, nextTarget, damage, penetration, chain, chains - 1, hitTargets));
             }
             else
             {
