@@ -10,11 +10,15 @@ Written like <span style="color: #D8F02F;">[R=2]</span><span style="color: #5555
 ### List of formatters
 - <span style="color: #D8F02F;">[R=X]</span> Rounds a number to X decimals
 - <span style="color: #D8F02F;">[P=X]</span> Ensures a number has at least X digits in resulting string
+- <span style="color: #D8F02F;">[M=X]</span> Converts the number to a multiplier with X decimals
 ### Examples
-- <span style="color: #D8F02F;">[R=1]</span><span style="color: #55ff55;">#1#</span> Life regeneration
+- <span style="color: #D8F02F;">[R=1]</span><span style="color: #55ff55;">#X#</span> Life regeneration
 	- <span style="color: #ff00ff;">X is 1.2503</span> 1.3 Life Regeneration
-- <span style="color: #D8F02F;">[P=5]</span><span style="color: #55ff55;">#1#</span> Power
+- <span style="color: #D8F02F;">[P=5]</span><span style="color: #55ff55;">#X#</span> Power
 	- <span style="color: #ff00ff;">X is 25</span> 00025 Power
+- <span style="color: #D8F02F;">[M=1]</span><span style="color: #55ff55;">#X#</span>x {"Direction"Faster|Slower}
+	- <span style="color: #ff00ff;">X is 0.5</span> 2x Slower
+	- <span style="color: #ff00ff;">X is 1.5</span> 1.5x Faster
 # Conditionals
 Written like <span style="color: #7777ff;">{"Name"Text1|Text2}</span>
 - Conditionals allow for a way to adjust wording based on a condition during run time.

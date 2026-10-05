@@ -49,6 +49,30 @@ namespace Gameplay.Modifiers
 
             return baseStat;
         }
+
+        public static float CalculateDiminishing(Stat[] stats) => CalculateDiminishing(0f, stats);
+        
+        public static float CalculateDiminishing(float baseStat, Stat[] stats)
+        {
+            var result = new Stat();
+
+            foreach (var stat in stats)
+            {
+                result += stat;
+            }
+
+            if (result._fixed)
+            {
+                baseStat = result._fixedStat;
+                return baseStat;
+            }
+
+            baseStat += result._flat;
+            baseStat *= 1 / (result._increase + 1);
+            baseStat *= 1 - result._multiplier;
+
+            return baseStat;
+        }
         
         public static float CalculateFlat(Stat[] stats)
         {
@@ -71,7 +95,7 @@ namespace Gameplay.Modifiers
                 result += stat;
             }
 
-            return 1 + result._increase * result._multiplier;
+            return (1 + result._increase) * (1 + result._multiplier);
         }
         
         public static Stat[] Transform(StatType finalType, params Stat[] scalers)

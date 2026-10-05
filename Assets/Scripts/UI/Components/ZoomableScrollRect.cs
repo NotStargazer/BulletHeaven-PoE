@@ -10,7 +10,7 @@ namespace UI.Components
     
         public override void OnScroll(PointerEventData data)
         {
-            _zoom += data.scrollDelta.y * Time.deltaTime * scrollSensitivity;
+            _zoom += data.scrollDelta.y * scrollSensitivity;
             _zoom = Mathf.Clamp(_zoom, 1, 6);
             viewport.localScale = Vector3.one * _zoom;
         }

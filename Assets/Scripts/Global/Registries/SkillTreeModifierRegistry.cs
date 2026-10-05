@@ -1,9 +1,29 @@
 ﻿using System;
+using Gameplay.Data;
 using Gameplay.Modifiers;
+using UI.Localization;
 using Utility.Attributes;
 
 namespace Global.Registries
 {
+    #if UNITY_EDITOR
+    public static class TreeModifiersLocalization
+    {
+        [UnityEditor.MenuItem("Localization/Reload/TreeModifiers")]
+        private static void RunStatLocalization()
+        {
+            LocalizationKeyGenerator.OpenEntry("Tree Modifiers");
+            {
+                foreach (var fieldInfo in typeof(SkillTreeModifierRegistry).GetFields())
+                {
+                    LocalizationKeyGenerator.AddKey($"TreeModifier.{fieldInfo.Name}");
+                }
+            }
+            LocalizationKeyGenerator.CloseEntry();
+        }
+    }
+#endif
+    
     [Serializable]
     public class SkillTreeModifierRegistry : Registry<Modifier>
     {

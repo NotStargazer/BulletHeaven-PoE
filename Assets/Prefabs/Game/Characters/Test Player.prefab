@@ -52,6 +52,8 @@ MonoBehaviour:
   _statTracker: {fileID: 4785330217857613740}
   _hitPool: {fileID: 8315327525803522856}
   _skillManager: {fileID: 226843250285822572}
+  _levelUpRequirement: 100
+  _levelUpGrowthFactor: 1.05
 --- !u!114 &4785330217857613740
 MonoBehaviour:
   m_ObjectHideFlags: 0

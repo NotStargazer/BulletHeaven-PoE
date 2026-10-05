@@ -6,6 +6,7 @@ using Gameplay.Modifiers;
 using Global;
 using Global.Registries;
 using UI.Components;
+using UI.Localization;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -28,7 +29,7 @@ namespace UI.Elements.Skill_Tree
         Big,
         Power,
     }
-    public class SkillNode : MonoBehaviour, IPointerClickHandler
+    public class SkillNode : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
     {
         private Modifier _modifier;
         [SerializeField] private RectTransform _rectTransform;
@@ -59,7 +60,6 @@ namespace UI.Elements.Skill_Tree
                 return;
             }
             _modifier = AllRegistries.Instance.SkillTreeModifiers.GetByID(_treeModifier).CreateInstance();
-            _nodeImage.sprite = _modifier.Icon;
         }
 
         private void Update()
@@ -128,14 +128,6 @@ namespace UI.Elements.Skill_Tree
             SetState(NodeState.Allocated);
             OnStateUpdated?.Invoke(_state);
             return _modifier;
-        }
-        
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            if (!eventData.dragging)
-            {
-                SelectNode();
-            }
         }
 
         public void Attach(SkillNode node)
@@ -230,6 +222,36 @@ namespace UI.Elements.Skill_Tree
                _nodeImage.sprite = instance.Icon;
             }
 #endif
+        }
+
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            if (!eventData.dragging)
+            {
+                SelectNode();
+            }
+        }
+        
+        public void OnPointerEnter(PointerEventData eventData)
+        {
+            _tree.HoveredNode = this;
+        }
+
+        public void OnPointerExit(PointerEventData eventData)
+        {
+            if (_tree.HoveredNode == this)
+            {
+                _tree.HoveredNode = null;
+            }
+        }
+
+        public NodeDescription.ModifierDescription GetModifierDescription()
+        {
+            return new NodeDescription.ModifierDescription
+            {
+                Name = LocalizationManager.GetModifierName("TreeModifier", _treeModifier),
+                Description = _modifier.GetDescription()
+            };
         }
     }
 }

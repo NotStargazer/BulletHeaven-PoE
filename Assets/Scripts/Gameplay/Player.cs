@@ -1,11 +1,8 @@
 using Gameplay.Data;
 using Gameplay.Modifiers;
-using Global;
-using Global.Registries;
 using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using Utility.Attributes;
 using PlayerInput = Input.PlayerInput;
 
 namespace Gameplay
@@ -17,10 +14,13 @@ namespace Gameplay
 
         private ExperienceTracker _experienceTracker;
         private Vector2 _desiredDirection;
-        private Vector3 _lastAimPosition;
+        private Vector2 _lastScreenAimPosition;
         [SerializeField] private StatTracker _statTracker;
         [SerializeField] private HitPool _hitPool;
         [SerializeField] private SkillManager _skillManager;
+        
+        [SerializeField] private int _levelUpRequirement;
+        [SerializeField] private float _levelUpGrowthFactor;
 
         public Transform Transform => transform;
 
@@ -56,17 +56,7 @@ namespace Gameplay
         {
             if (context.performed)
             {
-                var value = context.ReadValue<Vector2>();
-                var worldPosition = UIRoot.GameCamera.GetWorldFloor(value);
-
-                if (!worldPosition.HasValue)
-                {
-                    return;
-                }
-
-                _lastAimPosition = worldPosition.Value;
-                var direction = (worldPosition - transform.localPosition).Value.normalized;
-                transform.localRotation = Quaternion.LookRotation(direction, Vector3.up);
+                _lastScreenAimPosition = context.ReadValue<Vector2>();
             }
         }
 
@@ -87,7 +77,7 @@ namespace Gameplay
 
         private void Awake()
         {
-            _experienceTracker = new ExperienceTracker(100, 1.1f, OnExperienceGain, OnLevelUp);
+            _experienceTracker = new ExperienceTracker(_levelUpRequirement, _levelUpGrowthFactor, OnExperienceGain, OnLevelUp);
         }
 
         private void Update()
@@ -101,7 +91,16 @@ namespace Gameplay
                     Space.World);
             }
             
-            _skillManager.TryUseSkill(this, _lastAimPosition);
+            var worldPosition = UIRoot.GameCamera.GetWorldFloor(_lastScreenAimPosition);
+            if (!worldPosition.HasValue)
+            {
+                return;
+            }
+
+            var direction = (worldPosition - transform.localPosition).Value.normalized;
+            transform.localRotation = Quaternion.LookRotation(direction, Vector3.up);
+            
+            _skillManager.TryUseSkill(this, worldPosition.Value);
         }
 
         public void GrantExperience(int experience)

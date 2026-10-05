@@ -111,7 +111,7 @@ MonoBehaviour:
     - 
   - Key: Resistance.Flat.Physical
     Strings:
-    - 
+    - '{"Sign"+|-}#Value#% to Physical Resistance{"Conditional"| #Condition#}'
     - 
   - Key: Resistance.Increased.Physical
     Strings:
@@ -123,11 +123,11 @@ MonoBehaviour:
     - 
   - Key: Resistance.Fixed.Physical
     Strings:
-    - 
+    - Physical Resistance is {"Sign"|-}#Value#%{"Conditional"| #Condition#}
     - 
   - Key: Resistance.Flat.Fire
     Strings:
-    - 
+    - '{"Sign"+|-}#Value#% to Fire Resistance{"Conditional"| #Condition#}'
     - 
   - Key: Resistance.Increased.Fire
     Strings:
@@ -139,11 +139,11 @@ MonoBehaviour:
     - 
   - Key: Resistance.Fixed.Fire
     Strings:
-    - 
+    - Fire Resistance is {"Sign"|-}#Value#%{"Conditional"| #Condition#}
     - 
   - Key: Resistance.Flat.Cold
     Strings:
-    - 
+    - '{"Sign"+|-}#Value#% to Cold Resistance{"Conditional"| #Condition#}'
     - 
   - Key: Resistance.Increased.Cold
     Strings:
@@ -155,11 +155,11 @@ MonoBehaviour:
     - 
   - Key: Resistance.Fixed.Cold
     Strings:
-    - 
+    - Cold Resistance is {"Sign"|-}#Value#%{"Conditional"| #Condition#}
     - 
   - Key: Resistance.Flat.Lightning
     Strings:
-    - 
+    - '{"Sign"+|-}#Value#% to Lightning Resistance{"Conditional"| #Condition#}'
     - 
   - Key: Resistance.Increased.Lightning
     Strings:
@@ -171,11 +171,11 @@ MonoBehaviour:
     - 
   - Key: Resistance.Fixed.Lightning
     Strings:
-    - 
+    - Lightning Resistance is {"Sign"|-}#Value#%{"Conditional"| #Condition#}
     - 
   - Key: Resistance.Flat.Elemental
     Strings:
-    - 
+    - '{"Sign"+|-}#Value#% to all Elemental Resistances{"Conditional"| #Condition#}'
     - 
   - Key: Resistance.Increased.Elemental
     Strings:
@@ -187,11 +187,11 @@ MonoBehaviour:
     - 
   - Key: Resistance.Fixed.Elemental
     Strings:
-    - 
+    - Elemental Resistances are {"Sign"|-}#Value#%{"Conditional"| #Condition#}
     - 
   - Key: Resistance.Flat.Generic
     Strings:
-    - 
+    - '{"Sign"+|-}#Value#% to All Resistances{"Conditional"| #Condition#}'
     - 
   - Key: Resistance.Increased.Generic
     Strings:
@@ -203,7 +203,7 @@ MonoBehaviour:
     - 
   - Key: Resistance.Fixed.Generic
     Strings:
-    - 
+    - All Resistances are {"Sign"|-}#Value#%{"Conditional"| #Condition#}
     - 
   - Key: Speed.Flat.Attack
     Strings:
@@ -592,4 +592,163 @@ MonoBehaviour:
   - Key: Speed.Fixed.Skill
     Strings:
     - Skill Use Time is {"Sign"|-}#Value#{"Conditional"| #Condition#}
+    - 
+  - Key: Projectile.Flat.Pierce
+    Strings:
+    - 
+    - 
+  - Key: Projectile.Increased.Pierce
+    Strings:
+    - 
+    - 
+  - Key: Projectile.Multiplier.Pierce
+    Strings:
+    - 
+    - 
+  - Key: Projectile.Fixed.Pierce
+    Strings:
+    - 
+    - 
+  - Key: Barrier.Flat.StartTime
+    Strings:
+    - Barrier regen starts #Value# second{"Plural"|s} {"Sign"Faster|Slower}{"Conditional"|
+      #Condition#}
+    - 
+  - Key: Barrier.Increased.StartTime
+    Strings:
+    - Barrier regen starts #Value#% {"Sign"Faster|Slower}{"Conditional"| #Condition#}
+    - 
+  - Key: Barrier.Multiplier.StartTime
+    Strings:
+    - Barrier regen starts [M=1]#Value# times {"Sign"Faster|Slower}{"Conditional"|
+      #Condition#}
+    - 
+  - Key: Barrier.Fixed.StartTime
+    Strings:
+    - Barrier regen starts after {"Sign"|-}#Value# seconds{"Conditional"| #Condition#}
+    - 
+  - Key: Barrier.Flat.RegenRate
+    Strings:
+    - Barrier regenerates to full #Value# second{"Plural"|s} {"Sign"Faster|Slower}{"Conditional"|
+      #Condition#}
+    - 
+  - Key: Barrier.Increased.RegenRate
+    Strings:
+    - Barrier regenerates #Value#% {"Sign"Faster|Slower}{"Conditional"| #Condition#}
+    - 
+  - Key: Barrier.Multiplier.RegenRate
+    Strings:
+    - Barrier regenerates [M=1]#Value# times {"Sign"Faster|Slower}{"Conditional"|
+      #Condition#}
+    - 
+  - Key: Barrier.Fixed.RegenRate
+    Strings:
+    - Barrier takes {"Sign"|-}#Value# seconds to regenerate{"Conditional"| #Condition#}
+    - 
+  - Key: Penetration.Flat.Physical
+    Strings:
+    - Damage Penetrates {"Sign"|-}#Value#% Physical Resistance{"Conditional"| #Condition#}
+    - 
+  - Key: Penetration.Increased.Physical
+    Strings:
+    - Damage Penetrates #Value#% {"Sign"Increased|Decreased} Physical Resistance{"Conditional"|
+      #Condition#}
+    - 
+  - Key: Penetration.Multiplier.Physical
+    Strings:
+    - Damage Penetrates #Value#% {"Sign"More|Less} Physical Resistance{"Conditional"|
+      #Condition#}
+    - 
+  - Key: Penetration.Fixed.Physical
+    Strings:
+    - 
+    - 
+  - Key: Penetration.Flat.Fire
+    Strings:
+    - Damage Penetrates {"Sign"|-}#Value#% Fire Resistance{"Conditional"| #Condition#}
+    - 
+  - Key: Penetration.Increased.Fire
+    Strings:
+    - Damage Penetrates #Value#% {"Sign"Increased|Decreased} Fire Resistance{"Conditional"|
+      #Condition#}
+    - 
+  - Key: Penetration.Multiplier.Fire
+    Strings:
+    - Damage Penetrates #Value#% {"Sign"More|Less} Fire Resistance{"Conditional"|
+      #Condition#}
+    - 
+  - Key: Penetration.Fixed.Fire
+    Strings:
+    - 
+    - 
+  - Key: Penetration.Flat.Cold
+    Strings:
+    - Damage Penetrates {"Sign"|-}#Value#% Cold Resistance{"Conditional"| #Condition#}
+    - 
+  - Key: Penetration.Increased.Cold
+    Strings:
+    - Damage Penetrates #Value#% {"Sign"Increased|Decreased} Cold Resistance{"Conditional"|
+      #Condition#}
+    - 
+  - Key: Penetration.Multiplier.Cold
+    Strings:
+    - Damage Penetrates #Value#% {"Sign"More|Less} Cold Resistance{"Conditional"|
+      #Condition#}
+    - 
+  - Key: Penetration.Fixed.Cold
+    Strings:
+    - 
+    - 
+  - Key: Penetration.Flat.Lightning
+    Strings:
+    - Damage Penetrates {"Sign"|-}#Value#% Lightning Resistance{"Conditional"| #Condition#}
+    - 
+  - Key: Penetration.Increased.Lightning
+    Strings:
+    - Damage Penetrates #Value#% {"Sign"Increased|Decreased} Lightning Resistance{"Conditional"|
+      #Condition#}
+    - 
+  - Key: Penetration.Multiplier.Lightning
+    Strings:
+    - Damage Penetrates #Value#% {"Sign"More|Less} Lightning Resistance{"Conditional"|
+      #Condition#}
+    - 
+  - Key: Penetration.Fixed.Lightning
+    Strings:
+    - 
+    - 
+  - Key: Penetration.Flat.Elemental
+    Strings:
+    - Damage Penetrates {"Sign"|-}#Value#% Elemental Resistance{"Conditional"| #Condition#}
+    - 
+  - Key: Penetration.Increased.Elemental
+    Strings:
+    - Damage Penetrates #Value#% {"Sign"Increased|Decreased} Elemental Resistance{"Conditional"|
+      #Condition#}
+    - 
+  - Key: Penetration.Multiplier.Elemental
+    Strings:
+    - Damage Penetrates #Value#% {"Sign"More|Less} Elemental Resistance{"Conditional"|
+      #Condition#}
+    - 
+  - Key: Penetration.Fixed.Elemental
+    Strings:
+    - 
+    - 
+  - Key: Penetration.Flat.Generic
+    Strings:
+    - Damage Penetrates {"Sign"|-}#Value#% Resistance{"Conditional"| #Condition#}
+    - 
+  - Key: Penetration.Increased.Generic
+    Strings:
+    - Damage Penetrates #Value#% {"Sign"Increased|Decreased} Resistance{"Conditional"|
+      #Condition#}
+    - 
+  - Key: Penetration.Multiplier.Generic
+    Strings:
+    - Damage Penetrates #Value#% {"Sign"More|Less} Resistance{"Conditional"| #Condition#}
+    - 
+  - Key: Penetration.Fixed.Generic
+    Strings:
+    - 
     - 

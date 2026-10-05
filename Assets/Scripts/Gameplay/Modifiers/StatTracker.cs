@@ -143,6 +143,11 @@ namespace Gameplay.Modifiers
         {
             return Stat.CalculateFlat(GetStats(skill, statTypes));
         }
+        
+        private float GetAndCalculateAsDiminishing(Skill skill = null, params StatType[] statTypes)
+        {
+            return Stat.CalculateDiminishing(GetStats(skill, statTypes));
+        }
 
         public DamageSnapshot CalculateDamage(FlatDamage baseDamage, Skill skill, params StatType[] scalers)
         {
@@ -192,8 +197,8 @@ namespace Gameplay.Modifiers
             GetAndCalculate(statTypes: new StatType(BaseType.Resource, ResourceType.Life)),
             GetAndCalculate(statTypes: new StatType(BaseType.Defence, DefenceType.Barrier)),
             GetAndCalculate(statTypes: new StatType(BaseType.ResourceRecovery, ResourceType.Life)),
-            GetAndCalculate(statTypes: new StatType(BaseType.Barrier, BarrierStat.StartTime)),
-            GetAndCalculate(statTypes: new StatType(BaseType.Barrier, BarrierStat.RegenRate)));
+            GetAndCalculateAsDiminishing(statTypes: new StatType(BaseType.Barrier, BarrierStat.StartTime)),
+            GetAndCalculateAsDiminishing(statTypes: new StatType(BaseType.Barrier, BarrierStat.RegenRate)));
         }
 
         private float CalculateResistance(FlatDamage flatDamage, float? penetration)

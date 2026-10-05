@@ -21,7 +21,8 @@ namespace UI.Localization
             public enum ValidFormatters
             {
                 R,
-                P
+                P,
+                M
             }
 
             public static string Format(string input, int value, float variable)
@@ -31,7 +32,10 @@ namespace UI.Localization
                     return formatter switch
                     {
                         ValidFormatters.R => variable.ToString($"F{value}", CultureInfo.InvariantCulture),
-                        ValidFormatters.P => variable.ToString("").PadLeft(value, '0'),
+                        ValidFormatters.P => variable.ToString("F0").PadLeft(value, '0'),
+                        ValidFormatters.M => variable < 1 
+                            ? (1 / (variable / 100)).ToString($"F{value}") 
+                            : (variable / 100).ToString($"F{value}"),
                         _ => string.Empty
                     };
                 }
@@ -164,6 +168,7 @@ namespace UI.Localization
                 ? string.Empty
                 : GetCondition(conditional, statType.GetConditionalKey(statFactor));
             
+            var negative = Mathf.Sign(value) < 0;
             value = Mathf.Abs(value);
             var statTypeKey = $"{statType.BaseName}.{statType.SubName}";
             var statModKey = $"{statType.BaseName}.{statFactor}.{statType.SubName}";
@@ -180,7 +185,6 @@ namespace UI.Localization
             var statTypeLoc = Localization.GetLocalization(statTypeKey);
 #endif
 
-            var negative = Mathf.Sign(value) < 0;
             var hasCondition = conditional > 0;
 
             statMod = statMod.SetConditional("Sign", negative)
@@ -201,12 +205,21 @@ namespace UI.Localization
             var key = $"Condition.{type}.{condition.ToString()}";
             
 #if UNITY_EDITOR
-            var loc = GetEditorLocalization("Conditions", key);
+            return GetEditorLocalization("Conditions", key).Build();
 #else
-            var loc = Localization.GetLocalization(key);
+            return Localization.GetLocalization(key).Build();
 #endif
+        }
 
-            return loc.Build();
+        public static string GetModifierName(string modSource, string modifierName)
+        {
+            var key = $"{modSource}.{modifierName}";
+            
+#if UNITY_EDITOR
+            return GetEditorLocalization(modSource, key).Build();
+#else
+            return Localization.GetLocalization(key).Build();
+#endif
         }
     }
 }

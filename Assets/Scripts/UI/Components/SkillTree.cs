@@ -25,6 +25,7 @@ namespace UI.Components
         [SerializeField] private Button _closeButton;
         [SerializeField] private Button _openButton;
         [SerializeField] private List<SkillNode> _rootNodes;
+        [SerializeField] private NodeDescription _nodeDescription;
         [SerializeField] private ZoomableScrollRect _scrollView;
         [SerializeField] private RectTransform _connectionTransform;
         [SerializeField] private SkillNode _skillNodePrefab;
@@ -34,6 +35,12 @@ namespace UI.Components
         private List<SkillNode> _selectedNodes;
         private int _allocatedPoints;
         private int _totalSkillPoints;
+
+        public SkillNode HoveredNode
+        {
+            get => _nodeDescription.HoveredNode;
+            set => _nodeDescription.HoveredNode = value;
+        }
 
         public int Points => _totalSkillPoints - (_allocatedPoints + _selectedNodes.Count);
         

@@ -276,7 +276,7 @@ MonoBehaviour:
         _icon: {fileID: 7626136249096560332, guid: b29a5493de482c144a03cafe2029e439, type: 3}
         _stats:
         - _statType:
-            _baseType: 7
+            _baseType: 6
             _subType: 2
           _flat: 1
           _increase: 0.5
@@ -289,7 +289,7 @@ MonoBehaviour:
         _icon: {fileID: 2077657650860744423, guid: 3d485641ebb56504d8d2fa26c9a12d31, type: 3}
         _stats:
         - _statType:
-            _baseType: 4
+            _baseType: 3
             _subType: 1
           _flat: 0
           _increase: 0.1
@@ -297,7 +297,7 @@ MonoBehaviour:
           _fixed: 0
           _fixedStat: 0
         - _statType:
-            _baseType: 5
+            _baseType: 4
             _subType: 1
           _flat: 0
           _increase: 0.2
@@ -305,7 +305,7 @@ MonoBehaviour:
           _fixed: 0
           _fixedStat: 0
         - _statType:
-            _baseType: 6
+            _baseType: 5
             _subType: 1
           _flat: 0
           _increase: 0.2
@@ -326,7 +326,7 @@ MonoBehaviour:
           _fixed: 0
           _fixedStat: 0
         - _statType:
-            _baseType: 7
+            _baseType: 6
             _subType: 8
           _flat: 0
           _increase: 0.4
@@ -446,7 +446,7 @@ MonoBehaviour:
         _icon: {fileID: 7266252338912971452, guid: d47304c182f02974790a72e75db27a48, type: 3}
         _stats:
         - _statType:
-            _baseType: 4
+            _baseType: 3
             _subType: 1
           _flat: 10
           _increase: 0
@@ -454,7 +454,7 @@ MonoBehaviour:
           _fixed: 0
           _fixedStat: 0
         - _statType:
-            _baseType: 6
+            _baseType: 5
             _subType: 1
           _flat: 0
           _increase: 0.1
@@ -475,7 +475,7 @@ MonoBehaviour:
           _fixed: 0
           _fixedStat: 0
         - _statType:
-            _baseType: 7
+            _baseType: 6
             _subType: 8
           _flat: 0
           _increase: 0.2
@@ -488,7 +488,7 @@ MonoBehaviour:
         _icon: {fileID: -2586617787935518015, guid: 19ccb3452a114b04aad14fc1c7222762, type: 3}
         _stats:
         - _statType:
-            _baseType: 7
+            _baseType: 6
             _subType: 4
           _flat: 1
           _increase: 0.5
@@ -509,7 +509,7 @@ MonoBehaviour:
         _icon: {fileID: -6053523224661616462, guid: 36d488422e066f440bb5bc5e92c8292a, type: 3}
         _stats:
         - _statType:
-            _baseType: 7
+            _baseType: 6
             _subType: 1
           _flat: 1
           _increase: 0
@@ -517,7 +517,7 @@ MonoBehaviour:
           _fixed: 0
           _fixedStat: 0
         - _statType:
-            _baseType: 3
+            _baseType: 2
             _subType: 2
           _flat: 0
           _increase: 0.2
@@ -530,7 +530,7 @@ MonoBehaviour:
         _icon: {fileID: -7237394773039919861, guid: 26a6c8d997084c541ac610d0310175e3, type: 3}
         _stats:
         - _statType:
-            _baseType: 6
+            _baseType: 5
             _subType: 4
           _flat: 0
           _increase: 0.4
@@ -590,7 +590,7 @@ MonoBehaviour:
         _icon: {fileID: 1734335318976982243, guid: 6865a7b69a816f14c99b38c344c18ecf, type: 3}
         _stats:
         - _statType:
-            _baseType: 3
+            _baseType: 2
             _subType: 2
           _flat: 0
           _increase: 0.1
@@ -603,7 +603,7 @@ MonoBehaviour:
         _icon: {fileID: 6957510384469078007, guid: 3f16d9bcc90f43c48baee41145ac9943, type: 3}
         _stats:
         - _statType:
-            _baseType: 6
+            _baseType: 5
             _subType: 4
           _flat: 20
           _increase: 0
@@ -616,15 +616,15 @@ MonoBehaviour:
         _icon: {fileID: 2075585263777022646, guid: d064425b23860974aa8e5788e3623050, type: 3}
         _stats:
         - _statType:
-            _baseType: 9
+            _baseType: 8
             _subType: 1
           _flat: 0
-          _increase: -0.1
+          _increase: 0.1
           _multiplier: 0
           _fixed: 0
           _fixedStat: 0
         - _statType:
-            _baseType: 9
+            _baseType: 8
             _subType: 2
           _flat: 0
           _increase: 0.2
@@ -666,7 +666,7 @@ MonoBehaviour:
           _fixed: 0
           _fixedStat: 0
         - _statType:
-            _baseType: 3
+            _baseType: 2
             _subType: 2
           _flat: 0
           _increase: 0.05
@@ -679,7 +679,7 @@ MonoBehaviour:
         _icon: {fileID: 1152880404601896963, guid: 60a87f67510421944af56ca0310f6b10, type: 3}
         _stats:
         - _statType:
-            _baseType: 6
+            _baseType: 5
             _subType: 4
           _flat: 0
           _increase: 0.1
@@ -687,18 +687,18 @@ MonoBehaviour:
           _fixed: 0
           _fixedStat: 0
         - _statType:
-            _baseType: 9
+            _baseType: 8
             _subType: 1
           _flat: 0
-          _increase: -0.05
+          _increase: 0.05
           _multiplier: 0
           _fixed: 0
           _fixedStat: 0
         - _statType:
-            _baseType: 9
+            _baseType: 8
             _subType: 2
           _flat: 0
-          _increase: 0.05
+          _increase: 0.1
           _multiplier: 0
           _fixed: 0
           _fixedStat: 0
