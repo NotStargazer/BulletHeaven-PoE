@@ -156,6 +156,11 @@ namespace UI.Localization
         
         public static LocalizationBuilder GetEditorLocalization(string assetName, string key, string fallbackKey = null)
         {
+            if (Application.isPlaying)
+            {
+                return Localization.GetLocalization(key, fallbackKey);
+            }
+            
             var result = UnityEditor.AssetDatabase.LoadAssetAtPath<LocalizationAsset>
                     ($"Assets/Localization/{assetName}.asset").Get(key);
             return new LocalizationBuilder(result);

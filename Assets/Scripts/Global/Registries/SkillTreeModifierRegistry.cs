@@ -12,7 +12,7 @@ namespace Global.Registries
         [UnityEditor.MenuItem("Localization/Reload/TreeModifiers")]
         private static void RunStatLocalization()
         {
-            LocalizationKeyGenerator.OpenEntry("Tree Modifiers");
+            LocalizationKeyGenerator.OpenEntry("TreeModifier");
             {
                 foreach (var fieldInfo in typeof(SkillTreeModifierRegistry).GetFields())
                 {

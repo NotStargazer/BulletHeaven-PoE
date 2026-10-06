@@ -611,21 +611,22 @@ MonoBehaviour:
     - 
   - Key: Barrier.Flat.StartTime
     Strings:
-    - Barrier regen starts #Value# second{"Plural"|s} {"Sign"Faster|Slower}{"Conditional"|
+    - Barrier regeneration starts #Value# second{"Plural"|s} {"Sign"Faster|Slower}{"Conditional"|
       #Condition#}
     - 
   - Key: Barrier.Increased.StartTime
     Strings:
-    - Barrier regen starts #Value#% {"Sign"Faster|Slower}{"Conditional"| #Condition#}
+    - Barrier regeneration starts #Value#% {"Sign"Faster|Slower}{"Conditional"| #Condition#}
     - 
   - Key: Barrier.Multiplier.StartTime
     Strings:
-    - Barrier regen starts [M=1]#Value# times {"Sign"Faster|Slower}{"Conditional"|
+    - Barrier regeneration starts [M=1]#Value# times {"Sign"Faster|Slower}{"Conditional"|
       #Condition#}
     - 
   - Key: Barrier.Fixed.StartTime
     Strings:
-    - Barrier regen starts after {"Sign"|-}#Value# seconds{"Conditional"| #Condition#}
+    - Barrier regeneration starts after {"Sign"|-}#Value# seconds{"Conditional"|
+      #Condition#}
     - 
   - Key: Barrier.Flat.RegenRate
     Strings:

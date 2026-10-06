@@ -32,6 +32,10 @@ namespace UI.Components
         [SerializeField] private NodeConnection _connectionPrefab;
         [SerializeField] private NodeParameters[] _nodeParameters;
 
+        public CameraController Camera
+        {
+            set => _nodeDescription.Camera = value;
+        }
         private List<SkillNode> _selectedNodes;
         private int _allocatedPoints;
         private int _totalSkillPoints;

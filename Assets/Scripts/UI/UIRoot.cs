@@ -44,6 +44,7 @@ namespace UI
                 IEntity playerEntity = player;
                 playerEntity.StatTracker.AddSource(_skillTree);
                 _gameCamera.Attach(player.transform);
+                _skillTree.Camera = _gameCamera;
                 _inputController.AttachPlayer(player);
                 
                 _sessionManager.StartSession(this, player);

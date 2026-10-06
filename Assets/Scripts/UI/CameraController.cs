@@ -124,19 +124,9 @@ namespace UI
             return false;
         }
 
-        public Vector2 GetRandomBorderPosition()
+        public Vector2 GetUIScreenPosition(Vector3 position)
         {
-            var rng = Random.Range(-0.25f, 1.25f);
-            var side = Random.Range(0, 4);
-            var position = _camera.ViewportToWorldPoint(side switch
-            {
-                1 => new Vector2(1.25f, rng),
-                2 => new Vector2(rng, -0.25f),
-                3 => new Vector2(rng, 1.25f),
-                _ => new Vector3(-0.25f, rng),
-            });
-            
-            return new Vector2(position.x, position.z);
+            return RectTransformUtility.WorldToScreenPoint(_camera, position);
         }
     }
 }

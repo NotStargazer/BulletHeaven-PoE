@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using Gameplay.Projectiles;
+using Gameplay.Data;
 using UnityEngine;
 using Utility;
 
@@ -9,31 +9,33 @@ namespace Gameplay
     public abstract class Projectile : MonoBehaviour, IPoolInstance<Projectile>
     {
         private bool _fired;
-        private float _velocity;
+        private float _speed;
         private float _range;
         private int _pierce;
+        private float _distanceTraveled;
         private Vector3 _direction;
         
         public Action<IEnumerable<IEntity>> CollisionEvent { get; set; }
-        public Action DestroyEvent { get; set; }
-        public Action ExpireEvent { get; set; }
+        public Action<Transform> DestroyEvent { get; set; }
+        public Action<Transform> ExpireEvent { get; set; }
         [SerializeField] private ColliderData _collider;
         
-        public void Fire(IEntity entity, Vector3 direction, float velocity, float range, int pierce)
+        public void Fire(IEntity entity, Vector3 direction, ProjectileSnapshot projectileStats)
         {
-            _velocity = velocity;
+            _speed = projectileStats.Speed;
             _direction = direction;
-            _range = range;
-            _pierce = pierce;
+            _range = projectileStats.Range;
+            _pierce = projectileStats.Pierce;
             transform.localPosition = entity.SkillManager.SkillSpawnPosition;
             transform.forward = _direction;
             gameObject.SetActive(true);
             _fired = true;
+            _distanceTraveled = 0;
         }
 
         private void Destroy()
         {
-            DestroyEvent?.Invoke();
+            DestroyEvent?.Invoke(transform);
             _fired = false;
             CollisionEvent = null;
             DestroyEvent = null;
@@ -51,19 +53,26 @@ namespace Gameplay
         {
             if (_fired)
             {
-                if (Time.time >= _range)
-                {
-                    Destroy();
-                    ExpireEvent?.Invoke();
-                    return;
-                }
-
-                var timeScaledVelocity = _velocity * Time.deltaTime;
+                var timeScaledVelocity = _speed * Time.deltaTime;
                 if (_collider.Cast(transform, timeScaledVelocity, _pierce, out var hits, (int)DefinedLayers.Targetable))
                 {
+                    _pierce -= hits.Count;
                     CollisionEvent?.Invoke(hits);
-                    Destroy();
+                    if (_pierce == 0)
+                    {
+                        Destroy();
+                    }
                 }
+                
+                var translation = _direction * timeScaledVelocity;
+                _distanceTraveled += translation.magnitude;
+                if (_distanceTraveled >= _range)
+                {
+                    Destroy();
+                    ExpireEvent?.Invoke(transform);
+                    return;
+                }
+                
                 transform.Translate(_direction * timeScaledVelocity, Space.World);
             }
         }

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 4471433989172499121}
   - component: {fileID: 8296469849835530505}
   - component: {fileID: 7078883702330429524}
-  - component: {fileID: 7839444127523086169}
   m_Layer: 0
   m_Name: Lightning Effect
   m_TagString: Untagged
@@ -110,20 +109,3 @@ MonoBehaviour:
   _animationNoTarget: {fileID: 7400000, guid: 7505157d0d0c44c42ab816553cc872f7, type: 2}
   _baseScale: 5
   _durationMultiplier: 6
---- !u!111 &7839444127523086169
-Animation:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1543016528656386567}
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Animation: {fileID: 0}
-  m_Animations:
-  - {fileID: 7400000, guid: 71a1e86ca06fd4a40aa8107c158f5c4e, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_UpdateMode: 0
-  m_CullingType: 0

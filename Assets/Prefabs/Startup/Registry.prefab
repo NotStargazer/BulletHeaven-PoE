@@ -53,12 +53,17 @@ MonoBehaviour:
         _skillCooldown:
           _baseDuration: 2
         _projectile: {fileID: 4970941024480854794, guid: 8d13bc0efda9a6a48be3865dcacf7b6b, type: 3}
+        _projectileCount: 0
         _projectileSpeed: 0
         _projectileRange: 0
         _projectilePierce: 0
-        _baseDamage:
-          DamageType: 1
-          Damage: 50
+        _explosionRadius: 0
+        _projectileDamage:
+          DamageType: 0
+          Damage: 0
+        _explosionDamage:
+          DamageType: 0
+          Damage: 0
         _damageScalers: []
     ChainLightning:
       _entry:

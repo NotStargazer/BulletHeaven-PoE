@@ -7,7 +7,7 @@ namespace Global.Registries
     [Serializable]
     public class SkillRegistry : Registry<Skill>
     {
-        public RegistryEntry<TestSkill> TestSkill;
+        public RegistryEntry<FireBall> TestSkill;
         public RegistryEntry<ChainLightning> ChainLightning;
     }
 }

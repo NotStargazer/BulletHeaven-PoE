@@ -42,7 +42,7 @@ namespace Gameplay
             set => _skillManager = value;
         }
 
-        public IUIRoot UIRoot { set; private get; }
+        public IUIRoot UIRoot { private get; set; }
 
         public void OnMove(InputAction.CallbackContext context)
         {

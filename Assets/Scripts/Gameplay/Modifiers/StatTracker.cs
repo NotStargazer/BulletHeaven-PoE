@@ -141,7 +141,12 @@ namespace Gameplay.Modifiers
 
         private float GetAndCalculate(Skill skill = null, params StatType[] statTypes)
         {
-            return Stat.CalculateFlat(GetStats(skill, statTypes));
+            return Stat.CalculateStats(GetStats(skill, statTypes));
+        }
+        
+        private int GetAndCalculateAsInt(Skill skill = null, params StatType[] statTypes)
+        {
+            return Stat.CalculateStats(0, GetStats(skill, statTypes));
         }
         
         private float GetAndCalculateAsDiminishing(Skill skill = null, params StatType[] statTypes)
@@ -221,6 +226,16 @@ namespace Gameplay.Modifiers
             }
 
             return 0;
+        }
+
+        public ProjectileSnapshot GetProjectileStats(int count, float speed, float range, int pierce, Skill skill = null)
+        {
+            return new ProjectileSnapshot(
+                GetAndCalculateAsInt(skill, new StatType(BaseType.Skill, ProjectileStat.Count)),
+                GetAndCalculate(skill, new StatType(BaseType.Skill, ProjectileStat.Speed)),
+                GetAndCalculate(skill, new StatType(BaseType.Skill, ProjectileStat.Range)),
+                GetAndCalculateAsInt(skill, new StatType(BaseType.Skill, ProjectileStat.Pierce))
+            );
         }
     }
 }

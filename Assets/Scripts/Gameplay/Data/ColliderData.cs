@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using Utility;
 
-namespace Gameplay.Projectiles
+namespace Gameplay.Data
 {
     [Serializable]
     public class ColliderData
@@ -47,7 +46,7 @@ namespace Gameplay.Projectiles
                     hits.Add(component);
                 }
             }
-
+            
             return hits.Count > 0;
         }
 

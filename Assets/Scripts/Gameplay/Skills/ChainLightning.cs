@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using Gameplay.Data;
 using Gameplay.Modifiers;
-using Gameplay.Projectiles;
 using UnityEngine;
 using Utility;
 using Visuals;
@@ -15,7 +14,6 @@ namespace Gameplay.Skills
     public class ChainLightning : Skill
     {
         [SerializeField] private LightningBoltVFX _lightningVFX;
-        [SerializeField] private ColliderData _collider;
         [SerializeField] private float _autoAimRadius;
         [SerializeField] private float _chainRadius;
         [SerializeField] private int _chains;
@@ -58,7 +56,7 @@ namespace Gameplay.Skills
                     continue;
                 }
 
-                var hitDistance = Vector3.Distance(collider.transform.position, aimPosition);
+                var hitDistance = collider.transform.position.SqrDistanceTo(aimPosition);
                 _targets.Add(new Target(e, hitDistance));
             }
 
@@ -119,7 +117,7 @@ namespace Gameplay.Skills
                 {
                     break;
                 }
-                var hitDistance = Vector3.Distance(collider.transform.position, targetPosition);
+                var hitDistance = collider.transform.position.SqrDistanceTo(targetPosition);
                 if (hitDistance < distanceFromNext)
                 {
                     if (collider.transform.TryGetComponent(out IEntity hitEntity))

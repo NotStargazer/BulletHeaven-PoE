@@ -8,5 +8,13 @@ namespace Utility
         {
             return new Vector2(a.x, a.z);
         }
+
+        public static float SqrDistanceTo(this Vector3 a, Vector3 b)
+        {
+            var num1 = a.x - b.x;
+            var num2 = a.y - b.y;
+            var num3 = a.z - b.z;
+            return (float)(num1 * (double)num1 + num2 * (double)num2 + num3 * (double)num3);
+        }
     }
 }

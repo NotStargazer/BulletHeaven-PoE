@@ -125,11 +125,12 @@ Shader "VFX/LightningBolt"
 
                 for (int bolt = 1; bolt <= _Bolts; bolt++)
                 {
+                    float part = bolt / (uint)_Bolts;
                     float range = lerp(0 - _WidthVariance.x - _GlowWidth, 1, _StrikeWidth);
                     float strikeWidth = range + lerp(-_WidthVariance.x, _WidthVariance.y, perlin(cuv.y * _WidthVariance.z));
-                    strikeWidth *= lerp(1, 1 - _BoltDecay, bolt / _Bolts);
+                    strikeWidth *= lerp(1, 1 - _BoltDecay, part);
                     float mergeWidth = range + lerp(-_WidthVariance.x, _WidthVariance.y, perlin(cuv.y * _WidthVariance.w));
-                    mergeWidth *= lerp(1, 1 - _BoltDecay, bolt / _Bolts);
+                    mergeWidth *= lerp(1, 1 - _BoltDecay, part);
                     strikeWidth *= formation;
                     _GlowWidth *= formation;
 
@@ -138,7 +139,7 @@ Shader "VFX/LightningBolt"
                     float glow = plot(cuv + float2(0, bolt - 1), strikeWidth + _GlowWidth, d, _Width);
 
                     float lightning = strike1 * 0.7f + strike2 * 0.7f + glow * 0.4f;
-                    lightning *= formation * lerp(1, 1 - _BoltDecay, bolt / _Bolts);
+                    lightning *= formation * lerp(1, 1 - _BoltDecay, part);
                     const float r = _Fade.y + _Fade.x;
                     lightning *= abs(cuv2.y) <= _Fade.y ? 1 : smoothstep(_Fade.y, abs(cuv2.y), r);
                     col += _Color / (1 - strikeWidth) * lightning;

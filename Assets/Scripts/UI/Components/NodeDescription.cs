@@ -16,8 +16,9 @@ namespace UI.Components
         [SerializeField] private RectTransform _rectTransform;
         [SerializeField] private TMP_Text _nodeName;
         [SerializeField] private TMP_Text _nodeDescription;
-        [SerializeField] private float _topBoxOffset;
+        [SerializeField] private float _boxOffset;
         
+        public CameraController Camera { private get; set; }
         private SkillNode _skillNode;
         public SkillNode HoveredNode
         {
@@ -31,6 +32,8 @@ namespace UI.Components
                     _nodeName.SetText(description.Name);
                     _nodeDescription.SetText(description.Description);
                     gameObject.SetActive(true);
+                    Rebuild(_nodeName.GetPreferredValues(description.Name),
+                        _nodeDescription.GetPreferredValues(description.Description));
                 }
                 else
                 {
@@ -40,25 +43,26 @@ namespace UI.Components
             }
         }
 
-        private void Rebuild(Vector2 position)
-        {
-            var canvasHalf = _canvas.pixelRect.width * 0.5f;
-            var height = _nodeName.preferredHeight + _nodeDescription.preferredHeight;
-            var width = Mathf.Max(_nodeName.preferredWidth, _nodeDescription.preferredWidth);
-            var hw = width * 0.5f;
-            var lb = _rectTransform.anchoredPosition.x - hw;
-            var rb = _rectTransform.anchoredPosition.x + hw;
-
-            var borderOffsetLeft = Mathf.Min(lb, -canvasHalf);
-            var borderOffsetRight = Mathf.Max(rb, canvasHalf);
-            
-            //TODO
-            //_rectTransform.anchoredPosition
-        }
-
         private void OnValidate()
         {
             _rectTransform = transform as RectTransform;
+        }
+
+        public void Rebuild(Vector2 prefName, Vector2 prefDesc)
+        {
+            var hs = _canvas.pixelRect.size * 0.5f;
+            Vector2 position = _skillNode.transform.position;
+            position -= hs;
+            
+            var width = Mathf.Max(prefName.x, prefDesc.x);
+            var hw = width * 0.5f;
+            var height = prefName.y + prefDesc.y;
+
+            position.x = Mathf.Clamp(position.x, -hs.x + hw, hs.x - hw);
+            
+            position.y += _boxOffset;
+            _rectTransform.anchoredPosition = position;
+            _rectTransform.sizeDelta = new Vector2(width, height);
         }
     }
 }
