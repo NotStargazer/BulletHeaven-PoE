@@ -102,7 +102,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _skillSpawnPosition: {fileID: 4962846157581697459}
   _defaultSkills:
-  - ChainLightning
+  - FireBall
 --- !u!1 &4603852519080755832
 GameObject:
   m_ObjectHideFlags: 0

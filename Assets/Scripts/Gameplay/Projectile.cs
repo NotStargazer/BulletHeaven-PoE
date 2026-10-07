@@ -6,7 +6,7 @@ using Utility;
 
 namespace Gameplay
 {
-    public abstract class Projectile : MonoBehaviour, IPoolInstance<Projectile>
+    public class Projectile : MonoBehaviour, IPoolInstance<Projectile>
     {
         private bool _fired;
         private float _speed;

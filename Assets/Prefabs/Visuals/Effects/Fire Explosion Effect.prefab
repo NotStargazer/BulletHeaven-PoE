@@ -28,8 +28,8 @@ Transform:
   m_GameObject: {fileID: 1543016528656386567}
   serializedVersion: 2
   m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalPosition: {x: 1.3000001, y: 0, z: 0}
+  m_LocalScale: {x: 4, y: 4, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -103,3 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 867f4c54169d4a52a1b55b03851c980e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Visuals.VisualEffects.FireExplosionVFX
+  _transform: {fileID: 1280285720620354417}
+  _renderer: {fileID: 8296469849835530505}
+  _animation: {fileID: 7400000, guid: 0c0d4b50c6b7e3248bc7e44cd111f786, type: 2}
+  _radiusOffset: 0.1

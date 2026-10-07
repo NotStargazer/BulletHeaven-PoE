@@ -40,7 +40,7 @@ namespace Gameplay.Skills
             var penetration = user.StatTracker.GetResistancePenetration(this);
             var projStats = user.StatTracker.GetProjectileStats(_projectileCount, _projectileSpeed, _projectileRange, _projectilePierce);
             var area = Stat.CalculateStats(_explosionRadius,
-                user.StatTracker.GetStats(this, new StatType(BaseType.Skill, SkillTags.Area)));
+                user.StatTracker.GetStats(this, new StatType(BaseType.Skill, SkillStat.Area)));
             
             var projectile = _projectilePool.Rent();
             
@@ -62,7 +62,11 @@ namespace Gameplay.Skills
         {
             Array.Clear(_colliders, 0, _colliders.Length);
             Physics.OverlapSphereNonAlloc(transform.position, radius, _colliders, (int)DefinedLayers.Targetable);
-            //_fireballExplosion.Rent().Play();
+            _fireballExplosion.Rent().Play(new FireExplosionData
+            {
+                Center = transform.position,
+                Radius = radius,
+            });
             foreach (var collider in _colliders)
             {
                 if (!collider)

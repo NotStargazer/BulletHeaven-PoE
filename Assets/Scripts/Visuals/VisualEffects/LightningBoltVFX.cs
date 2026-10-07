@@ -26,6 +26,7 @@ namespace Visuals.VisualEffects
         [SerializeField] private float _durationMultiplier = 3f;
         
         private AnimationClip _animation;
+        private MaterialPropertyBlock _propertyBlock;
 
         private float _duration;
         protected override float Duration => _duration;
@@ -33,32 +34,27 @@ namespace Visuals.VisualEffects
         private void Awake()
         {
             gameObject.SetActive(false);
+            _propertyBlock = new MaterialPropertyBlock();
         }
 
         protected override void OnPlay(LightningBoltData data)
         {
             gameObject.SetActive(true);
-            var properties = new MaterialPropertyBlock();
-            if (_renderer.HasPropertyBlock())
-            {
-                _renderer.GetPropertyBlock(properties);
-            }
             _duration = data.Duration * (data.HasTarget ? _durationMultiplier : _durationMultiplier / 2);
             _animation = data.HasTarget ? _animationTarget : _animationNoTarget;
-            properties.SetInteger(SEED, Random.Range(-255, 256));
+            _propertyBlock.SetInteger(SEED, Random.Range(-255, 256));
             var middle = (data.Source + data.Target) / 2;
             var length = Vector3.Distance(data.Source, data.Target);
             var heightDelta = data.Source.y - data.Target.y;
             var angle = Mathf.Asin(heightDelta / length) * Mathf.Rad2Deg;
             var direction = (data.Source.ToXZ() - data.Target.ToXZ()).normalized;
             var spin = Mathf.Atan2(direction.x, direction.y) * Mathf.Rad2Deg;
-            properties.SetFloat(FREQUENCY, length / _baseScale);
-            properties.SetFloat(LENGTH, _baseScale / length);
+            _propertyBlock.SetFloat(FREQUENCY, length / _baseScale);
+            _propertyBlock.SetFloat(LENGTH, _baseScale / length);
             _transform.localPosition = middle;
             _transform.localScale = new Vector3(1, length);
             _transform.rotation = Quaternion.Euler(90 - angle, spin, 0);
-            Debug.DrawLine(data.Source, data.Target, Color.red, 1);
-            _renderer.SetPropertyBlock(properties);
+            _renderer.SetPropertyBlock(_propertyBlock);
         }
 
         protected override void OnFinish()

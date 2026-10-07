@@ -231,10 +231,10 @@ namespace Gameplay.Modifiers
         public ProjectileSnapshot GetProjectileStats(int count, float speed, float range, int pierce, Skill skill = null)
         {
             return new ProjectileSnapshot(
-                GetAndCalculateAsInt(skill, new StatType(BaseType.Skill, ProjectileStat.Count)),
-                GetAndCalculate(skill, new StatType(BaseType.Skill, ProjectileStat.Speed)),
-                GetAndCalculate(skill, new StatType(BaseType.Skill, ProjectileStat.Range)),
-                GetAndCalculateAsInt(skill, new StatType(BaseType.Skill, ProjectileStat.Pierce))
+                Stat.CalculateStats(count,  GetStats(skill, new StatType(BaseType.Skill, ProjectileStat.Count))),
+                Stat.CalculateStats(speed,  GetStats(skill, new StatType(BaseType.Skill, ProjectileStat.Speed))),
+                Stat.CalculateStats(range,  GetStats(skill, new StatType(BaseType.Skill, ProjectileStat.Range))),
+                Stat.CalculateStats(pierce, GetStats(skill, new StatType(BaseType.Skill, ProjectileStat.Pierce)))
             );
         }
     }

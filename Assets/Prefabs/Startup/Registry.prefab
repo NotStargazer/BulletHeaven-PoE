@@ -47,34 +47,34 @@ MonoBehaviour:
   _singletonName: Registry
   _destroyOnLevelChange: 0
   Skills:
-    TestSkill:
+    FireBall:
       _entry:
         _tags: 10
         _skillCooldown:
           _baseDuration: 2
-        _projectile: {fileID: 4970941024480854794, guid: 8d13bc0efda9a6a48be3865dcacf7b6b, type: 3}
-        _projectileCount: 0
-        _projectileSpeed: 0
-        _projectileRange: 0
-        _projectilePierce: 0
-        _explosionRadius: 0
+        _explosionVFX: {fileID: 5807487590285716396, guid: 1fc1132ee2c213b40adccc3ec1a6af4b, type: 3}
+        _projectile: {fileID: 2370965140529464354, guid: 8d13bc0efda9a6a48be3865dcacf7b6b, type: 3}
+        _projectileCount: 1
+        _projectileSpeed: 10
+        _projectileRange: 16
+        _projectilePierce: 1
+        _explosionRadius: 4
+        _maxOverlaps: 20
         _projectileDamage:
-          DamageType: 0
-          Damage: 0
+          DamageType: 2
+          Damage: 20
         _explosionDamage:
-          DamageType: 0
-          Damage: 0
-        _damageScalers: []
+          DamageType: 2
+          Damage: 10
+        _damageScalers:
+        - _baseType: 0
+          _subType: 2
     ChainLightning:
       _entry:
         _tags: 2
         _skillCooldown:
           _baseDuration: 2
         _lightningVFX: {fileID: 7078883702330429524, guid: 44df1781e988b0c4d851533dd099adaa, type: 3}
-        _collider:
-          _type: 0
-          _size: 0
-          _length: 0
         _autoAimRadius: 5
         _chainRadius: 10
         _chains: 4
@@ -357,7 +357,7 @@ MonoBehaviour:
         _icon: {fileID: -5289030749609111184, guid: 9f1d67267f4ad764ca858609e434b19a, type: 3}
         _stats:
         - _statType:
-            _baseType: 3
+            _baseType: 2
             _subType: 1
           _flat: 0
           _increase: 0.1
