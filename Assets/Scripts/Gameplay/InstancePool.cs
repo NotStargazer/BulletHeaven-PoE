@@ -11,10 +11,10 @@ namespace Gameplay
     
     public class InstancePool<T> where T: MonoBehaviour, IPoolInstance<T>
     {
-        private Stack<T> _pool;
-        private int _expandSize;
-        private int _limit;
-        private T _instance;
+        private readonly Stack<T> _pool;
+        private readonly int _expandSize;
+        private readonly int _limit;
+        private readonly T _instance;
         
         public InstancePool(T instance, int initialPool, int expandSize, int limit)
         {

@@ -1,4 +1,5 @@
-﻿using Gameplay.Modifiers;
+﻿using System.Collections.Generic;
+using Gameplay.Modifiers;
 
 namespace Gameplay.Data
 {
@@ -7,7 +8,7 @@ namespace Gameplay.Data
         public readonly float BaseTimeMod;
         public readonly float SpeedMultiplier;
         
-        public SpeedSnapshot(Stat[] stats)
+        public SpeedSnapshot(List<Stat> stats)
         {
             BaseTimeMod = Stat.CalculateFlat(stats);
             SpeedMultiplier = Stat.CalculateMultiplier(stats);

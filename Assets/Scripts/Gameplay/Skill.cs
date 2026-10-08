@@ -1,7 +1,10 @@
 using System;
+using Gameplay.Data;
+using Gameplay.Modifiers;
 using Global;
 using UI.Localization;
 using UnityEngine;
+using Utility;
 using Utility.Attributes;
 
 namespace Gameplay
@@ -70,6 +73,22 @@ namespace Gameplay
             if (_skillCooldown.Check(Time.time, speed.SpeedMultiplier, speed.BaseTimeMod))
             {
                 Use(user, aimPosition, supports);
+                var repeats = Stat.CalculateStats(0,
+                    user.StatTracker.GetStats(this, new StatType(BaseType.Skill, SkillStat.Repeat)));
+                if (repeats > 0)
+                {
+                    var chain = EventManager.CreateChain();
+                    var repeatTime = (_skillCooldown.Duration - speed.BaseTimeMod) / speed.SpeedMultiplier * _skillCooldown.RepeatMultiplier;
+                    for (var i = 0; i < repeats; i++)
+                    {
+                        chain.AddEvent(repeatTime, EventManager.ExecutionOrder.AfterDuration, () =>
+                        {
+                            Use(user, aimPosition, supports);
+                        });
+                        chain.Complete();
+                    }
+
+                }
                 return true;
             }
 

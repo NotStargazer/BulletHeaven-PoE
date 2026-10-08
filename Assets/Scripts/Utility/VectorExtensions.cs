@@ -8,6 +8,11 @@ namespace Utility
         {
             return new Vector2(a.x, a.z);
         }
+        
+        public static Vector3 ToXZ3(this Vector3 a)
+        {
+            return new Vector3(a.x, 0, a.z);
+        }
 
         public static float SqrDistanceTo(this Vector3 a, Vector3 b)
         {

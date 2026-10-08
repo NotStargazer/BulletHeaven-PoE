@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using UnityEditor;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace Gameplay.Data
 {
@@ -17,26 +17,42 @@ namespace Gameplay.Data
         [SerializeField] private ColliderType _type;
         [SerializeField] private float _size;
         [SerializeField] private float _length;
-        
-        public bool Cast(Transform transform, float distance, int maxHits, out List<IEntity> hits, int mask = 0)
+
+        private List<IEntity> _hits;
+
+        private RaycastHit[] _raycastHits;
+        private Collider[] _overlaps;
+
+        public IReadOnlyList<IEntity> Hits => _hits;
+
+        private void ClearAndCheckSize<T>(int size, ref T[] array)
         {
-            var raycastHits = new RaycastHit[maxHits];
+            Array.Clear(array, 0, array.Length);
+            if (size > array.Length)
+            {
+                Array.Resize(ref array, size);
+            }
+        }
+        
+        public bool Cast(Transform transform, float distance, int maxHits, int mask = 0)
+        {
+            _hits.Clear();
+            ClearAndCheckSize(maxHits, ref _raycastHits);
             switch (_type)
             {
                 case ColliderType.Sphere:
                     Physics.SphereCastNonAlloc(new Ray(transform.localPosition, transform.forward),
-                        _size, raycastHits, distance, mask);
+                        _size, _raycastHits, distance, mask);
                     break;
                 case ColliderType.Capsule:
                     Physics.CapsuleCastNonAlloc(
                         transform.position - transform.forward * _length,
                         transform.position + transform.forward * _length,
-                        _size, transform.forward, raycastHits, distance, mask);
+                        _size, transform.forward, _raycastHits, distance, mask);
                     break;
             }
             
-            hits = new List<IEntity>();
-            foreach (var hit in raycastHits)
+            foreach (var hit in _raycastHits)
             {
                 if (!hit.transform)
                 {
@@ -44,32 +60,32 @@ namespace Gameplay.Data
                 }
                 if (hit.transform.TryGetComponent<IEntity>(out var component))
                 {
-                    hits.Add(component);
+                    _hits.Add(component);
                 }
             }
-            
-            return hits.Count > 0;
+
+            return _hits.Count > 0;
         }
 
-        public bool Overlap(Transform transform, int maxHits, out List<IEntity> hits, int mask)
+        public bool Overlap(Transform transform, int maxHits, int mask = 0)
         {
-            var overlaps = new Collider[maxHits];
+            _hits.Clear();
+            ClearAndCheckSize(maxHits, ref _overlaps);
             switch (_type)
             {
                 case ColliderType.Sphere:
-                    Physics.OverlapSphereNonAlloc(transform.position, _size, overlaps, mask);
+                    Physics.OverlapSphereNonAlloc(transform.position, _size, _overlaps, mask);
                     break;
                 case ColliderType.Capsule:
                     Physics.OverlapCapsuleNonAlloc(
                         transform.position - transform.forward * _length,
-                        transform.position + transform.forward * _length, _size, overlaps, mask);
+                        transform.position + transform.forward * _length, _size, _overlaps, mask);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException(nameof(_type));
             }
             
-            hits = new List<IEntity>();
-            foreach (var overlap in overlaps)
+            foreach (var overlap in _overlaps)
             {
                 if (!overlap.transform)
                 {
@@ -77,11 +93,11 @@ namespace Gameplay.Data
                 }
                 if (overlap.transform.TryGetComponent<IEntity>(out var component))
                 {
-                    hits.Add(component);
+                    _hits.Add(component);
                 }
             }
 
-            return hits.Count > 0;
+            return _hits.Count > 0;
         }
 
         public void DrawGizmo(Transform transform)
@@ -89,12 +105,20 @@ namespace Gameplay.Data
             switch (_type)
             {
                 case ColliderType.Sphere:
+                    Gizmos.DrawWireSphere(transform.position, _size);
                     break;
                 case ColliderType.Capsule:
                     Gizmos.DrawWireSphere(transform.position - transform.forward * _length, _size);
                     Gizmos.DrawWireSphere(transform.position + transform.forward * _length, _size);
                     break;
             }
+        }
+
+        public void Init()
+        {
+            _hits = new List<IEntity>();
+            _raycastHits = new RaycastHit[1];
+            _overlaps = new Collider[1];
         }
     }
 }

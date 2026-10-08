@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 4471433989172499121}
   - component: {fileID: 8296469849835530505}
   - component: {fileID: 5807487590285716396}
+  - component: {fileID: 4011735591293658056}
   m_Layer: 0
   m_Name: Fire Explosion Effect
   m_TagString: Untagged
@@ -107,3 +108,20 @@ MonoBehaviour:
   _renderer: {fileID: 8296469849835530505}
   _animation: {fileID: 7400000, guid: 0c0d4b50c6b7e3248bc7e44cd111f786, type: 2}
   _radiusOffset: 0.1
+--- !u!111 &4011735591293658056
+Animation:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1543016528656386567}
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Animation: {fileID: 0}
+  m_Animations:
+  - {fileID: 7400000, guid: 0c0d4b50c6b7e3248bc7e44cd111f786, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_UpdateMode: 0
+  m_CullingType: 0

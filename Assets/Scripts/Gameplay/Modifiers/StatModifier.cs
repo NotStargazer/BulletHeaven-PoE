@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace Gameplay.Modifiers
@@ -11,7 +12,7 @@ namespace Gameplay.Modifiers
 
         public override bool IsConditional => _condition != 0;
 
-        public override Stat[] Calculate(IEntity entity, Skill skill = null)
+        public override IReadOnlyCollection<Stat> Calculate(IEntity entity, Skill skill = null)
         {
             if (skill != null && _condition != 0)
             {

@@ -13,6 +13,7 @@ namespace Gameplay.Modifiers
         [SerializeField] private InterfaceRef<IEntity> _entity;
         [SerializeField] private SerializedDictionary<StatType, float> _baseStats;
         
+        private byte _checkIteration;
         private List<IModifierSource> _sources;
         private Dictionary<StatType, Stat> _stats;
         private List<Modifier> _modifiers;
@@ -99,7 +100,15 @@ namespace Gameplay.Modifiers
             }
         }
 
-        public Stat[] GetStats(Skill skill = null, params StatType[] statTypes)
+        public List<Stat> GetStats(Skill skill = null, params StatType[] statTypes)
+        {
+            _checkIteration++;
+            _outStats.Clear();
+            GetStatsNoIterate(_outStats, skill, statTypes);
+            return _outStats;
+        }
+        
+        public void GetStatsNoIterate(List<Stat> stats, Skill skill = null, params StatType[] statTypes)
         {
             foreach (var statType in statTypes)
             {
@@ -112,12 +121,17 @@ namespace Gameplay.Modifiers
                 {
                     if (_stats.TryGetValue(splitType, out var stat))
                     {
-                        _outStats.Add(stat);
+                        stats.Add(stat);
                     }
                 });
                 
                 foreach (var modifier in _modifiers)
                 {
+                    if (modifier.ModCheckIteration == _checkIteration)
+                    {
+                        continue;
+                    }
+                    modifier.ModCheckIteration = _checkIteration;
                     var modStats = modifier.Calculate(_entity.I, skill);
                     if (modStats == null)
                     {
@@ -127,37 +141,30 @@ namespace Gameplay.Modifiers
                     {
                         if (modStat.StatType == statType)
                         {
-                            _outStats.Add(modStat);
+                            stats.Add(modStat);
                             break;
                         }
                     }
                 }
             }
-
-            var outStats = _outStats.ToArray();
-            _outStats.Clear();
-            return outStats;
         }
 
         private float GetAndCalculate(Skill skill = null, params StatType[] statTypes)
         {
-            return Stat.CalculateStats(GetStats(skill, statTypes));
-        }
-        
-        private int GetAndCalculateAsInt(Skill skill = null, params StatType[] statTypes)
-        {
-            return Stat.CalculateStats(0, GetStats(skill, statTypes));
+            GetStats(skill, statTypes);
+            return Stat.CalculateStats(_outStats);
         }
         
         private float GetAndCalculateAsDiminishing(Skill skill = null, params StatType[] statTypes)
         {
-            return Stat.CalculateDiminishing(GetStats(skill, statTypes));
+            GetStats(skill, statTypes);
+            return Stat.CalculateDiminishing(_outStats);
         }
 
         public DamageSnapshot CalculateDamage(FlatDamage baseDamage, Skill skill, params StatType[] scalers)
         {
-            var stats = GetStats(skill, scalers);
-            return new DamageSnapshot(Stat.CalculateStats(baseDamage, stats));
+            GetStats(skill, scalers);
+            return new DamageSnapshot(Stat.CalculateStats(baseDamage, _outStats));
         }
         
         public PenetrationSnapshot GetResistancePenetration(Skill skill)
@@ -184,10 +191,10 @@ namespace Gameplay.Modifiers
         {
             var isSpell = (skillTags & SkillTags.Spell) == SkillTags.Spell;
             var isAttack = (skillTags & SkillTags.Attack) == SkillTags.Attack;
-                          var stats = GetStats(skill, 
+                          GetStats(skill, 
                 isSpell ? new StatType(BaseType.Speed, ActionType.Cast) : null,
                 isAttack ? new StatType(BaseType.Speed, ActionType.Attack) : null);
-            return new SpeedSnapshot(stats);
+            return new SpeedSnapshot(_outStats);
         }
 
         public float GetMovementSpeed()
@@ -231,10 +238,10 @@ namespace Gameplay.Modifiers
         public ProjectileSnapshot GetProjectileStats(int count, float speed, float range, int pierce, Skill skill = null)
         {
             return new ProjectileSnapshot(
-                Stat.CalculateStats(count,  GetStats(skill, new StatType(BaseType.Skill, ProjectileStat.Count))),
-                Stat.CalculateStats(speed,  GetStats(skill, new StatType(BaseType.Skill, ProjectileStat.Speed))),
-                Stat.CalculateStats(range,  GetStats(skill, new StatType(BaseType.Skill, ProjectileStat.Range))),
-                Stat.CalculateStats(pierce, GetStats(skill, new StatType(BaseType.Skill, ProjectileStat.Pierce)))
+                Stat.CalculateStats(count,  GetStats(skill, new StatType(BaseType.Projectile, ProjectileStat.Count))),
+                Stat.CalculateStats(speed,  GetStats(skill, new StatType(BaseType.Projectile, ProjectileStat.Speed))),
+                Stat.CalculateStats(range,  GetStats(skill, new StatType(BaseType.Projectile, ProjectileStat.Range))),
+                Stat.CalculateStats(pierce, GetStats(skill, new StatType(BaseType.Projectile, ProjectileStat.Pierce)))
             );
         }
     }

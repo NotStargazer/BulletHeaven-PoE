@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Gameplay.Data;
 using Global;
 using UnityEngine;
@@ -10,15 +11,19 @@ namespace Gameplay.Modifiers
     {
         [SerializeField] private Sprite _icon;
         public Sprite Icon => _icon;
+        public byte ModCheckIteration { get; set; }
         
         private StatType _validTypes;
         public abstract bool IsConditional { get; }
-        public abstract Stat[] Calculate(IEntity entity, Skill skill = null);
+        public abstract IReadOnlyCollection<Stat> Calculate(IEntity entity, Skill skill = null);
         public abstract string GetDescription();
+        protected virtual void Construct(){}
         
         public object GetInstance()
         {
-            return (Modifier)MemberwiseClone();
+            var clone = (Modifier)MemberwiseClone();
+            clone.Construct();
+            return clone;
         }
     }
 }

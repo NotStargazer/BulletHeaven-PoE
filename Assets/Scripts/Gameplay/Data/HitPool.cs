@@ -9,19 +9,19 @@ namespace Gameplay.Data
     {
         [SerializeField] private InterfaceRef<IEntity> _entity;
 
-        private float _health;
+        private float _life;
         private float _barrier;
 
         public Action OnKill { get; set; }
 
-        public bool Alive => _health > 0;
+        public bool Alive => _life > 0;
         public float LastDamageTime { get; private set; }
 
         public void ApplyDamage(DamageSnapshot damage, PenetrationSnapshot penetration)
         {
-            _health -= _entity.I.StatTracker.CalculateResistances(damage, penetration);
+            _life -= _entity.I.StatTracker.CalculateResistances(damage, penetration);
             
-            if (_health <= 0)
+            if (_life <= 0)
             {
                 OnKill();
             }
@@ -33,7 +33,7 @@ namespace Gameplay.Data
         {
             var hitPool = _entity.I.StatTracker.GetHitPoolStats();
             var lifeRecovery = Time.fixedDeltaTime * hitPool.LifeRegen;
-            _health = Mathf.Min(_health + lifeRecovery, hitPool.MaxLife);
+            _life = Mathf.Min(_life + lifeRecovery, hitPool.MaxLife);
 
             if (LastDamageTime + hitPool.BarrierStartTime <= Time.time)
             {
@@ -44,10 +44,9 @@ namespace Gameplay.Data
 
         public void Restore()
         {
-            var healthStats = _entity.I.StatTracker.GetStats(statTypes: new StatType(BaseType.Resource, ResourceType.Life));
-            var barrierStats = _entity.I.StatTracker.GetStats(statTypes: new StatType(BaseType.Defence, DefenceType.Barrier));
-            _health = Stat.CalculateStats(healthStats);
-            _barrier = Stat.CalculateStats(barrierStats);
+            var hitPool = _entity.I.StatTracker.GetHitPoolStats();
+            _life = hitPool.MaxLife;
+            _barrier = hitPool.MaxBarrier;
         }
     }
 }

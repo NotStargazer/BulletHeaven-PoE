@@ -7,7 +7,9 @@ namespace Gameplay
     public struct CooldownTimer
     {
         [SerializeField] private float _baseDuration;
+        [Range(0.1f, 1f)] [SerializeField] private float _repeatMultiplier;
         public float Duration => _baseDuration;
+        public float RepeatMultiplier => _repeatMultiplier;
 
         private float _startTime;
         private float _endTime;

@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Gameplay.Data;
 using UI.Localization;
 using UnityEngine;
@@ -17,18 +18,18 @@ namespace Gameplay.Modifiers
     [Serializable]
     public struct Stat
     {
-        public static float CalculateStats(params Stat[] stats) => CalculateStats(0f, stats);
-        public static FlatDamage CalculateStats(FlatDamage baseDamage, params Stat[] stats)
+        public static float CalculateStats(List<Stat> stats) => CalculateStats(0f, stats);
+        public static FlatDamage CalculateStats(FlatDamage baseDamage, List<Stat> stats)
         {
             baseDamage.Damage = CalculateStats(baseDamage.Damage, stats);
             return baseDamage;
         }
 
-        public static int CalculateStats(int baseStat, params Stat[] stats)
+        public static int CalculateStats(int baseStat, List<Stat> stats)
         {
             return Mathf.FloorToInt(CalculateStats((float)baseStat, stats));
         }
-        public static float CalculateStats(float baseStat, params Stat[] stats)
+        public static float CalculateStats(float baseStat, List<Stat> stats)
         {
             var result = new Stat();
 
@@ -50,9 +51,9 @@ namespace Gameplay.Modifiers
             return baseStat;
         }
 
-        public static float CalculateDiminishing(Stat[] stats) => CalculateDiminishing(0f, stats);
+        public static float CalculateDiminishing(List<Stat> stats) => CalculateDiminishing(0f, stats);
         
-        public static float CalculateDiminishing(float baseStat, Stat[] stats)
+        public static float CalculateDiminishing(float baseStat, List<Stat> stats)
         {
             var result = new Stat();
 
@@ -74,7 +75,7 @@ namespace Gameplay.Modifiers
             return baseStat;
         }
         
-        public static float CalculateFlat(Stat[] stats)
+        public static float CalculateFlat(List<Stat> stats)
         {
             var result = new Stat();
 
@@ -86,7 +87,7 @@ namespace Gameplay.Modifiers
             return result._flat;
         }
         
-        public static float CalculateMultiplier(Stat[] stats)
+        public static float CalculateMultiplier(List<Stat> stats)
         {
             var result = new Stat();
 
@@ -98,76 +99,77 @@ namespace Gameplay.Modifiers
             return (1 + result._increase) * (1 + result._multiplier);
         }
         
-        public static Stat[] Transform(StatType finalType, params Stat[] scalers)
+        public static void Transform(StatType finalType, List<Stat> scalers)
         {
-            for (var i = 0; i < scalers.Length; i++)
+            for (var i = 0; i < scalers.Count; i++)
             {
-                scalers[i]._statType = finalType;
+                var scaler = scalers[i];
+                scaler._statType = finalType;
+                scalers[i] = scaler;
             }
-
-            return scalers;
         }
         
-        public static Stat[] IsolateFactor(StatFactor factor, params Stat[] scalers)
+        public static void IsolateFactor(StatFactor factor, List<Stat> scalers)
         {
-            for (var i = 0; i < scalers.Length; i++)
+            for (var i = 0; i < scalers.Count; i++)
             {
+                var scaler = scalers[i];
                 if (factor != StatFactor.Flat)
                 {
-                    scalers[i]._flat = 0;
+                    scaler._flat = 0;
                 }
                 if (factor != StatFactor.Increased)
                 {
-                    scalers[i]._increase = 0;
+                    scaler._increase = 0;
                 }
                 if (factor != StatFactor.Multiplier)
                 {
-                    scalers[i]._multiplier = 0;
+                    scaler._multiplier = 0;
                 }
                 if (factor != StatFactor.Fixed)
                 {
-                    scalers[i]._fixedStat = 0;
+                    scaler._fixedStat = 0;
                 }
-            }
-            
-            return scalers;
-        }
-        
-        public static Stat[] Scale(float multiplier, params Stat[] scalers)
-        {
-            for (var i = 0; i < scalers.Length; i++)
-            {
-                scalers[i]._flat *= multiplier;
-                scalers[i]._increase *= multiplier;
-                scalers[i]._multiplier *= multiplier;
-                scalers[i]._fixedStat *= multiplier;
-            }
 
-            return scalers;
+                scalers[i] = scaler;
+            }
         }
         
-        public static Stat[] Scale(float multiplier, StatFactor factor, params Stat[] scalers)
+        public static void Scale(float multiplier, List<Stat> scalers)
         {
-            for (var i = 0; i < scalers.Length; i++)
+            for (var i = 0; i < scalers.Count; i++)
             {
+                var scaler = scalers[i];
+                scaler._flat *= multiplier;
+                scaler._increase *= multiplier;
+                scaler._multiplier *= multiplier;
+                scaler._fixedStat *= multiplier;
+                scalers[i] = scaler;
+            }
+        }
+        
+        public static void Scale(float multiplier, StatFactor factor, List<Stat> scalers)
+        {
+            for (var i = 0; i < scalers.Count; i++)
+            {
+                var scaler = scalers[i];
                 switch (factor)
                 {
                     case StatFactor.Flat:
-                        scalers[i]._flat *= multiplier;
+                        scaler._flat *= multiplier;
                         break;
                     case StatFactor.Increased:
-                        scalers[i]._increase *= multiplier;
+                        scaler._increase *= multiplier;
                         break;
                     case StatFactor.Multiplier:
-                        scalers[i]._multiplier *= multiplier;
+                        scaler._multiplier *= multiplier;
                         break;
                     case StatFactor.Fixed:
-                        scalers[i]._fixedStat *= multiplier;
+                        scaler._fixedStat *= multiplier;
                         break;
                 }
+                scalers[i] = scaler;
             }
-
-            return scalers;
         }
         
         [SerializeField] private StatType _statType;

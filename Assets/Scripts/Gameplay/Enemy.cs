@@ -41,8 +41,8 @@ namespace Gameplay
         public void Spawn(Player player, Vector3 position)
         {
             Target = player;
-            gameObject.SetActive(true);
             transform.localPosition = position;
+            gameObject.SetActive(true);
             _hitPool.Restore();
         }
 

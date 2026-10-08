@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Gameplay;
 using UnityEngine;
 
@@ -18,6 +19,7 @@ namespace Visuals
             _enabled = true;
             _startTime = Time.time;
             _endTime = Time.time + Duration;
+            Tick(0, 0);
         }
 
         protected abstract float Duration { get; }

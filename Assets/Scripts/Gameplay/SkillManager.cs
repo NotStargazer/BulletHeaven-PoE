@@ -10,8 +10,10 @@ namespace Gameplay
     {
         [SerializeField] private Transform _skillSpawnPosition;
         [SerializeField] [RegistryDropdown(typeof(SkillRegistry))] private string[] _defaultSkills;
+        [SerializeField] private LayerMask _targetLayers;
         private List<SkillSlot> _skills;
         public Vector3 SkillSpawnPosition => _skillSpawnPosition.position;
+        public LayerMask TargetLayers => _targetLayers;
 
         private int _skillIndex;
         private SkillSlot SelectedSkill => _skills[_skillIndex];

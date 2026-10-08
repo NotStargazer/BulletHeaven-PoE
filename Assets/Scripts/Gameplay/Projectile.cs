@@ -14,14 +14,16 @@ namespace Gameplay
         private int _pierce;
         private float _distanceTraveled;
         private Vector3 _direction;
+        private LayerMask _targets;
         
         public Action<IEnumerable<IEntity>> CollisionEvent { get; set; }
         public Action<Transform> DestroyEvent { get; set; }
         public Action<Transform> ExpireEvent { get; set; }
         [SerializeField] private ColliderData _collider;
         
-        public void Fire(IEntity entity, Vector3 direction, ProjectileSnapshot projectileStats)
+        public void Fire(IEntity entity, Vector3 direction, ProjectileSnapshot projectileStats, LayerMask targets)
         {
+            _targets = targets;
             _speed = projectileStats.Speed;
             _direction = direction;
             _range = projectileStats.Range;
@@ -46,6 +48,7 @@ namespace Gameplay
 
         private void Awake()
         {
+            _collider.Init();
             gameObject.SetActive(false);
         }
 
@@ -54,8 +57,9 @@ namespace Gameplay
             if (_fired)
             {
                 var timeScaledVelocity = _speed * Time.deltaTime;
-                if (_collider.Cast(transform, timeScaledVelocity, _pierce, out var hits, (int)DefinedLayers.Targetable))
+                if (_collider.Cast(transform, timeScaledVelocity, _pierce, _targets))
                 {
+                    var hits = _collider.Hits;
                     _pierce -= hits.Count;
                     CollisionEvent?.Invoke(hits);
                     if (_pierce == 0)

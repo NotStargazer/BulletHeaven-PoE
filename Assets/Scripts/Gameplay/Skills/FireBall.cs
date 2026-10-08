@@ -18,6 +18,7 @@ namespace Gameplay.Skills
         [SerializeField] private float _projectileRange;
         [SerializeField] private int _projectilePierce;
         [SerializeField] private float _explosionRadius;
+        [SerializeField] private float _projectileSpread;
         [SerializeField] private int _maxOverlaps;
         [SerializeField] private FlatDamage _projectileDamage;
         [SerializeField] private FlatDamage _explosionDamage;
@@ -41,27 +42,38 @@ namespace Gameplay.Skills
             var projStats = user.StatTracker.GetProjectileStats(_projectileCount, _projectileSpeed, _projectileRange, _projectilePierce);
             var area = Stat.CalculateStats(_explosionRadius,
                 user.StatTracker.GetStats(this, new StatType(BaseType.Skill, SkillStat.Area)));
-            
-            var projectile = _projectilePool.Rent();
-            
-            projectile.Fire(user, user.Transform.forward, projStats);
-            projectile.CollisionEvent += hits =>
+            var single = projStats.Count == 1;
+            for(var i = 0; i < projStats.Count; i++)
             {
-                foreach (var hitEntity in hits)
+                var direction = user.Transform.forward;
+                if (!single)
                 {
-                    hitEntity.HitPool.ApplyDamage(projDamage, penetration);
+                    var angle = Mathf.InverseLerp(0, projStats.Count - 1, i);
+                    var right = user.Transform.right * (_projectileSpread * (projStats.Count - 1));
+                    var faceDirection = aimPosition.ToXZ3() - user.Transform.position.ToXZ3();
+                    direction = Vector3.Lerp(-right, right, angle) + faceDirection;
+                    direction.Normalize();
                 }
-            };
-            projectile.DestroyEvent += projectileTransform =>
-            {
-                Explode(projectileTransform, area, areaDamage, penetration);
-            };
+                var projectile = _projectilePool.Rent();
+                projectile.Fire(user, direction, projStats, user.SkillManager.TargetLayers);
+                projectile.CollisionEvent += hits =>
+                {
+                    foreach (var hitEntity in hits)
+                    {
+                        hitEntity.HitPool.ApplyDamage(projDamage, penetration);
+                    }
+                };
+                projectile.DestroyEvent += projectileTransform =>
+                {
+                    Explode(user, projectileTransform, area, areaDamage, penetration);
+                };
+            }
         }
 
-        private void Explode(Transform transform, float radius, DamageSnapshot damage, PenetrationSnapshot penetration)
+        private void Explode(IEntity user, Transform transform, float radius, DamageSnapshot damage, PenetrationSnapshot penetration)
         {
             Array.Clear(_colliders, 0, _colliders.Length);
-            Physics.OverlapSphereNonAlloc(transform.position, radius, _colliders, (int)DefinedLayers.Targetable);
+            Physics.OverlapSphereNonAlloc(transform.position, radius, _colliders, user.SkillManager.TargetLayers);
             _fireballExplosion.Rent().Play(new FireExplosionData
             {
                 Center = transform.position,

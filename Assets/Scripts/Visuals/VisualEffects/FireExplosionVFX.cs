@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace Visuals.VisualEffects
 {
@@ -26,6 +27,7 @@ namespace Visuals.VisualEffects
         }
         protected override void OnPlay(FireExplosionData data)
         {
+            gameObject.SetActive(true);
             var diameter = (_radiusOffset + data.Radius) * 2;
             _propertyBlock.SetInteger(SEED, Random.Range(-255, 256));
             _transform.localPosition = data.Center;

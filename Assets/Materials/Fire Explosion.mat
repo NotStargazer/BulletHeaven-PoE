@@ -19,7 +19,7 @@ Material:
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
-  m_LockedProperties: 
+  m_LockedProperties: _Radius
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -68,12 +68,13 @@ Material:
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _ExTime: 0.469
+    - _ExTime: 0.45
     - _Frequency: 4
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
     - _GlowWidth: 0.05
+    - _InnerCut: 0
     - _Length: 1
     - _Metallic: 0
     - _Mode: 0
@@ -90,7 +91,7 @@ Material:
     - _Width: 1
     - _ZWrite: 1
     m_Colors:
-    - _Color: {r: 2.9434793, g: 0.37564984, b: 0.1038875, a: 1}
+    - _Color: {r: 0.9435, g: 0.37565, b: 0.10389, a: 1}
     - _Cutoff: {r: 1, g: 1, b: 1, a: 0}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _Fade: {r: 1, g: 1, b: 1, a: 0}

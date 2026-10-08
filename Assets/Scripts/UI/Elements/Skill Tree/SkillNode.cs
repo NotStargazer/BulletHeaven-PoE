@@ -85,7 +85,7 @@ namespace UI.Elements.Skill_Tree
             }
         }
 
-        public void SetState(NodeState state)
+        public void SetState(NodeState state, bool propagating = false)
         {
             _state = state;
             OnStateUpdated?.Invoke(_state);
@@ -100,9 +100,9 @@ namespace UI.Elements.Skill_Tree
                 case NodeState.Unlocked:
                     foreach (var node in AdjacentNodes)
                     {
-                        if (node._state <= NodeState.Unlocked)
+                        if (node._state <= NodeState.Unlocked && !propagating)
                         {
-                            node.SetState(NodeState.Locked);
+                            node.SetState(NodeState.Locked, true);
                         }
                     }
                     _nodeImage.color = new Color(0.75f, 1f, 0f);
@@ -110,9 +110,9 @@ namespace UI.Elements.Skill_Tree
                 case NodeState.Selected:
                     foreach (var node in AdjacentNodes)
                     {
-                        if (node._state == NodeState.Locked)
+                        if (node._state == NodeState.Locked && !propagating)
                         {
-                            node.SetState(NodeState.Unlocked);
+                            node.SetState(NodeState.Unlocked, true);
                         }
                     }
                     _nodeImage.color = new Color(0.9f, 0.75f, 0f);

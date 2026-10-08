@@ -52,6 +52,7 @@ MonoBehaviour:
         _tags: 10
         _skillCooldown:
           _baseDuration: 2
+          _repeatMultiplier: 0.2
         _explosionVFX: {fileID: 5807487590285716396, guid: 1fc1132ee2c213b40adccc3ec1a6af4b, type: 3}
         _projectile: {fileID: 2370965140529464354, guid: 8d13bc0efda9a6a48be3865dcacf7b6b, type: 3}
         _projectileCount: 1
@@ -59,6 +60,7 @@ MonoBehaviour:
         _projectileRange: 16
         _projectilePierce: 1
         _explosionRadius: 4
+        _projectileSpread: 1
         _maxOverlaps: 20
         _projectileDamage:
           DamageType: 2
@@ -74,6 +76,7 @@ MonoBehaviour:
         _tags: 2
         _skillCooldown:
           _baseDuration: 2
+          _repeatMultiplier: 0.25
         _lightningVFX: {fileID: 7078883702330429524, guid: 44df1781e988b0c4d851533dd099adaa, type: 3}
         _autoAimRadius: 5
         _chainRadius: 10
@@ -404,10 +407,10 @@ MonoBehaviour:
         _icon: {fileID: 7285367564318326748, guid: 0bc423e02e138a64ea278ffb1b6c0196, type: 3}
         _stats:
         - _statType:
-            _baseType: 7
+            _baseType: 6
             _subType: 8
           _flat: 0
-          _increase: 0.1
+          _increase: 0.2
           _multiplier: 0
           _fixed: 0
           _fixedStat: 0
@@ -438,7 +441,7 @@ MonoBehaviour:
           _fixed: 0
           _fixedStat: 0
         - _statType:
-            _baseType: 3
+            _baseType: 2
             _subType: 1
           _flat: 0
           _increase: 0.05
@@ -483,7 +486,7 @@ MonoBehaviour:
             _baseType: 6
             _subType: 8
           _flat: 0
-          _increase: 0.2
+          _increase: 0.1
           _multiplier: 0
           _fixed: 0
           _fixedStat: 0

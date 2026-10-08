@@ -42,7 +42,7 @@ namespace Gameplay.Skills
             var penetration = user.StatTracker.GetResistancePenetration(this);
             
             Array.Clear(_colliders, 0, _colliders.Length);
-            Physics.OverlapSphereNonAlloc(aimPosition, _autoAimRadius, _colliders, (int)DefinedLayers.Targetable);
+            Physics.OverlapSphereNonAlloc(aimPosition, _autoAimRadius, _colliders, user.SkillManager.TargetLayers);
             _targets.Clear();
             foreach (var collider in _colliders)
             {
@@ -50,7 +50,7 @@ namespace Gameplay.Skills
                 {
                     break;
                 }
-
+                
                 if (!collider.transform.TryGetComponent(out IEntity e))
                 {
                     continue;
@@ -108,7 +108,7 @@ namespace Gameplay.Skills
             }
             
             Array.Clear(_colliders, 0, _colliders.Length);
-            Physics.OverlapSphereNonAlloc(targetPosition, _chainRadius, _colliders, (int)DefinedLayers.Targetable);
+            Physics.OverlapSphereNonAlloc(targetPosition, _chainRadius, _colliders, user.SkillManager.TargetLayers);
             var distanceFromNext = Mathf.Infinity;
             IEntity nextTarget = null;
             foreach (var collider in _colliders)

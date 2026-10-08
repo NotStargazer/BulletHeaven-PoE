@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Gameplay.Data;
 using UI.Localization;
 using UnityEngine;
@@ -31,32 +32,40 @@ namespace Gameplay.Modifiers
         [SerializeField] private float _multiplier = 1;
         [SerializeField] private SkillTags _condition;
         [SerializeField] private StatFactor _factor;
+        
+        private List<Stat> _outScalerStats;
 
         public override bool IsConditional => true;
 
-        public override Stat[] Calculate(IEntity entity, Skill skill = null)
+        protected override void Construct()
+        {
+            _outScalerStats = new List<Stat>();
+        }
+
+        public override IReadOnlyCollection<Stat> Calculate(IEntity entity, Skill skill = null)
         {
             if (skill != null && _condition != 0)
             {
                 if (skill.CheckTags(_condition))
                 {
-                    return GetScalers(entity, skill);
+                    GetScalers(entity, skill);
+                    return _outScalerStats;
                 }
             }
             else if (_condition == 0)
             {
-                return GetScalers(entity, skill);
+                GetScalers(entity, skill);
             }
             
             return null;
         }
 
-        private Stat[] GetScalers(IEntity entity, Skill skill)
+        private void GetScalers(IEntity entity, Skill skill)
         {
-            var scalers = entity.StatTracker.GetStats(skill, _scalers);
-            scalers = Stat.Transform(_finalType, scalers);
-            scalers = Stat.IsolateFactor(StatFactor.Increased, scalers);
-            return Stat.Scale(_multiplier, StatFactor.Increased, scalers);
+            entity.StatTracker.GetStatsNoIterate(_outScalerStats, skill, _scalers);
+            Stat.Transform(_finalType, _outScalerStats);
+            Stat.IsolateFactor(StatFactor.Increased, _outScalerStats);
+            Stat.Scale(_multiplier, StatFactor.Increased, _outScalerStats);
         }
 
         public override string GetDescription()
