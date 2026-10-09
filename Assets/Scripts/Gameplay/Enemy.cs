@@ -1,16 +1,21 @@
 using System;
 using Gameplay.Data;
+using Gameplay.Enemies;
 using Gameplay.Modifiers;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace Gameplay
 {
-    public abstract class Enemy : MonoBehaviour, IEntity, IPoolInstance<Enemy>
+    [RequireComponent(typeof(NavMeshAgent))]
+    public class Enemy : MonoBehaviour, IEntity, IPoolInstance<Enemy>
     {
         private protected Player Target;
+        [SerializeField] private FlexibleStateMachine _stateMachine;
         [SerializeField] private StatTracker _statTracker;
         [SerializeField] private HitPool _hitPool;
         [SerializeField] private SkillManager _skillManager;
+        [SerializeField] private NavMeshAgent _agent;
 
         public Transform Transform => transform;
 
@@ -58,11 +63,7 @@ namespace Gameplay
         
         private void OnValidate()
         {
-            Validate();
-        }
-
-        public virtual void Validate()
-        {
+            _agent = GetComponent<NavMeshAgent>();
             (this as IEntity).ImplementComponents();
         }
     }
