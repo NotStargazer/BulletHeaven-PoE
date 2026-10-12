@@ -10,7 +10,7 @@ namespace Gameplay
         
         protected Player _player;
 
-        protected Vector3 PlayerPosition => _player.transform.localPosition;
+        protected Vector3 PlayerPosition => ((Component)_player).transform.localPosition;
         protected Vector3 CollectablePosition => transform.localPosition;
         protected float Distance => Vector3.Distance(CollectablePosition, PlayerPosition);
 

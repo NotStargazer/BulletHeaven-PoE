@@ -51,10 +51,92 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Enemy
   _stateMachine:
+    _defaultState: Test
     _stateDefinitions:
-    - _stateType:
-        _typeName: ChaseState
-      _exitConditions: []
+    - _stateName: Test
+      _stateType:
+        _typeName: Gameplay.Enemies.States.ChaseState
+      _stateParameters:
+      - _name: distance
+        _type: System.Single
+        _stringVal: 
+        _boolVal: 0
+        _intVal: 0
+        _floatVal: 1
+        _vector2Val: {x: 0, y: 0}
+        _vector3Val: {x: 0, y: 0, z: 0}
+        _vector2IntVal: {x: 0, y: 0}
+        _vector3IntVal: {x: 0, y: 0, z: 0}
+        _quaternionVal: {x: 0, y: 0, z: 0, w: 0}
+      _exitConditions:
+      - _exitCondition:
+          _typeName: Gameplay.Enemies.ExitConditions.DistanceCondition
+        _nextState: Attack
+        _parameters:
+        - _name: distance
+          _type: System.Single
+          _stringVal: 
+          _boolVal: 0
+          _intVal: 0
+          _floatVal: 2
+          _vector2Val: {x: 0, y: 0}
+          _vector3Val: {x: 0, y: 0, z: 0}
+          _vector2IntVal: {x: 0, y: 0}
+          _vector3IntVal: {x: 0, y: 0, z: 0}
+          _quaternionVal: {x: 0, y: 0, z: 0, w: 0}
+        - _name: within
+          _type: System.Boolean
+          _stringVal: 
+          _boolVal: 1
+          _intVal: 0
+          _floatVal: 0
+          _vector2Val: {x: 0, y: 0}
+          _vector3Val: {x: 0, y: 0, z: 0}
+          _vector2IntVal: {x: 0, y: 0}
+          _vector3IntVal: {x: 0, y: 0, z: 0}
+          _quaternionVal: {x: 0, y: 0, z: 0, w: 0}
+    - _stateName: Attack
+      _stateType:
+        _typeName: Gameplay.Enemies.States.AttackState
+      _stateParameters:
+      - _name: distance
+        _type: System.Single
+        _stringVal: 
+        _boolVal: 0
+        _intVal: 0
+        _floatVal: 2
+        _vector2Val: {x: 0, y: 0}
+        _vector3Val: {x: 0, y: 0, z: 0}
+        _vector2IntVal: {x: 0, y: 0}
+        _vector3IntVal: {x: 0, y: 0, z: 0}
+        _quaternionVal: {x: 0, y: 0, z: 0, w: 0}
+      _exitConditions:
+      - _exitCondition:
+          _typeName: Gameplay.Enemies.ExitConditions.DistanceCondition
+        _nextState: Test
+        _parameters:
+        - _name: distance
+          _type: System.Single
+          _stringVal: 
+          _boolVal: 0
+          _intVal: 0
+          _floatVal: 0
+          _vector2Val: {x: 0, y: 0}
+          _vector3Val: {x: 0, y: 0, z: 0}
+          _vector2IntVal: {x: 0, y: 0}
+          _vector3IntVal: {x: 0, y: 0, z: 0}
+          _quaternionVal: {x: 0, y: 0, z: 0, w: 0}
+        - _name: within
+          _type: System.Boolean
+          _stringVal: 
+          _boolVal: 1
+          _intVal: 0
+          _floatVal: 0
+          _vector2Val: {x: 0, y: 0}
+          _vector3Val: {x: 0, y: 0, z: 0}
+          _vector2IntVal: {x: 0, y: 0}
+          _vector3IntVal: {x: 0, y: 0, z: 0}
+          _quaternionVal: {x: 0, y: 0, z: 0, w: 0}
   _statTracker: {fileID: 6707629848891113170}
   _hitPool: {fileID: 1067672642089383206}
   _skillManager: {fileID: -4178045248603007243}
@@ -115,13 +197,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _entity:
-    _target: {fileID: 0}
+    _target: {fileID: 7348441223653947489}
   _baseStats:
     _serializedList:
     - Key:
         _baseType: 3
         _subType: 1
       Value: 50
+    - Key:
+        _baseType: 2
+        _subType: 4
+      Value: 1
 --- !u!114 &1067672642089383206
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -135,7 +221,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _entity:
-    _target: {fileID: 0}
+    _target: {fileID: 7348441223653947489}
 --- !u!114 &-4178045248603007243
 MonoBehaviour:
   m_ObjectHideFlags: 0

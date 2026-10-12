@@ -45,12 +45,12 @@ namespace Gameplay.Skills
             var single = projStats.Count == 1;
             for(var i = 0; i < projStats.Count; i++)
             {
-                var direction = user.Transform.forward;
+                var direction = user.transform.forward;
                 if (!single)
                 {
                     var angle = Mathf.InverseLerp(0, projStats.Count - 1, i);
-                    var right = user.Transform.right * (_projectileSpread * (projStats.Count - 1));
-                    var faceDirection = aimPosition.ToXZ3() - user.Transform.position.ToXZ3();
+                    var right = user.transform.right * (_projectileSpread * (projStats.Count - 1));
+                    var faceDirection = aimPosition.ToXZ3() - user.transform.position.ToXZ3();
                     direction = Vector3.Lerp(-right, right, angle) + faceDirection;
                     direction.Normalize();
                 }

@@ -1,47 +1,35 @@
-﻿using System;
-using System.Linq;
+﻿using System.Collections.Generic;
+using System.Reflection;
 using Gameplay.Enemies;
 using UnityEditor;
-using UnityEngine;
+using UnityEditor.UIElements;
+using UnityEngine.UIElements;
 
 namespace Editor.PropertyDrawers
 {
     [CustomPropertyDrawer(typeof(FlexibleStateMachine.StateDefinition))]
     public class StateDefinitionPropertyDrawer : PropertyDrawer
     {
-        public override void OnGUI(Rect position, SerializedProperty property, GUIContent label)
+        public override VisualElement CreatePropertyGUI(SerializedProperty property)
         {
+            var root = new VisualElement();
+            var stateName = property.FindPropertyRelative("_stateName");
             var stateType = property.FindPropertyRelative("_stateType");
             var stateParams = property.FindPropertyRelative("_stateParameters");
             var exitConditions = property.FindPropertyRelative("_exitConditions");
-            var exitConditionParams = property.FindPropertyRelative("_exitConditionParameters");
-
-            EditorGUI.BeginProperty(position, label, property);
-            position = DoStateType<IState>(position, stateType, new GUIContent("State Type"));
             
-            EditorGUI.EndProperty();
-        }
-
-        private Rect DoStateType<T>(Rect position, SerializedProperty property, GUIContent label)
-        {
-            var typeNames = FlexibleStateMachine.StateType<T>.TypeNames.ToArray();
-            var afterLabel = EditorGUI.PrefixLabel(position, label);
-            position.y += EditorGUIUtility.singleLineHeight;
-            
-            if (typeNames.Length == 0)
+            var assembly = Assembly.GetAssembly(typeof(IState));
+            var typeName = stateType.FindPropertyRelative("_typeName");
+            EditorStateMachineUtility.ValidateParams(assembly.GetType(typeName.stringValue), stateParams);
+            root.Add(new PropertyField(stateName));
+            root.Add(new PropertyField(stateType));
+            for (var i = 0; i < stateParams.arraySize; i++)
             {
-                return position;
+                var pram = stateParams.GetArrayElementAtIndex(i);
+                root.Add(new PropertyField(pram));
             }
-            
-            property = property.FindPropertyRelative("_typeName");
-            var index = 0;
-            if (!string.IsNullOrEmpty(property.stringValue))
-            {
-                index = Array.FindIndex(typeNames, t => t == property.stringValue);
-            }
-            var outIndex = EditorGUI.Popup(afterLabel, index, typeNames);
-            property.stringValue = typeNames[outIndex];
-            return position;
+            root.Add(new PropertyField(exitConditions));
+            return root;
         }
     }
 }

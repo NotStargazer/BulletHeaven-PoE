@@ -10,7 +10,6 @@ namespace Gameplay
     [RequireComponent(typeof(NavMeshAgent))]
     public class Enemy : MonoBehaviour, IEntity, IPoolInstance<Enemy>
     {
-        private protected Player Target;
         [SerializeField] private FlexibleStateMachine _stateMachine;
         [SerializeField] private StatTracker _statTracker;
         [SerializeField] private HitPool _hitPool;
@@ -18,6 +17,8 @@ namespace Gameplay
         [SerializeField] private NavMeshAgent _agent;
 
         public Transform Transform => transform;
+        public NavMeshAgent Agent => _agent;
+        public Player Player { get; private set; }
 
         StatTracker IEntity.StatTracker
         {
@@ -40,12 +41,18 @@ namespace Gameplay
         private void Awake()
         {
             gameObject.SetActive(false);
+            _stateMachine.Construct(this);
             _hitPool.OnKill += Kill;
+        }
+
+        private void Update()
+        {
+            _stateMachine.Update();
         }
 
         public void Spawn(Player player, Vector3 position)
         {
-            Target = player;
+            Player = player;
             transform.localPosition = position;
             gameObject.SetActive(true);
             _hitPool.Restore();

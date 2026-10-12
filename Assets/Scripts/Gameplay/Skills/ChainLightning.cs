@@ -76,7 +76,7 @@ namespace Gameplay.Skills
             
             foreach(var target in targets)
             {
-                var targetPosition = target.Entity.Transform.position;
+                var targetPosition = target.Entity.transform.position;
                 var distanceToTarget = Vector3.Distance(user.SkillManager.SkillSpawnPosition, targetPosition);
 
                 var duration = distanceToTarget / _velocity;
@@ -98,7 +98,7 @@ namespace Gameplay.Skills
         private void Chain(IEntity user, IEntity target, DamageSnapshot damage, PenetrationSnapshot penetration,
             EventManager.EventChain chain, int chains, HashSet<IEntity> hitTargets)
         {
-            var targetPosition = target.Transform.position;
+            var targetPosition = target.transform.position;
             target.HitPool.ApplyDamage(damage, penetration);
 
             if (chains == 0)
@@ -133,14 +133,14 @@ namespace Gameplay.Skills
 
             if (nextTarget != null)
             {
-                var distanceToTarget = Vector3.Distance(targetPosition, nextTarget.Transform.position);
+                var distanceToTarget = Vector3.Distance(targetPosition, nextTarget.transform.position);
                 var duration = distanceToTarget / _velocity;
                 
                 _vfxPool.Rent().Play(new LightningBoltData
                 {
                     Duration = duration,
                     Source = targetPosition,
-                    Target = nextTarget.Transform.position,
+                    Target = nextTarget.transform.position,
                     HasTarget = true,
                 });
                 

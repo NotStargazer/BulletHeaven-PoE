@@ -154,7 +154,7 @@ MonoBehaviour:
   _enemyList:
     _enemyWaves:
     - EnemyInstances:
-      - EnemyPrefab: {fileID: 453843668992776310, guid: 4781f8660f44aa947b10e36e94265c86, type: 3}
+      - EnemyPrefab: {fileID: 7348441223653947489, guid: 4781f8660f44aa947b10e36e94265c86, type: 3}
         SpawnWeight: 0
         MaxCount: 100
       SpawnTime: 0

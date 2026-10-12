@@ -1,64 +1,51 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
 namespace Gameplay.Enemies
 {
     [Serializable]
-    public class FlexibleStateMachine
+    public partial class FlexibleStateMachine
     {
-        private struct ExitCondition
-        {
-            private IExitCondition _exitConditionType;
-            private Type _targetState;
-        }
+        [SerializeField] private string _defaultState;
+        [SerializeField] private StateDefinition[] _stateDefinitions;
+
+        private FlexibleState _currentState;
+        private Dictionary<string, FlexibleState> _states;
         
-        private struct FlexibleState
+        public void Construct(Enemy subject)
         {
-            public IState State;
-            public ExitCondition[] ExitConditions;
+            _states = new Dictionary<string, FlexibleState>();
+            foreach (var stateDefinition in _stateDefinitions)
+            {
+                stateDefinition.AddTo(_states, subject);
+            }
+            ChangeState(_defaultState);
         }
 
-        [Serializable]
-        public struct StateType<T>
+        public void Update()
         {
-            [SerializeField] private string _typeName;
-
-            public Type Type => Type.GetType(_typeName);
-            
-            // ReSharper disable once StaticMemberInGenericType
-            private static string[] _typeNames;
-            public static IReadOnlyCollection<string> TypeNames => _typeNames;
-            static StateType()
+            _currentState.State?.Update();
+            foreach (var exitCondition in _currentState.ExitConditions)
             {
-                var types = AppDomain.CurrentDomain.GetAssemblies()
-                    .SelectMany(s => s.GetTypes())
-                    .Where(p => typeof(T).IsAssignableFrom(p) && !p.IsInterface).ToArray();
-                _typeNames = new string[types.Length];
-                for (var i = 0; i < types.Length; i++)
+                if (exitCondition.ExitCon.ShouldExit())
                 {
-                    _typeNames[i] = types[i].Name;
+                    ChangeState(exitCondition.NextState);
                 }
             }
         }
-        
-        [Serializable]
-        private struct ExitConditionDefinition
-        {
-            [SerializeField] private Type _exitConditionType;
-            [SerializeField] private Type _targetState;
-        }
-        
-        [Serializable]
-        public struct StateDefinition
-        {
-            [SerializeField] private StateType<IState> _stateType;
-            [SerializeField] private object[] _stateParameters;
-            [SerializeField] private ExitConditionDefinition[] _exitConditions;
-            [SerializeField] private object[][] _exitConditionParameters;
-        }
 
-        [SerializeField] private StateDefinition[] _stateDefinitions;
+        public void ChangeState(string state)
+        {
+            if (!_states.TryGetValue(state, out var newState))
+            {
+                Debug.LogError($"State {state} does not exist");
+                return;
+            }
+            
+            _currentState.State?.Exit();
+            _currentState = newState;
+            _currentState.State.Enter();
+        }
     }
 }
