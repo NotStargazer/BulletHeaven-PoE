@@ -42,10 +42,12 @@ namespace Editor.PropertyDrawers
             var ctors = stateType.GetConstructors();
             var ctor = ctors[0];
             var prams = ctor.GetParameters();
+            paramsProperty.serializedObject.Update();
 
             if (prams.Length != paramsProperty.arraySize)
             {
                 SetParams(prams, paramsProperty);
+                paramsProperty.serializedObject.ApplyModifiedProperties();
                 return;
             }
 
@@ -58,9 +60,11 @@ namespace Editor.PropertyDrawers
                 if (pramType.FullName != propType.stringValue || pramType.Name != propName.stringValue)
                 {
                     SetParams(prams, paramsProperty);
+                    paramsProperty.serializedObject.ApplyModifiedProperties();
                     return;
                 }
             }
+            
         }
 
         private static void SetParams(ParameterInfo[] parameters, SerializedProperty paramsProperty)

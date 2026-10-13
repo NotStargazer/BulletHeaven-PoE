@@ -1,9 +1,11 @@
 using System;
+using System.Globalization;
 using Gameplay.Data;
 using Gameplay.Enemies;
 using Gameplay.Modifiers;
 using UnityEngine;
 using UnityEngine.AI;
+using Utility;
 
 namespace Gameplay
 {
@@ -41,8 +43,12 @@ namespace Gameplay
         private void Awake()
         {
             gameObject.SetActive(false);
-            _stateMachine.Construct(this);
             _hitPool.OnKill += Kill;
+        }
+
+        private void Start()
+        {
+            _stateMachine.Construct(this);
         }
 
         private void Update()
@@ -56,6 +62,7 @@ namespace Gameplay
             transform.localPosition = position;
             gameObject.SetActive(true);
             _hitPool.Restore();
+            _skillManager.ResetCooldowns();
         }
 
         public void Kill()
@@ -73,5 +80,22 @@ namespace Gameplay
             _agent = GetComponent<NavMeshAgent>();
             (this as IEntity).ImplementComponents();
         }
-    }
+
+    //     private void OnGUI()
+    //     {
+    //         var mcam = Camera.main;
+    //         var distance = Player.Transform.position.SqrDistanceTo(Transform.position);
+    //         var pos = mcam.WorldToScreenPoint(Transform.position);
+    //         pos.y = Screen.height - pos.y;
+    //         pos.y -= 50;
+    //         GUI.Label(new Rect(pos, new Vector2(100, 20)), distance.ToString(CultureInfo.InvariantCulture),
+    //             new GUIStyle { normal = new GUIStyleState { textColor = Color.red }, fontSize = 20});
+    //         pos.y -= 22;
+    //         GUI.Label(new Rect(pos, new Vector2(100, 20)), _stateMachine.CurrentState,
+    //             new GUIStyle { normal = new GUIStyleState { textColor = Color.red }, fontSize = 20});
+    //         pos.y -= 22;
+    //         GUI.Label(new Rect(pos, new Vector2(100, 20)), _skillManager.CanUse().ToString(),
+    //             new GUIStyle { normal = new GUIStyleState { textColor = Color.red }, fontSize = 20});
+    //     }
+     }
 }

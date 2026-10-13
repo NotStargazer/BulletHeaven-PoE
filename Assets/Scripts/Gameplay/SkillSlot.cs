@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Globalization;
+using UnityEngine;
 
 namespace Gameplay
 {
@@ -12,14 +13,24 @@ namespace Gameplay
             _skill = skill;
         }
 
-        public void TryUseSkill(IEntity entity, Vector3 aimPosition)
+        public void TryUseSkill(IEntity user, Vector3 aimPosition)
         {
-            _skill.TryUse(entity, aimPosition, _supports);
+            _skill.TryUse(user, aimPosition, _supports);
+        }
+
+        public bool CanUse(IEntity user)
+        {
+            return _skill.CanUse(user, _supports);
         }
 
         public bool TrySocket(Support support)
         {
             return true;
+        }
+
+        public void ResetCooldown()
+        {
+            _skill.ResetCooldown();
         }
     }
 }

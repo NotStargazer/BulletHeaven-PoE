@@ -10,9 +10,6 @@ namespace UI
         public float RemainingTime => Mathf.Max(_endTime - Time.time, 0);
         public bool Enabled { get; private set; }
 
-        /// <summary>
-        /// Must be called in order to function!
-        /// </summary>
         public TransitionFunction(Action<float> callback)
         {
             if (GlobalResources.HasInstance)

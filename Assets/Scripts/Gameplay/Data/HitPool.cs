@@ -8,7 +8,7 @@ namespace Gameplay.Data
     public class HitPool : MonoBehaviour
     {
         [SerializeField] private InterfaceRef<IEntity> _entity;
-
+        
         private float _life;
         private float _barrier;
 

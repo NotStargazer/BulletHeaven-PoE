@@ -1,3 +1,4 @@
+using System;
 using Gameplay.Data;
 using Gameplay.Modifiers;
 using UI;
@@ -42,7 +43,7 @@ namespace Gameplay
             set => _skillManager = value;
         }
 
-        public IUIRoot UIRoot { private get; set; }
+        public IUIRoot UIRoot { get; set; }
 
         public void OnMove(InputAction.CallbackContext context)
         {
@@ -80,6 +81,11 @@ namespace Gameplay
             _experienceTracker = new ExperienceTracker(_levelUpRequirement, _levelUpGrowthFactor, OnExperienceGain, OnLevelUp);
         }
 
+        private void Start()
+        {
+            _hitPool.Restore();
+        }
+
         private void Update()
         {
             if (_desiredDirection.magnitude > 0)
@@ -100,7 +106,7 @@ namespace Gameplay
             var direction = (worldPosition - transform.localPosition).Value.normalized;
             transform.localRotation = Quaternion.LookRotation(direction, Vector3.up);
             
-            _skillManager.TryUseSkill(this, worldPosition.Value);
+            _skillManager.TryUseSkill(worldPosition.Value);
         }
 
         public void GrantExperience(int experience)

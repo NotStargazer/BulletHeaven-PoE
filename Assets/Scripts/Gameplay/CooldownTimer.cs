@@ -14,16 +14,15 @@ namespace Gameplay
         private float _startTime;
         private float _endTime;
 
-        public bool Check(float t, float speed = 1, float baseTimeMod = 0)
+        public bool Check(float t)
         {
-            if (t >= _endTime)
-            {
-                _startTime = _endTime;
-                _endTime += (Duration + baseTimeMod) / speed;
-                return true;
-            }
-
-            return false;
+            return t >= _endTime;
+        }
+        
+        public void Consume(float t, float speed = 1, float baseTimeMod = 0)
+        {
+            _startTime = t;
+            _endTime = _startTime + (Duration + baseTimeMod) / speed;
         }
 
         public float GetPercentage(float t)
@@ -34,7 +33,7 @@ namespace Gameplay
         public void Reset(float t)
         {
             _startTime = t;
-            _endTime += t + Duration;
+            _endTime = t + Duration;
         }
     }
 }

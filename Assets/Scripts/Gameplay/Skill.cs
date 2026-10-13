@@ -60,21 +60,25 @@ namespace Gameplay
             }
         }
         
+        private static readonly StatType SKILL_REPEAT = new(BaseType.Skill, SkillStat.Repeat);
+        
         [SerializeField] protected SkillTags _tags;
         [SerializeField] protected CooldownTimer _skillCooldown;
-        
+        public float Cooldown => _skillCooldown.GetPercentage(Time.time) * _skillCooldown.Duration;
+
         protected abstract void Construct();
         
         protected abstract void Use(IEntity user, Vector3 aimPosition, Support[] supports);
 
         public bool TryUse(IEntity user, Vector3 aimPosition, Support[] supports)
         {
-            var speed = user.StatTracker.GetSkillSpeed(this, _tags);
-            if (_skillCooldown.Check(Time.time, speed.SpeedMultiplier, speed.BaseTimeMod))
+            if (_skillCooldown.Check(Time.time))
             {
+                var speed = user.StatTracker.GetSkillSpeed(this, _tags);
+                _skillCooldown.Consume(Time.time, speed.SpeedMultiplier, speed.BaseTimeMod);
                 Use(user, aimPosition, supports);
                 var repeats = Stat.CalculateStats(0,
-                    user.StatTracker.GetStats(this, new StatType(BaseType.Skill, SkillStat.Repeat)));
+                    user.StatTracker.GetStats(this, SKILL_REPEAT));
                 if (repeats > 0)
                 {
                     var chain = EventManager.CreateChain();
@@ -94,6 +98,11 @@ namespace Gameplay
 
             return false;
         }
+        
+        public bool CanUse(IEntity user, Support[] supports)
+        {
+            return _skillCooldown.Check(Time.time);
+        }
 
         public bool CheckTags(SkillTags compare)
         {
@@ -106,6 +115,11 @@ namespace Gameplay
             _skillCooldown.Reset(Time.time);
             skill!.Construct();
             return skill;
+        }
+
+        public void ResetCooldown()
+        {
+            _skillCooldown.Reset(Time.time);
         }
     }
 }

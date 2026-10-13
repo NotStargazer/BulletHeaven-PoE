@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using AYellowpaper.SerializedCollections;
 using Gameplay.Data;
-using Gameplay.Skills;
 using UnityEngine;
 using Utility;
 
@@ -169,10 +167,10 @@ namespace Gameplay.Modifiers
         
         public PenetrationSnapshot GetResistancePenetration(Skill skill)
         {
-            var physical = GetAndCalculate(skill, new StatType(BaseType.Penetration, DamageType.Physical));
-            var fire = GetAndCalculate(skill, new StatType(BaseType.Penetration, DamageType.Fire));
-            var cold = GetAndCalculate(skill, new StatType(BaseType.Penetration, DamageType.Cold));
-            var lightning = GetAndCalculate(skill, new StatType(BaseType.Penetration, DamageType.Lightning));
+            var physical = GetAndCalculate(skill, StatTypes.Damage.Physical);
+            var fire = GetAndCalculate(skill, StatTypes.Damage.Fire);
+            var cold = GetAndCalculate(skill, StatTypes.Damage.Cold);
+            var lightning = GetAndCalculate(skill, StatTypes.Damage.Lightning);
             //TODO Flag Mods for ignoring penetration?
             return new PenetrationSnapshot(physical, fire, cold, lightning);
         }
@@ -192,25 +190,25 @@ namespace Gameplay.Modifiers
             var isSpell = (skillTags & SkillTags.Spell) == SkillTags.Spell;
             var isAttack = (skillTags & SkillTags.Attack) == SkillTags.Attack;
                           GetStats(skill, 
-                isSpell ? new StatType(BaseType.Speed, ActionType.Cast) : null,
-                isAttack ? new StatType(BaseType.Speed, ActionType.Attack) : null);
+                isSpell ? StatTypes.Speed.Spell : null,
+                isAttack ? StatTypes.Speed.Attack : null);
             return new SpeedSnapshot(_outStats);
         }
 
         public float GetMovementSpeed()
         {
-            var speed = GetStats(statTypes: new StatType(BaseType.Speed, ActionType.Move));
+            var speed = GetStats(statTypes: StatTypes.Speed.Move);
             return Stat.CalculateStats(speed);
         }
         
         public HitPoolSnapshot GetHitPoolStats()
         {
             return new HitPoolSnapshot(
-            GetAndCalculate(statTypes: new StatType(BaseType.Resource, ResourceType.Life)),
-            GetAndCalculate(statTypes: new StatType(BaseType.Defence, DefenceType.Barrier)),
-            GetAndCalculate(statTypes: new StatType(BaseType.ResourceRecovery, ResourceType.Life)),
-            GetAndCalculateAsDiminishing(statTypes: new StatType(BaseType.Barrier, BarrierStat.StartTime)),
-            GetAndCalculateAsDiminishing(statTypes: new StatType(BaseType.Barrier, BarrierStat.RegenRate)));
+            GetAndCalculate(statTypes: StatTypes.Resource.Life),
+            GetAndCalculate(statTypes: StatTypes.Defence.Barrier),
+            GetAndCalculate(statTypes: StatTypes.ResourceRecovery.Life),
+            GetAndCalculateAsDiminishing(statTypes: StatTypes.Barrier.StartTime),
+            GetAndCalculateAsDiminishing(statTypes: StatTypes.Barrier.RegenRate));
         }
 
         private float CalculateResistance(FlatDamage flatDamage, float? penetration)
@@ -238,10 +236,10 @@ namespace Gameplay.Modifiers
         public ProjectileSnapshot GetProjectileStats(int count, float speed, float range, int pierce, Skill skill = null)
         {
             return new ProjectileSnapshot(
-                Stat.CalculateStats(count,  GetStats(skill, new StatType(BaseType.Projectile, ProjectileStat.Count))),
-                Stat.CalculateStats(speed,  GetStats(skill, new StatType(BaseType.Projectile, ProjectileStat.Speed))),
-                Stat.CalculateStats(range,  GetStats(skill, new StatType(BaseType.Projectile, ProjectileStat.Range))),
-                Stat.CalculateStats(pierce, GetStats(skill, new StatType(BaseType.Projectile, ProjectileStat.Pierce)))
+                Stat.CalculateStats(count,  GetStats(skill, StatTypes.Projectile.Count)),
+                Stat.CalculateStats(speed,  GetStats(skill, StatTypes.Projectile.Speed)),
+                Stat.CalculateStats(range,  GetStats(skill, StatTypes.Projectile.Range)),
+                Stat.CalculateStats(pierce, GetStats(skill, StatTypes.Projectile.Pierce))
             );
         }
     }

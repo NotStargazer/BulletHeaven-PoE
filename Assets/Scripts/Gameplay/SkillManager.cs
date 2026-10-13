@@ -2,12 +2,14 @@
 using Global;
 using Global.Registries;
 using UnityEngine;
+using Utility;
 using Utility.Attributes;
 
 namespace Gameplay
 {
     public class SkillManager : MonoBehaviour
     {
+        [SerializeField] private InterfaceRef<IEntity> _entity;
         [SerializeField] private Transform _skillSpawnPosition;
         [SerializeField] [RegistryDropdown(typeof(SkillRegistry))] private string[] _defaultSkills;
         [SerializeField] private LayerMask _targetLayers;
@@ -27,21 +29,49 @@ namespace Gameplay
             }
         }
 
-        public void SwitchSkill(int direction)
+        public void CycleSkill(int direction)
         {
             _skillIndex += direction;
             _skillIndex %= _skills.Count;
             _skillIndex = _skillIndex < 0 ? _skills.Count - 1 : _skillIndex;
         }
 
-        public void TryUseSkill(IEntity entity, Vector3 aimPosition)
+        public void TryUseSkill(Vector3 aimPosition)
         {
             if (_skills.Count == 0)
             {
                 return;
             }
             
-            SelectedSkill.TryUseSkill(entity, aimPosition);
+            SelectedSkill.TryUseSkill(_entity.I, aimPosition);
+        }
+
+        public void TryUseSkill(int index, Vector3 aimPosition)
+        {
+            if (_skills.Count == 0)
+            {
+                return;
+            }
+            
+            _skills[Mathf.Clamp(index, 0, _skills.Count - 1)].TryUseSkill(_entity.I, aimPosition);
+        }
+        
+        public bool CanUse()
+        {
+            return _skills.Count != 0 && SelectedSkill.CanUse(_entity.I);
+        }
+
+        public bool CanUse(int index)
+        {
+            return _skills.Count != 0 && _skills[Mathf.Clamp(index, 0, _skills.Count - 1)].CanUse(_entity.I);
+        }
+
+        public void ResetCooldowns()
+        {
+            foreach (var skillSlot in _skills)
+            {
+                skillSlot.ResetCooldown();
+            }
         }
     }
 }

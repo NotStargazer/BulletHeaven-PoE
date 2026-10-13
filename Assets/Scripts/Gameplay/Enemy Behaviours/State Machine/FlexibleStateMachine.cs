@@ -11,8 +11,10 @@ namespace Gameplay.Enemies
         [SerializeField] private StateDefinition[] _stateDefinitions;
 
         private FlexibleState _currentState;
+        private string _currentStateName;
         private Dictionary<string, FlexibleState> _states;
-        
+        public string CurrentState => _currentStateName;
+
         public void Construct(Enemy subject)
         {
             _states = new Dictionary<string, FlexibleState>();
@@ -45,7 +47,12 @@ namespace Gameplay.Enemies
             
             _currentState.State?.Exit();
             _currentState = newState;
+            _currentStateName = state;
             _currentState.State.Enter();
+            foreach (var exitCondition in _currentState.ExitConditions)
+            {
+                exitCondition.ExitCon.StateEntered();
+            }
         }
     }
 }

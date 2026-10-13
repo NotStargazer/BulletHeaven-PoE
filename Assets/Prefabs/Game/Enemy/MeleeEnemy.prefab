@@ -1,5 +1,36 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &920298865538674879
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2110199433147698610}
+  m_Layer: 7
+  m_Name: SkillPosition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2110199433147698610
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 920298865538674879}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 0.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3075317348146147766}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1235265989921331683
 GameObject:
   m_ObjectHideFlags: 0
@@ -16,7 +47,7 @@ GameObject:
   - component: {fileID: 1067672642089383206}
   - component: {fileID: -4178045248603007243}
   m_Layer: 7
-  m_Name: TestEnemy
+  m_Name: MeleeEnemy
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -36,6 +67,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7778853809999396439}
+  - {fileID: 2110199433147698610}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &7348441223653947489
@@ -51,13 +83,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Enemy
   _stateMachine:
-    _defaultState: Test
+    _defaultState: Chase Far
     _stateDefinitions:
-    - _stateName: Test
+    - _stateName: Chase Far
       _stateType:
         _typeName: Gameplay.Enemies.States.ChaseState
       _stateParameters:
-      - _name: distance
+      - _name: speedMultiplier
+        _type: System.Single
+        _stringVal: 
+        _boolVal: 0
+        _intVal: 0
+        _floatVal: 2
+        _vector2Val: {x: 0, y: 0}
+        _vector3Val: {x: 0, y: 0, z: 0}
+        _vector2IntVal: {x: 0, y: 0}
+        _vector3IntVal: {x: 0, y: 0, z: 0}
+        _quaternionVal: {x: 0, y: 0, z: 0, w: 0}
+      - _name: speedSmoothingDuration
         _type: System.Single
         _stringVal: 
         _boolVal: 0
@@ -71,10 +114,89 @@ MonoBehaviour:
       _exitConditions:
       - _exitCondition:
           _typeName: Gameplay.Enemies.ExitConditions.DistanceCondition
-        _nextState: Attack
+        _nextState: Chase Close
         _parameters:
         - _name: distance
           _type: System.Single
+          _stringVal: 
+          _boolVal: 0
+          _intVal: 0
+          _floatVal: 7
+          _vector2Val: {x: 0, y: 0}
+          _vector3Val: {x: 0, y: 0, z: 0}
+          _vector2IntVal: {x: 0, y: 0}
+          _vector3IntVal: {x: 0, y: 0, z: 0}
+          _quaternionVal: {x: 0, y: 0, z: 0, w: 0}
+        - _name: within
+          _type: System.Boolean
+          _stringVal: 
+          _boolVal: 1
+          _intVal: 0
+          _floatVal: 0
+          _vector2Val: {x: 0, y: 0}
+          _vector3Val: {x: 0, y: 0, z: 0}
+          _vector2IntVal: {x: 0, y: 0}
+          _vector3IntVal: {x: 0, y: 0, z: 0}
+          _quaternionVal: {x: 0, y: 0, z: 0, w: 0}
+    - _stateName: Chase Close
+      _stateType:
+        _typeName: Gameplay.Enemies.States.ChaseState
+      _stateParameters:
+      - _name: speedMultiplier
+        _type: System.Single
+        _stringVal: 
+        _boolVal: 0
+        _intVal: 0
+        _floatVal: 1
+        _vector2Val: {x: 0, y: 0}
+        _vector3Val: {x: 0, y: 0, z: 0}
+        _vector2IntVal: {x: 0, y: 0}
+        _vector3IntVal: {x: 0, y: 0, z: 0}
+        _quaternionVal: {x: 0, y: 0, z: 0, w: 0}
+      - _name: speedSmoothingDuration
+        _type: System.Single
+        _stringVal: 
+        _boolVal: 0
+        _intVal: 0
+        _floatVal: 0.5
+        _vector2Val: {x: 0, y: 0}
+        _vector3Val: {x: 0, y: 0, z: 0}
+        _vector2IntVal: {x: 0, y: 0}
+        _vector3IntVal: {x: 0, y: 0, z: 0}
+        _quaternionVal: {x: 0, y: 0, z: 0, w: 0}
+      _exitConditions:
+      - _exitCondition:
+          _typeName: Gameplay.Enemies.ExitConditions.DistanceCondition
+        _nextState: Chase Far
+        _parameters:
+        - _name: distance
+          _type: System.Single
+          _stringVal: 
+          _boolVal: 0
+          _intVal: 0
+          _floatVal: 8
+          _vector2Val: {x: 0, y: 0}
+          _vector3Val: {x: 0, y: 0, z: 0}
+          _vector2IntVal: {x: 0, y: 0}
+          _vector3IntVal: {x: 0, y: 0, z: 0}
+          _quaternionVal: {x: 0, y: 0, z: 0, w: 0}
+        - _name: within
+          _type: System.Boolean
+          _stringVal: 
+          _boolVal: 0
+          _intVal: 0
+          _floatVal: 0
+          _vector2Val: {x: 0, y: 0}
+          _vector3Val: {x: 0, y: 0, z: 0}
+          _vector2IntVal: {x: 0, y: 0}
+          _vector3IntVal: {x: 0, y: 0, z: 0}
+          _quaternionVal: {x: 0, y: 0, z: 0, w: 0}
+      - _exitCondition:
+          _typeName: Gameplay.Enemies.ExitConditions.SkillCondition
+        _nextState: Attack
+        _parameters:
+        - _name: skillIndex
+          _type: System.Int32
           _stringVal: 
           _boolVal: 0
           _intVal: 0
@@ -84,12 +206,23 @@ MonoBehaviour:
           _vector2IntVal: {x: 0, y: 0}
           _vector3IntVal: {x: 0, y: 0, z: 0}
           _quaternionVal: {x: 0, y: 0, z: 0, w: 0}
-        - _name: within
+        - _name: canUse
           _type: System.Boolean
           _stringVal: 
           _boolVal: 1
           _intVal: 0
           _floatVal: 0
+          _vector2Val: {x: 0, y: 0}
+          _vector3Val: {x: 0, y: 0, z: 0}
+          _vector2IntVal: {x: 0, y: 0}
+          _vector3IntVal: {x: 0, y: 0, z: 0}
+          _quaternionVal: {x: 0, y: 0, z: 0, w: 0}
+        - _name: range
+          _type: System.Single
+          _stringVal: 
+          _boolVal: 1
+          _intVal: 0
+          _floatVal: 2.5
           _vector2Val: {x: 0, y: 0}
           _vector3Val: {x: 0, y: 0, z: 0}
           _vector2IntVal: {x: 0, y: 0}
@@ -99,12 +232,23 @@ MonoBehaviour:
       _stateType:
         _typeName: Gameplay.Enemies.States.AttackState
       _stateParameters:
-      - _name: distance
+      - _name: attackTime
         _type: System.Single
         _stringVal: 
         _boolVal: 0
         _intVal: 0
-        _floatVal: 2
+        _floatVal: 0.4
+        _vector2Val: {x: 0, y: 0}
+        _vector3Val: {x: 0, y: 0, z: 0}
+        _vector2IntVal: {x: 0, y: 0}
+        _vector3IntVal: {x: 0, y: 0, z: 0}
+        _quaternionVal: {x: 0, y: 0, z: 0, w: 0}
+      - _name: skillIndex
+        _type: System.Int32
+        _stringVal: 
+        _boolVal: 0
+        _intVal: 0
+        _floatVal: 0.5
         _vector2Val: {x: 0, y: 0}
         _vector3Val: {x: 0, y: 0, z: 0}
         _vector2IntVal: {x: 0, y: 0}
@@ -112,26 +256,15 @@ MonoBehaviour:
         _quaternionVal: {x: 0, y: 0, z: 0, w: 0}
       _exitConditions:
       - _exitCondition:
-          _typeName: Gameplay.Enemies.ExitConditions.DistanceCondition
-        _nextState: Test
+          _typeName: Gameplay.Enemies.ExitConditions.TimeCondition
+        _nextState: Chase Close
         _parameters:
-        - _name: distance
+        - _name: duration
           _type: System.Single
           _stringVal: 
           _boolVal: 0
           _intVal: 0
-          _floatVal: 0
-          _vector2Val: {x: 0, y: 0}
-          _vector3Val: {x: 0, y: 0, z: 0}
-          _vector2IntVal: {x: 0, y: 0}
-          _vector3IntVal: {x: 0, y: 0, z: 0}
-          _quaternionVal: {x: 0, y: 0, z: 0, w: 0}
-        - _name: within
-          _type: System.Boolean
-          _stringVal: 
-          _boolVal: 1
-          _intVal: 0
-          _floatVal: 0
+          _floatVal: 2
           _vector2Val: {x: 0, y: 0}
           _vector3Val: {x: 0, y: 0, z: 0}
           _vector2IntVal: {x: 0, y: 0}
@@ -162,7 +295,7 @@ NavMeshAgent:
   m_Height: 2
   m_BaseOffset: 0
   m_WalkableMask: 1
-  m_ObstacleAvoidanceType: 4
+  m_ObstacleAvoidanceType: 2
 --- !u!65 &8406212715575349965
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -234,11 +367,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ff77ad92521340b89ff250a35d3d5312, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _skillSpawnPosition: {fileID: 0}
-  _defaultSkills: []
+  _entity:
+    _target: {fileID: 7348441223653947489}
+  _skillSpawnPosition: {fileID: 2110199433147698610}
+  _defaultSkills:
+  - Slash
   _targetLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 64
 --- !u!1 &8415208488935590085
 GameObject:
   m_ObjectHideFlags: 0

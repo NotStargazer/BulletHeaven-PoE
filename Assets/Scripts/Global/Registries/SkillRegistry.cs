@@ -9,5 +9,6 @@ namespace Global.Registries
     {
         public RegistryEntry<FireBall> FireBall;
         public RegistryEntry<ChainLightning> ChainLightning;
+        public RegistryEntry<Slash> Slash;
     }
 }

@@ -14,6 +14,7 @@ namespace Gameplay.Enemies.ExitConditions
         }
 
         public Enemy Subject { get; set; }
+        public void StateEntered() { }
 
         public bool ShouldExit()
         {

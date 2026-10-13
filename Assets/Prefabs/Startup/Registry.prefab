@@ -89,6 +89,21 @@ MonoBehaviour:
         _damageScalers:
         - _baseType: 0
           _subType: 8
+    Slash:
+      _entry:
+        _tags: 0
+        _skillCooldown:
+          _baseDuration: 1
+          _repeatMultiplier: 0.15
+        _slashVFX: {fileID: 7366323061545010450, guid: 8e3c636c689616f4e9c24814faf2fcc9, type: 3}
+        _strikeRadius: 2
+        _maxOverlaps: 10
+        _strikeDamage:
+          DamageType: 1
+          Damage: 5
+        _damageScalers:
+        - _baseType: 0
+          _subType: 1
   Collectables:
     _experience: {fileID: 1380669470238152779, guid: dc348e75cdfdc794cb7252d1c225a686, type: 3}
   SkillTreeModifiers:
