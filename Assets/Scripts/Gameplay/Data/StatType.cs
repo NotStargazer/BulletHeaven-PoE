@@ -157,8 +157,8 @@ namespace Gameplay.Data
             _subType = Convert.ToInt32(subType);
         }
         
-        [SerializeField] protected BaseType _baseType;
-        [SerializeField] protected int _subType;
+        [SerializeField] private BaseType _baseType;
+        [SerializeField] private int _subType;
 
         public string BaseName => typeof(BaseType).GetFields()[(int)_baseType + 1].Name;
         public string SubName => Enum.GetName(SubTypeAttribute.SubType, _subType);

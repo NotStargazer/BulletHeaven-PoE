@@ -89,9 +89,8 @@ namespace Gameplay
                         {
                             Use(user, aimPosition, supports);
                         });
-                        chain.Complete();
                     }
-
+                    chain.Complete();
                 }
                 return true;
             }

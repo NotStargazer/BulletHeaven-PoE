@@ -100,6 +100,7 @@ namespace Utility
 
         private Dictionary<GUID, Chain> _eventChains;
         private List<GUID> _markedForComplete;
+        private bool _isExecuting;
         
         public override void Instantiate()
         {
@@ -112,13 +113,28 @@ namespace Utility
             _eventChains[guid].Add(duration, action, order);
         }
         
-        private void Update()
+        //JUST LET ME CONVERT COLLECTIONS TO SPANS C# PLEASE
+        private unsafe void Update()
         {
-            foreach (var eventChain in _eventChains.Values)
+            if (_eventChains.Count == 0)
             {
-                eventChain.Tick();
+                return;
+            }
+            
+            var guidCount = _eventChains.Count;
+            var guids = stackalloc GUID[guidCount];
+            var index = 0;
+            foreach (var guid in _eventChains.Keys)
+            {
+                guids[index] = guid;
+                index++;
             }
 
+            for (var i = 0; i < guidCount; i++)
+            {
+                _eventChains[guids[i]].Tick();
+            }
+            
             foreach (var guid in _markedForComplete)
             {
                 _eventChains.Remove(guid);

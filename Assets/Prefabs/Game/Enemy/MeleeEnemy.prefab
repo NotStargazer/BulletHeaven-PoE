@@ -254,6 +254,28 @@ MonoBehaviour:
         _vector2IntVal: {x: 0, y: 0}
         _vector3IntVal: {x: 0, y: 0, z: 0}
         _quaternionVal: {x: 0, y: 0, z: 0, w: 0}
+      - _name: turnTime
+        _type: System.Single
+        _stringVal: 
+        _boolVal: 0
+        _intVal: 0
+        _floatVal: 0.2
+        _vector2Val: {x: 0, y: 0}
+        _vector3Val: {x: 0, y: 0, z: 0}
+        _vector2IntVal: {x: 0, y: 0}
+        _vector3IntVal: {x: 0, y: 0, z: 0}
+        _quaternionVal: {x: 0, y: 0, z: 0, w: 0}
+      - _name: maxTurnSpeed
+        _type: System.Single
+        _stringVal: 
+        _boolVal: 0
+        _intVal: 0
+        _floatVal: 10
+        _vector2Val: {x: 0, y: 0}
+        _vector3Val: {x: 0, y: 0, z: 0}
+        _vector2IntVal: {x: 0, y: 0}
+        _vector3IntVal: {x: 0, y: 0, z: 0}
+        _quaternionVal: {x: 0, y: 0, z: 0, w: 0}
       _exitConditions:
       - _exitCondition:
           _typeName: Gameplay.Enemies.ExitConditions.TimeCondition
@@ -270,6 +292,7 @@ MonoBehaviour:
           _vector2IntVal: {x: 0, y: 0}
           _vector3IntVal: {x: 0, y: 0, z: 0}
           _quaternionVal: {x: 0, y: 0, z: 0, w: 0}
+  _renderer: {fileID: 4664894963666895788}
   _statTracker: {fileID: 6707629848891113170}
   _hitPool: {fileID: 1067672642089383206}
   _skillManager: {fileID: -4178045248603007243}
@@ -386,6 +409,7 @@ GameObject:
   - component: {fileID: 7778853809999396439}
   - component: {fileID: 5391924046967849573}
   - component: {fileID: 2921423049382968840}
+  - component: {fileID: 4664894963666895788}
   m_Layer: 7
   m_Name: Model
   m_TagString: Untagged
@@ -465,3 +489,16 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &4664894963666895788
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8415208488935590085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e931015c6555459ab2fc36879f06c775, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Gameplay.Data.RendererPropertyBlock
+  _renderer: {fileID: 2921423049382968840}

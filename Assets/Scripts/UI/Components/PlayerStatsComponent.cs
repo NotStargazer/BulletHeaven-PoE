@@ -1,21 +1,33 @@
+using Gameplay;
+using Gameplay.Data;
 using UI.Elements;
 using UnityEngine;
 
 namespace UI.Components
 {
+    public enum UIStat
+    {
+        Life,
+        Barrier,
+    }
+    
     public class PlayerStatsComponent : MonoBehaviour
     {
         [SerializeField] private ProgressBar _healthBar;
+        [SerializeField] private ProgressBar _barrierBar;
         [SerializeField] private ProgressBar _experienceBar;
 
-        public void SetHealth(float p)
+        private void Awake()
         {
-            _healthBar.Set(p);
+            _experienceBar.Set(0);
         }
 
-        public void Experience(float p)
+        public void SetObservables(Player player)
         {
-            _experienceBar.Set(p);
+            IEntity entity = player;
+            entity.HitPool.LifePercentage += f => _healthBar.Set(f);
+            entity.HitPool.BarrierPercentage += _barrierBar.Set;
+            player.ExperiencePercentage += _experienceBar.Set;
         }
     }
 }

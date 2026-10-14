@@ -9,7 +9,6 @@ namespace UI
     {
         CameraController GameCamera { get; }
         public void StartLevel();
-        public void SetExperience(float p);
         public void AddSkillPoint();
     }
     
@@ -43,17 +42,12 @@ namespace UI
                 player.UIRoot = this;
                 IEntity playerEntity = player;
                 playerEntity.StatTracker.AddSource(_skillTree);
+                _playerStats.SetObservables(player);
                 _gameCamera.Attach(player.transform);
                 _skillTree.Camera = _gameCamera;
                 _inputController.AttachPlayer(player);
-                
                 _sessionManager.StartSession(this, player);
             });
-        }
-
-        public void SetExperience(float p)
-        {
-            _playerStats.Experience(p);
         }
 
         public void AddSkillPoint()

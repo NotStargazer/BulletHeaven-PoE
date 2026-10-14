@@ -172,6 +172,12 @@ namespace UI.Components
             UpdateAvailablePoints();
         }
 
+        public override void SetVisible(bool visible)
+        {
+            Time.timeScale = visible ? 0 : 1;
+            base.SetVisible(visible);
+        }
+
         public Action<Modifier> AddModifier { get; set; }
         public Action<Modifier> RemoveModifier { get; set; }
     }

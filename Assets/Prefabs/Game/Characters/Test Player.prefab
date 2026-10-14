@@ -78,7 +78,15 @@ MonoBehaviour:
     - Key:
         _baseType: 3
         _subType: 1
-      Value: 200
+      Value: 100
+    - Key:
+        _baseType: 8
+        _subType: 1
+      Value: 10
+    - Key:
+        _baseType: 8
+        _subType: 2
+      Value: 5
 --- !u!114 &8315327525803522856
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -109,7 +117,7 @@ MonoBehaviour:
     _target: {fileID: 917744988215506414}
   _skillSpawnPosition: {fileID: 4962846157581697459}
   _defaultSkills:
-  - FireBall
+  - ChainLightning
   _targetLayers:
     serializedVersion: 2
     m_Bits: 384

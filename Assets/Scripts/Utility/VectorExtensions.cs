@@ -14,6 +14,11 @@ namespace Utility
             return new Vector3(a.x, 0, a.z);
         }
 
+        public static Vector3 ToXZ3(this Vector2 a)
+        {
+            return new Vector3(a.x, 0, a.y);
+        }
+
         public static float SqrDistanceTo(this Vector3 a, Vector3 b)
         {
             var num1 = a.x - b.x;

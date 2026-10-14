@@ -1,11 +1,9 @@
 using System;
-using System.Globalization;
 using Gameplay.Data;
 using Gameplay.Enemies;
 using Gameplay.Modifiers;
 using UnityEngine;
 using UnityEngine.AI;
-using Utility;
 
 namespace Gameplay
 {
@@ -13,6 +11,7 @@ namespace Gameplay
     public class Enemy : MonoBehaviour, IEntity, IPoolInstance<Enemy>
     {
         [SerializeField] private FlexibleStateMachine _stateMachine;
+        [SerializeField] private RendererPropertyBlock _renderer;
         [SerializeField] private StatTracker _statTracker;
         [SerializeField] private HitPool _hitPool;
         [SerializeField] private SkillManager _skillManager;
@@ -20,6 +19,7 @@ namespace Gameplay
 
         public Transform Transform => transform;
         public NavMeshAgent Agent => _agent;
+        public RendererPropertyBlock Renderer => _renderer;
         public Player Player { get; private set; }
 
         StatTracker IEntity.StatTracker
@@ -53,6 +53,12 @@ namespace Gameplay
 
         private void Update()
         {
+            if (!Agent.isOnNavMesh)
+            {
+                gameObject.SetActive(false);
+                Return(this);
+                return;
+            }
             _stateMachine.Update();
         }
 
@@ -73,8 +79,8 @@ namespace Gameplay
         }
 
         public Action<Enemy> Return { get; set; }
-        
-        
+
+
         private void OnValidate()
         {
             _agent = GetComponent<NavMeshAgent>();

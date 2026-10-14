@@ -19,6 +19,7 @@ Shader "VFX/LightningBolt"
     SubShader
     {
         Blend SrcAlpha OneMinusSrcAlpha
+        ZTest Off Cull Off Lighting Off ZWrite Off
         Tags
         {
             "RenderType"="Transparent"

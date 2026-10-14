@@ -1,9 +1,9 @@
-using System;
 using Gameplay.Data;
 using Gameplay.Modifiers;
 using UI;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Utility;
 using PlayerInput = Input.PlayerInput;
 
 namespace Gameplay
@@ -22,7 +22,10 @@ namespace Gameplay
         
         [SerializeField] private int _levelUpRequirement;
         [SerializeField] private float _levelUpGrowthFactor;
-
+        
+        public ObservableValue<float> Experience;
+        public ObservableValue<float> ExperiencePercentage;
+        
         public Transform Transform => transform;
 
         StatTracker IEntity.StatTracker
@@ -65,11 +68,6 @@ namespace Gameplay
         {
             
         }
-
-        private void OnExperienceGain(int experience, float percentageExperience)
-        {
-            UIRoot.SetExperience(percentageExperience);
-        }
         
         private void OnLevelUp(int level)
         {
@@ -78,7 +76,14 @@ namespace Gameplay
 
         private void Awake()
         {
-            _experienceTracker = new ExperienceTracker(_levelUpRequirement, _levelUpGrowthFactor, OnExperienceGain, OnLevelUp);
+            _experienceTracker = new ExperienceTracker(_levelUpRequirement, _levelUpGrowthFactor,
+                (e, p) =>
+                {
+                    Experience.Value = e;
+                    ExperiencePercentage.Value = p;
+                }, OnLevelUp);
+            Experience = new ObservableValue<float>(0);
+            ExperiencePercentage = new ObservableValue<float>(0);
         }
 
         private void Start()
@@ -88,11 +93,15 @@ namespace Gameplay
 
         private void Update()
         {
+            if (!_hitPool.Alive)
+            {
+                return;
+            }
+            
             if (_desiredDirection.magnitude > 0)
             {
                 transform.Translate(
-                    UIRoot.GameCamera.WorldRotation *
-                    new Vector3(_desiredDirection.x, 0, _desiredDirection.y) *
+                    UIRoot.GameCamera.WorldRotation * _desiredDirection.ToXZ3() *
                     (_statTracker.GetMovementSpeed() * Time.deltaTime),
                     Space.World);
             }
