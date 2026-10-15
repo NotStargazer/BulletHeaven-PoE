@@ -29,6 +29,11 @@ namespace Gameplay
             }
         }
 
+        public void AddSkill(string skill)
+        {
+            _skills.Add(new SkillSlot(AllRegistries.Instance.Skills.GetByID(skill).CreateInstance()));
+        }
+
         public void CycleSkill(int direction)
         {
             _skillIndex += direction;

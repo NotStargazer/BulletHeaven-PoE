@@ -11,7 +11,7 @@ namespace UI.DriverStates
 
         public void ExitState(IUIRoot ui, DriverState to)
         {
-            
+            ui.EndLevel();
         }
     }
 }

@@ -10,17 +10,24 @@ namespace Gameplay
         {
             _startTime = Time.time - warmupTime;
             _endTime = _startTime + sessionLength + warmupTime;
+            _active = true;
         }
         
         private readonly float _startTime;
         private readonly float _endTime;
+        private bool _active;
 
         public float Duration => _endTime - _startTime;
         public float TimeRemaining => Mathf.Max(0, _endTime - Time.time);
         public float TimePassed => Mathf.Min(Duration, Time.time - _startTime);
         public float PercentageTimePassed => Duration / TimePassed * 100;
         public float PercentageTimeRemaining => 100 - PercentageTimePassed;
-        public bool Active => Time.time >= _startTime && Time.time <= _endTime;
+        public bool Active => Time.time >= _startTime && Time.time <= _endTime && _active;
+
+        public void End()
+        {
+            _active = false;
+        }
     }
     
     public class SessionManager : MonoBehaviour
@@ -30,7 +37,8 @@ namespace Gameplay
         private Player _player;
         private Session _currentSession;
         private IUIRoot _uiRoot;
-        
+        public string StartingSkill { private get; set; }
+
         public Player GetCharacter(int index)
         {
             return _characterList[index];
@@ -39,8 +47,15 @@ namespace Gameplay
         public void StartSession(IUIRoot uiRoot, Player player)
         {
             _player = player;
+            ((IEntity)player).SkillManager.AddSkill(StartingSkill);
             _uiRoot = uiRoot;
             _currentSession = new Session(2, TimeScaler.Minutes(20));
+        }
+        
+        public Session EndSession()
+        {
+            _currentSession.End();
+            return _currentSession;
         }
 
         private void Update()

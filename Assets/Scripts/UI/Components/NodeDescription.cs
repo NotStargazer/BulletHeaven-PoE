@@ -6,7 +6,7 @@ namespace UI.Components
 {
     public class NodeDescription : MonoBehaviour
     {
-        public struct ModifierDescription
+        public struct DescriptionStrings
         {
             public string Name;
             public string Description;
@@ -18,7 +18,6 @@ namespace UI.Components
         [SerializeField] private TMP_Text _nodeDescription;
         [SerializeField] private float _boxOffset;
         
-        public CameraController Camera { private get; set; }
         private SkillNode _skillNode;
         public SkillNode HoveredNode
         {
@@ -48,7 +47,7 @@ namespace UI.Components
             _rectTransform = transform as RectTransform;
         }
 
-        public void Rebuild(Vector2 prefName, Vector2 prefDesc)
+        private void Rebuild(Vector2 prefName, Vector2 prefDesc)
         {
             var hs = _canvas.pixelRect.size * 0.5f;
             Vector2 position = _skillNode.transform.position;

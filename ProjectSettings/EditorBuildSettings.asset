@@ -9,7 +9,10 @@ EditorBuildSettings:
     path: Assets/Scenes/Bootloader.unity
     guid: 546718a1c51f59e4d9a66c3ddf54e44f
   - enabled: 1
-    path: Assets/Scenes/Test Level.unity
+    path: Assets/Scenes/Main Menu.unity
+    guid: d7cd3039060ad6c40bc299d05f633202
+  - enabled: 1
+    path: Assets/Scenes/Level.unity
     guid: ff07451b563c85248ad4fb1f90050ecb
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

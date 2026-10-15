@@ -6,7 +6,7 @@ using Utility.Attributes;
 
 namespace Global.Registries
 {
-    #if UNITY_EDITOR
+#if UNITY_EDITOR
     public static class TreeModifiersLocalization
     {
         [UnityEditor.MenuItem("Localization/Reload/TreeModifiers")]

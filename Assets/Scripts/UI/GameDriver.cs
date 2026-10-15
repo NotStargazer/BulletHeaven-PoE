@@ -6,7 +6,8 @@ namespace UI
 {
     public enum DriverState
     {
-        Game
+        Menu,
+        Game,
     }
     
     public interface IDriverState
@@ -28,9 +29,10 @@ namespace UI
             _state = initialState;
             _uiRoot = uiRoot;
             
-            _driverStates = new Dictionary<DriverState, IDriverState>()
+            _driverStates = new Dictionary<DriverState, IDriverState>
             {
-                { DriverState.Game, new State_Game() }
+                { DriverState.Menu, new State_MainMenu() },
+                { DriverState.Game, new State_Game() },
             };
             
             _driverStates[initialState].EnterState(_uiRoot, null);

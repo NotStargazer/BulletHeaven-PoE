@@ -7,6 +7,7 @@ using System.Text.RegularExpressions;
 using Gameplay;
 using Gameplay.Data;
 using Gameplay.Modifiers;
+using UI.Components;
 using UnityEngine;
 using Utility.Attributes;
 
@@ -225,6 +226,21 @@ namespace UI.Localization
 #else
             return Localization.GetLocalization(key).Build();
 #endif
+        }
+
+        public struct SkillDescription
+        {
+            public string Name;
+            public string Description;
+        }
+        
+        public static SkillDescription GetSkillDescription(string skill)
+        {
+            return new SkillDescription
+            {
+                Name = Localization.GetLocalization($"Skills.Name.{skill}").Build(),
+                Description = Localization.GetLocalization($"Skills.Description.{skill}").Build(),
+            };
         }
     }
 }

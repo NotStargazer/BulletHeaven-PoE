@@ -12,7 +12,9 @@ namespace Global.Registries
         
         [SerializeField] private ExperienceCollectable _experience;
 
-        public void Initialize()
+        public void Initialize() { }
+
+        public void StartLevel()
         {
             _experiencePool = new InstancePool<Collectable>(_experience, 25, 25, 1000);
         }

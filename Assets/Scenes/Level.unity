@@ -160,7 +160,7 @@ MonoBehaviour:
         MaxCount: 100
       SpawnTime: 0
       Frequency: 1
-  _planeTextureScale: 2.5
+  _planeTextureScale: 3
 --- !u!4 &1071243652
 Transform:
   m_ObjectHideFlags: 0
@@ -236,7 +236,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 12
   m_Type: 1
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 0.6132076, g: 0.49866503, b: 0.45412073, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
@@ -337,7 +337,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 5, y: 1, z: 5}
+  m_LocalScale: {x: 6, y: 1, z: 6}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1071243652}

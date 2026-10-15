@@ -19,12 +19,15 @@ namespace Gameplay
         [SerializeField] private StatTracker _statTracker;
         [SerializeField] private HitPool _hitPool;
         [SerializeField] private SkillManager _skillManager;
+        [SerializeField] private ParticleSystem _deathVFX;
+        [SerializeField] private GameObject _model;
         
         [SerializeField] private int _levelUpRequirement;
         [SerializeField] private float _levelUpGrowthFactor;
         
         public ObservableValue<float> Experience;
         public ObservableValue<float> ExperiencePercentage;
+        private bool _isDead;
         
         public Transform Transform => transform;
 
@@ -84,6 +87,15 @@ namespace Gameplay
                 }, OnLevelUp);
             Experience = new ObservableValue<float>(0);
             ExperiencePercentage = new ObservableValue<float>(0);
+            _hitPool.OnKill += () =>
+            {
+                if (!_isDead)
+                {
+                    _isDead = true;
+                    _model.SetActive(false);
+                    _deathVFX.Play(true);
+                }
+            };
         }
 
         private void Start()

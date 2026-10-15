@@ -7,11 +7,11 @@ namespace UI
     {
         [SerializeField] private GameObject _rootObject;
         [SerializeField] private bool _defaultVisibility;
-        private bool _visible;
+        protected bool Visible;
 
         private void Awake()
         {
-            _visible = _rootObject.activeSelf;
+            Visible = _rootObject.activeSelf;
             SetVisible(_defaultVisibility);
             
             MenuAwake();
@@ -21,14 +21,14 @@ namespace UI
 
         public virtual void SetVisible(bool visible)
         {
-            if (visible == _visible)
+            if (visible == Visible)
             {
                 return;
             }
 
-            _visible = visible;
+            Visible = visible;
 
-            if (_visible)
+            if (Visible)
             {
                 OpenMenu();
             }

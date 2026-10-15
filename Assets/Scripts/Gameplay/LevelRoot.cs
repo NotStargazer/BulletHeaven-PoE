@@ -1,4 +1,3 @@
-using System;
 using Gameplay.Data;
 using Global;
 using UnityEngine;
@@ -20,19 +19,20 @@ namespace Gameplay
         public override void Instantiate()
         {
             _enemyList.Instantiate();
+            AllRegistries.Instance.Collectables.StartLevel();
         }
 
         private void LateUpdate()
         {
-            var localScale = _plane.transform.localScale;
-            var scale = localScale / _planeTextureScale;
-            var size = new Vector3(localScale.x * scale.x, 1, localScale.z * scale.z) * 2;
+            //5 is the scale of unity plane mesh
+            var localScale = new Vector3(_plane.transform.localScale.x, 1, _plane.transform.localScale.z) * 5;
+            localScale *= 2 / _planeTextureScale;
             var playerPos =_activePlayer.Transform.position;
             _plane.transform.position = playerPos;
-            _plane.SetProperty(MAIN_TEX_ST, 
+            _plane.SetProperty(MAIN_TEX_ST,
                 new Vector4(
                     _planeTextureScale, _planeTextureScale,
-                    playerPos.x / -size.x, playerPos.z / -size.x));
+                    playerPos.x / -localScale.x, playerPos.z / -localScale.z));
         }
 
         public Player StartLevel(Player player)

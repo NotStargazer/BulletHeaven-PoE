@@ -245,9 +245,9 @@ namespace UI.Elements.Skill_Tree
             }
         }
 
-        public NodeDescription.ModifierDescription GetModifierDescription()
+        public NodeDescription.DescriptionStrings GetModifierDescription()
         {
-            return new NodeDescription.ModifierDescription
+            return new NodeDescription.DescriptionStrings
             {
                 Name = LocalizationManager.GetModifierName("TreeModifier", _treeModifier),
                 Description = _modifier.GetDescription()
