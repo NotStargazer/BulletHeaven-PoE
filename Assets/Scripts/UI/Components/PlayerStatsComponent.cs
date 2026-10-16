@@ -29,5 +29,12 @@ namespace UI.Components
             entity.HitPool.BarrierPercentage += _barrierBar.Set;
             player.ExperiencePercentage += _experienceBar.Set;
         }
+
+        public void ResetStats()
+        {
+            _healthBar.Set(1);
+            _barrierBar.Set(0);
+            _experienceBar.Set(0);
+        }
     }
 }

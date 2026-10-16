@@ -59,6 +59,7 @@ namespace UI.Components
 
         public void ResetSkillTree()
         {
+            _openButton.gameObject.SetActive(false);
             _totalSkillPoints = 0;
             _availablePoints.SetText(Points.ToString());
             HoveredNode = null;
