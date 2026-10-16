@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -98,9 +99,11 @@ namespace Gameplay
 
         public Enemy[] GetEnemyInstances(Session session)
         {
-            foreach (var enemyWave in _enemyWaves)
+            for (var waveI = 0; waveI < _enemyWaves.Length; waveI++)
             {
-                if (session.PercentageTimePassed >= enemyWave.SpawnTime)
+                var enemyWave = _enemyWaves[waveI];
+                if (waveI == _enemyWaves.Length - 1
+                    || session.PercentageTimePassed < _enemyWaves[waveI + 1].SpawnTime)
                 {
                     var count = enemyWave.GetSpawnCount(session);
                     if (count == 0)
@@ -109,13 +112,13 @@ namespace Gameplay
                     }
 
                     var enemies = new Enemy[count];
-                    for (var i = 0; i < count; i++)
+                    for (var enemyI = 0; enemyI < count; enemyI++)
                     {
                         var enemyInstance = enemyWave.RollEnemy();
                         var pool = _enemyPools[enemyInstance.EnemyPrefab];
                         if (pool.TotalActive < enemyInstance.MaxCount)
                         {
-                            enemies[i] = pool.Rent();
+                            enemies[enemyI] = pool.Rent();
                         }
                         else
                         {
@@ -140,7 +143,7 @@ namespace Gameplay
                 {
                     _enemyPools.TryAdd(
                         enemyInstance.EnemyPrefab,
-                        new InstancePool<Enemy>(enemyInstance.EnemyPrefab, 30, 10, 200));
+                        new InstancePool<Enemy>(enemyInstance.EnemyPrefab, 30, 10, enemyInstance.MaxCount));
                 }
             }
         }

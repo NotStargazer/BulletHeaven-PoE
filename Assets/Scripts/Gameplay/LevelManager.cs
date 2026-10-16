@@ -8,7 +8,8 @@ namespace Gameplay
 {
     public enum LevelIndex
     {
-        Level
+        Menu,
+        Level,
     }
     
     public class LevelManager : MonoBehaviour
@@ -25,6 +26,8 @@ namespace Gameplay
 
         [SerializeField] private LevelReference[] _levelReferences;
         private Dictionary<LevelIndex, int> _levels;
+        private AsyncOperation _loadOp;
+        private Action _loadComplete;
 
         private void Awake()
         {
@@ -32,6 +35,15 @@ namespace Gameplay
             foreach (var levelReference in _levelReferences)
             {
                 _levels.Add(levelReference.Level, levelReference.SceneIndex);
+            }
+        }
+
+        private void Update()
+        {
+            if (_loadOp is { isDone: true })
+            {
+                _loadOp = null;
+                _loadComplete?.Invoke();
             }
         }
 
@@ -45,27 +57,24 @@ namespace Gameplay
                 return;
             }
             
-            var asyncOp = SceneManager.LoadSceneAsync(levelIndex);
-            asyncOp.completed += _ =>
-            {
-                completed?.Invoke();
-            };
+            _loadOp = SceneManager.LoadSceneAsync(levelIndex, LoadSceneMode.Additive);
+            _loadOp.allowSceneActivation = true;
+            _loadComplete = completed;
         }
-        
+
         public void UnloadLevel(LevelIndex level, Action completed = null)
         {
             var levelIndex = _levels[level];
+            
             if (!SceneManager.GetSceneByBuildIndex(levelIndex).isLoaded)
             {
                 completed?.Invoke();
                 return;
             }
             
-            var asyncOp = SceneManager.UnloadSceneAsync(levelIndex);
-            asyncOp.completed += _ =>
-            {
-                completed?.Invoke();
-            };
+            _loadOp = SceneManager.UnloadSceneAsync(levelIndex);
+            _loadOp.allowSceneActivation = true;
+            _loadComplete = completed;
         }
 
         private void OnValidate()

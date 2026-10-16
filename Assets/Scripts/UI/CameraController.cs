@@ -36,8 +36,6 @@ namespace UI
                 {
                     return;
                 }
-                
-                var camTransform = _camera.transform;
 
                 if (Vector3.Distance(_originPoint, _target.localPosition) >= _smoothJumpDistance)
                 {
@@ -45,17 +43,23 @@ namespace UI
                     return;
                 }
                 
-                _originPoint = _target.localPosition;
-                camTransform.localRotation = Quaternion.Euler(_rotationDegrees);
-                camTransform.localPosition = _originPoint;
-                
-                camTransform.Translate(-camTransform.forward * _distance, Space.World);
-                camTransform.Translate(_offset, Space.Self);
+                LookAtTarget();
             }
             else
             {
                 enabled = false;
             }
+        }
+
+        private void LookAtTarget()
+        {
+            var camTransform = _camera.transform;
+            _originPoint = _target.localPosition;
+            camTransform.localRotation = Quaternion.Euler(_rotationDegrees);
+            camTransform.localPosition = _originPoint;
+                
+            camTransform.Translate(-camTransform.forward * _distance, Space.World);
+            camTransform.Translate(_offset, Space.Self);
         }
 
         private void JumpTick(float t)
@@ -81,6 +85,7 @@ namespace UI
         {
             _target = target;
             enabled = true;
+            LookAtTarget();
         }
 
         public Transform Detach()

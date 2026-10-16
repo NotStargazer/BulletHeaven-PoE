@@ -2,6 +2,7 @@
 using Gameplay;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace UI
 {
@@ -10,9 +11,16 @@ namespace UI
         [SerializeField] private Animation _animation;
         [SerializeField] private TMP_Text _scoreStat;
         [SerializeField] private TMP_Text _timeStat;
+        [SerializeField] private Button _returnToMenu;
         public Session Session { private get; set; }
+        public IUIRoot Root { private get; set; }
 
         protected override void MenuAwake() { }
+
+        private void Start()
+        {
+            _returnToMenu.onClick.AddListener(Root.ReturnToMenu);
+        }
 
         public void BindDeath(Player player)
         {
@@ -26,7 +34,7 @@ namespace UI
                     _scoreStat.SetText(player.Experience.ToString());
                     var seconds = Mathf.FloorToInt(Session.TimePassed % 60);
                     var minutes = Mathf.FloorToInt(Session.TimePassed / 60);
-                    _timeStat.SetText($"{minutes}:{seconds}");
+                    _timeStat.SetText($"{minutes:00}:{seconds:00}");
                 }
             };
 

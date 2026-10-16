@@ -45,6 +45,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _levelReferences:
-  - SceneAsset: {fileID: 102900000, guid: ff07451b563c85248ad4fb1f90050ecb, type: 3}
+  - SceneAsset: {fileID: 102900000, guid: d7cd3039060ad6c40bc299d05f633202, type: 3}
     Level: 0
     SceneIndex: 1
+  - SceneAsset: {fileID: 102900000, guid: ff07451b563c85248ad4fb1f90050ecb, type: 3}
+    Level: 1
+    SceneIndex: 2

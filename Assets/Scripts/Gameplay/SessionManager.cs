@@ -20,7 +20,7 @@ namespace Gameplay
         public float Duration => _endTime - _startTime;
         public float TimeRemaining => Mathf.Max(0, _endTime - Time.time);
         public float TimePassed => Mathf.Min(Duration, Time.time - _startTime);
-        public float PercentageTimePassed => Duration / TimePassed * 100;
+        public float PercentageTimePassed => TimePassed / Duration * 100;
         public float PercentageTimeRemaining => 100 - PercentageTimePassed;
         public bool Active => Time.time >= _startTime && Time.time <= _endTime && _active;
 
@@ -66,9 +66,10 @@ namespace Gameplay
                 {
                     foreach (var enemy in enemies)
                     {
-                        Vector3 pos;
-                        while (!_uiRoot.GameCamera.TryGetRandomBorderPosition(out pos)) { }
-                        enemy.Spawn(_player, pos);
+                        if (_uiRoot.GameCamera.TryGetRandomBorderPosition(out var pos))
+                        {
+                            enemy.Spawn(_player, pos);
+                        }
                     }
 
                 }

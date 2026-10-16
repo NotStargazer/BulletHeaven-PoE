@@ -12,7 +12,7 @@ namespace Gameplay
 #if UNITY_EDITOR
     public static class SkillLocalization
     {
-        [UnityEditor.MenuItem("Localization/Reload/Skills")]
+        [UnityEditor.MenuItem("Localization/Reload/Conditions")]
         private static void RunSkillLocalization()
         {
             LocalizationKeyGenerator.OpenEntry("Conditions");

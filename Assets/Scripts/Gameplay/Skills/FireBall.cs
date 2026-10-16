@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Gameplay.Data;
 using Gameplay.Modifiers;
 using UnityEngine;
@@ -42,6 +43,8 @@ namespace Gameplay.Skills
             var projStats = user.StatTracker.GetProjectileStats(_projectileCount, _projectileSpeed, _projectileRange, _projectilePierce);
             var area = Stat.CalculateStats(_explosionRadius, user.StatTracker.GetStats(this, StatTypes.Skill.Area));
             var single = projStats.Count == 1;
+            var hashSet = new HashSet<IEntity>(projStats.Count * (projStats.Pierce + 1));
+            
             for(var i = 0; i < projStats.Count; i++)
             {
                 var direction = user.Transform.forward;
@@ -54,13 +57,10 @@ namespace Gameplay.Skills
                     direction.Normalize();
                 }
                 var projectile = _projectilePool.Rent();
-                projectile.Fire(user, direction, projStats, user.SkillManager.TargetLayers);
-                projectile.CollisionEvent += hits =>
+                projectile.Fire(user, direction, projStats, user.SkillManager.TargetLayers, hashSet);
+                projectile.CollisionEvent += hit =>
                 {
-                    foreach (var hitEntity in hits)
-                    {
-                        hitEntity.HitPool.ApplyDamage(projDamage, penetration);
-                    }
+                    hit.HitPool.ApplyDamage(projDamage, penetration);
                 };
                 projectile.DestroyEvent += projectileTransform =>
                 {

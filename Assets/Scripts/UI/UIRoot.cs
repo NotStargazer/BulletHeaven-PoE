@@ -37,6 +37,7 @@ namespace UI
         public void StartGame(InputController inputControllerInstance)
         {
             _mainMenu.Root = this;
+            _endScreen.Root = this;
             _inputController = inputControllerInstance;
             _gameDriver = new GameDriver(this, _initialState);
         }
@@ -72,7 +73,6 @@ namespace UI
         public void SetMainMenuVisibility(bool visible)
         {
             _mainMenu.SetVisible(visible);
-            
         }
         
         public void AddSkillPoint()
@@ -83,11 +83,13 @@ namespace UI
         public void BeginGame(string skill)
         {
             _sessionManager.StartingSkill = skill;
+            _gameDriver.ChangeState(DriverState.Game);
         }
 
         public void ReturnToMenu()
         {
             _levelManager.UnloadLevel(LevelIndex.Level);
+            _gameDriver.ChangeState(DriverState.Menu);
         }
     }
 }

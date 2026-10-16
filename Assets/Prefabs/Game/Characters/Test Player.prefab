@@ -56,7 +56,7 @@ MonoBehaviour:
   _skillManager: {fileID: 226843250285822572}
   _deathVFX: {fileID: 4660795278628509306}
   _model: {fileID: 5316793629030935491}
-  _levelUpRequirement: 10
+  _levelUpRequirement: 30
   _levelUpGrowthFactor: 1.05
 --- !u!114 &4785330217857613740
 MonoBehaviour:
@@ -119,8 +119,7 @@ MonoBehaviour:
   _entity:
     _target: {fileID: 917744988215506414}
   _skillSpawnPosition: {fileID: 4962846157581697459}
-  _defaultSkills:
-  - ChainLightning
+  _defaultSkills: []
   _targetLayers:
     serializedVersion: 2
     m_Bits: 384

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Global
@@ -16,6 +15,11 @@ namespace Global
         public void AddBehaviour(IDataBehaviour behaviour)
         {
             _dataBehaviours.Add(behaviour);
+        }
+        
+        public void RemoveBehaviours(IDataBehaviour behaviour)
+        {
+            _dataBehaviours.Remove(behaviour);
         }
 
         private void Update()

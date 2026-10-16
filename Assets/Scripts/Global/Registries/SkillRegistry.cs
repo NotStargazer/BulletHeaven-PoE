@@ -29,6 +29,8 @@ namespace Global.Registries
     {
         public RegistryEntry<FireBall> FireBall;
         public RegistryEntry<ChainLightning> ChainLightning;
+        public RegistryEntry<ArrowVolley> ArrowVolley;
+        public RegistryEntry<ArrowVolley> ArrowVolleyEnemy;
         public RegistryEntry<Slash> Slash;
     }
 }

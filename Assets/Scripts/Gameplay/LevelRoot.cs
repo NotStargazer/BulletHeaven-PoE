@@ -27,7 +27,7 @@ namespace Gameplay
             //5 is the scale of unity plane mesh
             var localScale = new Vector3(_plane.transform.localScale.x, 1, _plane.transform.localScale.z) * 5;
             localScale *= 2 / _planeTextureScale;
-            var playerPos =_activePlayer.Transform.position;
+            var playerPos = _activePlayer.Transform.position;
             _plane.transform.position = playerPos;
             _plane.SetProperty(MAIN_TEX_ST,
                 new Vector4(
@@ -47,9 +47,9 @@ namespace Gameplay
             return enemy != null;
         }
 
-        public void DropItems(Vector3 position)
+        public void DropItems(Vector3 position, int exp)
         {
-            var experience = AllRegistries.Instance.Collectables.GetExperience(10);
+            var experience = AllRegistries.Instance.Collectables.GetExperience(exp);
             experience.Drop(_activePlayer, position);
         }
     }

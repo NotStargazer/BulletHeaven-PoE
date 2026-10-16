@@ -58,7 +58,7 @@ MonoBehaviour:
         _projectileCount: 1
         _projectileSpeed: 10
         _projectileRange: 16
-        _projectilePierce: 1
+        _projectilePierce: 0
         _explosionRadius: 4
         _projectileSpread: 1
         _maxOverlaps: 20
@@ -82,16 +82,54 @@ MonoBehaviour:
         _chainRadius: 10
         _chains: 4
         _maximumTargets: 10
-        _velocity: 50
+        _velocity: 100
         _baseDamage:
           DamageType: 8
           Damage: 20
         _damageScalers:
         - _baseType: 0
           _subType: 8
+    ArrowVolley:
+      _entry:
+        _tags: 9
+        _skillCooldown:
+          _baseDuration: 1.5
+          _repeatMultiplier: 0.1
+        _hitVFX: {fileID: 5459146479018842202, guid: 3e9afb2aba5dcd14eab2d68150ee4d08, type: 3}
+        _projectile: {fileID: 2370965140529464354, guid: db565d09fc7ebad4abe897408f7d54a0, type: 3}
+        _projectileCount: 7
+        _projectileSpeed: 20
+        _projectileRange: 10
+        _projectilePierce: 0
+        _projectileSpread: 1
+        _projectileDamage:
+          DamageType: 1
+          Damage: 10
+        _damageScalers:
+        - _baseType: 0
+          _subType: 1
+    ArrowVolleyEnemy:
+      _entry:
+        _tags: 9
+        _skillCooldown:
+          _baseDuration: 2
+          _repeatMultiplier: 0.2
+        _hitVFX: {fileID: 5459146479018842202, guid: 3e9afb2aba5dcd14eab2d68150ee4d08, type: 3}
+        _projectile: {fileID: 2370965140529464354, guid: db565d09fc7ebad4abe897408f7d54a0, type: 3}
+        _projectileCount: 1
+        _projectileSpeed: 5
+        _projectileRange: 15
+        _projectilePierce: 0
+        _projectileSpread: 1
+        _projectileDamage:
+          DamageType: 1
+          Damage: 10
+        _damageScalers:
+        - _baseType: 0
+          _subType: 1
     Slash:
       _entry:
-        _tags: 0
+        _tags: 21
         _skillCooldown:
           _baseDuration: 1
           _repeatMultiplier: 0.15
@@ -100,7 +138,7 @@ MonoBehaviour:
         _maxOverlaps: 10
         _strikeDamage:
           DamageType: 1
-          Damage: 5
+          Damage: 10
         _damageScalers:
         - _baseType: 0
           _subType: 1

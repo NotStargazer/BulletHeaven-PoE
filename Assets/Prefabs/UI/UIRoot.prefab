@@ -253,7 +253,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: 83babc92ba11a554a8b19c3bbb891af0, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -381,8 +381,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4294967295
+  m_fontColor: {r: 1, g: 1, b: 1, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -2529,6 +2529,30 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 897574917135985017, guid: 9f6f155b52d3c6745829530ce1204a15, type: 3}
+      propertyPath: _canvas
+      value: 
+      objectReference: {fileID: 6207603034903804188}
+    - target: {fileID: 2146187485074873910, guid: 9f6f155b52d3c6745829530ce1204a15, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2146187485074873910, guid: 9f6f155b52d3c6745829530ce1204a15, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2146187485074873910, guid: 9f6f155b52d3c6745829530ce1204a15, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2146187485074873910, guid: 9f6f155b52d3c6745829530ce1204a15, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2146187485074873910, guid: 9f6f155b52d3c6745829530ce1204a15, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2173167370974332318, guid: 9f6f155b52d3c6745829530ce1204a15, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -2668,6 +2692,10 @@ PrefabInstance:
     - target: {fileID: 7744919864983665703, guid: 9f6f155b52d3c6745829530ce1204a15, type: 3}
       propertyPath: m_Name
       value: Main Menu
+      objectReference: {fileID: 0}
+    - target: {fileID: 7744919864983665703, guid: 9f6f155b52d3c6745829530ce1204a15, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3130,6 +3158,10 @@ PrefabInstance:
     - target: {fileID: 8499407225745463943, guid: 8794869615036354b943324c585bd346, type: 3}
       propertyPath: m_Name
       value: Death Screen
+      objectReference: {fileID: 0}
+    - target: {fileID: 8499407225745463943, guid: 8794869615036354b943324c585bd346, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8787354919369941113, guid: 8794869615036354b943324c585bd346, type: 3}
       propertyPath: m_fontColor32.rgba

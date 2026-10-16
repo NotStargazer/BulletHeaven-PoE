@@ -107,5 +107,5 @@ MonoBehaviour:
   _renderer: {fileID: 8296469849835530505}
   _animationTarget: {fileID: 7400000, guid: 71a1e86ca06fd4a40aa8107c158f5c4e, type: 2}
   _animationNoTarget: {fileID: 7400000, guid: 7505157d0d0c44c42ab816553cc872f7, type: 2}
-  _baseScale: 5
+  _baseScale: 10
   _durationMultiplier: 6

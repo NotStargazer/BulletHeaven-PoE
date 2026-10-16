@@ -16,6 +16,7 @@ namespace Gameplay
         [SerializeField] private HitPool _hitPool;
         [SerializeField] private SkillManager _skillManager;
         [SerializeField] private NavMeshAgent _agent;
+        [SerializeField] private int _experienceDropped = 10;
 
         public Transform Transform => transform;
         public NavMeshAgent Agent => _agent;
@@ -73,12 +74,13 @@ namespace Gameplay
 
         public void Kill()
         {
-            LevelRoot.Instance.DropItems(transform.localPosition);
+            LevelRoot.Instance.DropItems(transform.localPosition, _experienceDropped);
             gameObject.SetActive(false);
             Return(this);
         }
 
         public Action<Enemy> Return { get; set; }
+        [NonSerialized] public Vector2 RotationVelocity;
 
 
         private void OnValidate()

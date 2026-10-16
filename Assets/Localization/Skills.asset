@@ -37,3 +37,19 @@ MonoBehaviour:
     Strings:
     - Slashes nearby enemies
     - 
+  - Key: Skills.Name.ArrowVolley
+    Strings:
+    - Arrow Volley
+    - 
+  - Key: Skills.Description.ArrowVolley
+    Strings:
+    - Fires a volley of arrows
+    - 
+  - Key: Skills.Name.ArrowVolleyEnemy
+    Strings:
+    - 
+    - 
+  - Key: Skills.Description.ArrowVolleyEnemy
+    Strings:
+    - 
+    - 

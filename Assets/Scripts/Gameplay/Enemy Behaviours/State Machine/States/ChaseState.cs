@@ -7,13 +7,13 @@ namespace Gameplay.Enemies.States
         private readonly float _speedMultiplier;
         private readonly float _speedSmoothingDuration;
         private float _currentSpeedMult;
-        private readonly TransitionFunction _speedTransition;
+        private Transition _speedTransition;
         public ChaseState(float speedMultiplier, float speedSmoothingDuration)
         {
             _currentSpeedMult = speedMultiplier;
             _speedMultiplier = speedMultiplier;
             _speedSmoothingDuration = speedSmoothingDuration;
-            _speedTransition = new TransitionFunction(TransitionSpeed);
+            _speedTransition = new Transition(TransitionSpeed);
         }
 
         public Enemy Subject { get; set; }
@@ -30,6 +30,7 @@ namespace Gameplay.Enemies.States
             var speed = (Subject as IEntity).StatTracker.GetMovementSpeed();
             Subject.Agent.speed = speed * _currentSpeedMult;
             Subject.Agent.SetDestination(Subject.Player.Transform.position);
+            _speedTransition.Update();
         }
 
         public void Exit() { }

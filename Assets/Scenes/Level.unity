@@ -157,8 +157,35 @@ MonoBehaviour:
     - EnemyInstances:
       - EnemyPrefab: {fileID: 7348441223653947489, guid: 4781f8660f44aa947b10e36e94265c86, type: 3}
         SpawnWeight: 0
-        MaxCount: 100
+        MaxCount: 25
       SpawnTime: 0
+      Frequency: 1
+    - EnemyInstances:
+      - EnemyPrefab: {fileID: 7348441223653947489, guid: 4781f8660f44aa947b10e36e94265c86, type: 3}
+        SpawnWeight: 100
+        MaxCount: 25
+      - EnemyPrefab: {fileID: 7348441223653947489, guid: dfb9a93ba969aa2459e3c0f332896d38, type: 3}
+        SpawnWeight: 50
+        MaxCount: 10
+      SpawnTime: 5
+      Frequency: 1
+    - EnemyInstances:
+      - EnemyPrefab: {fileID: 7348441223653947489, guid: 4781f8660f44aa947b10e36e94265c86, type: 3}
+        SpawnWeight: 100
+        MaxCount: 25
+      - EnemyPrefab: {fileID: 7348441223653947489, guid: a410e43c40c872c4b870298c062b2951, type: 3}
+        SpawnWeight: 50
+        MaxCount: 10
+      SpawnTime: 10
+      Frequency: 1
+    - EnemyInstances:
+      - EnemyPrefab: {fileID: 7348441223653947489, guid: dfb9a93ba969aa2459e3c0f332896d38, type: 3}
+        SpawnWeight: 10
+        MaxCount: 75
+      - EnemyPrefab: {fileID: 7348441223653947489, guid: a410e43c40c872c4b870298c062b2951, type: 3}
+        SpawnWeight: 50
+        MaxCount: 25
+      SpawnTime: 15
       Frequency: 1
   _planeTextureScale: 3
 --- !u!4 &1071243652
@@ -337,7 +364,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 6, y: 1, z: 6}
+  m_LocalScale: {x: 7, y: 1, z: 7}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1071243652}

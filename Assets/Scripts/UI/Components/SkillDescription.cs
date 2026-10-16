@@ -10,8 +10,8 @@ namespace UI.Components
     {
         [SerializeField] private Canvas _canvas;
         [SerializeField] private RectTransform _rectTransform;
-        [SerializeField] private TMP_Text _nodeName;
-        [SerializeField] private TMP_Text _nodeDescription;
+        [SerializeField] private TMP_Text _skillName;
+        [SerializeField] private TMP_Text _skillDescription;
         [SerializeField] private float _boxOffset;
         
         private SkillButton _skill;
@@ -24,11 +24,11 @@ namespace UI.Components
                 {
                     _skill = value;
                     var description = LocalizationManager.GetSkillDescription(value.Skill);
-                    _nodeName.SetText(description.Name);
-                    _nodeDescription.SetText(description.Description);
+                    _skillName.SetText(description.Name);
+                    _skillDescription.SetText(description.Description);
                     gameObject.SetActive(true);
-                    Rebuild(_nodeName.GetPreferredValues(description.Name),
-                        _nodeDescription.GetPreferredValues(description.Description));
+                    Rebuild(_skillName.GetPreferredValues(description.Name),
+                        _skillDescription.GetPreferredValues(description.Description));
                 }
                 else
                 {

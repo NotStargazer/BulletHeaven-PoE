@@ -4,6 +4,7 @@ using Gameplay.Modifiers;
 using TMPro;
 using UI.Elements.Skill_Tree;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace UI.Components
@@ -30,6 +31,7 @@ namespace UI.Components
         [SerializeField] private RectTransform _connectionTransform;
         [SerializeField] private SkillNode _skillNodePrefab;
         [SerializeField] private NodeConnection _connectionPrefab;
+        [SerializeField] private InputAction _closeAction;
         [SerializeField] private NodeParameters[] _nodeParameters;
 
         private List<SkillNode> _selectedNodes;
@@ -46,6 +48,10 @@ namespace UI.Components
         
         protected override void MenuAwake()
         {
+            _closeAction.performed += _ =>
+            {
+                CloseMenu();
+            };
             _selectedNodes = new List<SkillNode>();
             _applyButton.onClick.AddListener(AllocateNodes);
             _cancelButton.onClick.AddListener(Cancel);
@@ -171,6 +177,14 @@ namespace UI.Components
         public override void SetVisible(bool visible)
         {
             Time.timeScale = visible ? 0 : 1;
+            if (visible)
+            {
+                _closeAction.Enable();
+            }
+            else
+            {
+                _closeAction.Disable();
+            }
             base.SetVisible(visible);
         }
 

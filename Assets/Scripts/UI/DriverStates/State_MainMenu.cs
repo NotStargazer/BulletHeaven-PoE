@@ -1,4 +1,6 @@
-﻿namespace UI.DriverStates
+﻿using Global;
+
+namespace UI.DriverStates
 {
     public class State_MainMenu : IDriverState
     {
