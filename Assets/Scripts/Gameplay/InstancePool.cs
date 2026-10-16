@@ -40,6 +40,11 @@ namespace Gameplay
         {
             var limit = Mathf.Abs(Mathf.Min(size - _limit, 0));
             limit = Mathf.Min(limit, size);
+
+            if (limit == 0)
+            {
+                return;
+            }
             
             var asyncOp = GameObject.InstantiateAsync(_instance, limit, LevelRoot.Instance.transform);
             asyncOp.GetAwaiter().OnCompleted(() =>

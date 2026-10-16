@@ -64,7 +64,7 @@ namespace UI.Components
             HoveredNode = null;
             foreach (var skillNode in _rootNodes)
             {
-                skillNode.ResetState();
+                skillNode.ResetState(true);
             }
         }
         
@@ -108,6 +108,7 @@ namespace UI.Components
             {
                 if (HoveredNode && HoveredNode.State is NodeState.Unlocked or NodeState.Selected)
                 {
+                    HoveredNode.SetState(NodeState.Selected);
                     _selectedNodes.Add(HoveredNode);
                     AllocateNodes();
                 }

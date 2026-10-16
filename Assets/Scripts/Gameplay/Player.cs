@@ -60,7 +60,7 @@ namespace Gameplay
 
         public void OnAim(InputAction.CallbackContext context)
         {
-            if (context.performed)
+            if (this && _hitPool.Alive && context.performed)
             {
                 var aim = context.ReadValue<Vector2>();
                 var worldPosition = UIRoot.GameCamera.GetWorldFloor(aim);
@@ -77,7 +77,7 @@ namespace Gameplay
 
         public void OnAimController(InputAction.CallbackContext context)
         {
-            if (context.performed)
+            if (this && _hitPool.Alive && context.performed)
             {
                 var aim = context.ReadValue<Vector2>();
                 if (aim != Vector2.zero)

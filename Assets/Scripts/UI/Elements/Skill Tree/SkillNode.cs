@@ -255,9 +255,9 @@ namespace UI.Elements.Skill_Tree
             };
         }
 
-        public void ResetState()
+        public void ResetState(bool root = false)
         {
-            SetState(NodeState.Locked);
+            SetState(root ? NodeState.Unlocked : NodeState.Locked);
             foreach (var node in AdjacentNodes)
             {
                 if (node.State != NodeState.Locked)

@@ -29,7 +29,8 @@ namespace UI.Localization
                 _localizationAssets[index] = AssetDatabase.LoadAssetAtPath<LocalizationAsset>(AssetDatabase.GUIDToAssetPath(assets[index]));
             }
         }
-
+#endif
+        
         public static LocalizationBuilder GetLocalization(string key, string fallbackKey = null)
         {
             var result = string.Empty;
@@ -47,6 +48,5 @@ namespace UI.Localization
             }
             return new LocalizationBuilder(result);
         }
-#endif
     }
 }

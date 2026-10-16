@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditor;
 using UnityEngine;
 
 namespace Utility
@@ -69,9 +67,9 @@ namespace Utility
         
         public readonly struct EventChain
         {
-            private readonly GUID _guid;
+            private readonly Guid _guid;
 
-            public EventChain(GUID guid)
+            public EventChain(Guid guid)
             {
                 _guid = guid;
             }
@@ -93,23 +91,24 @@ namespace Utility
         
         public static EventChain CreateChain()
         {
-            var guid = GUID.Generate();
+            var guid = Guid.NewGuid();
             Instance._eventChains.Add(guid, new Chain());
             return new EventChain(guid);
         }
 
-        private Dictionary<GUID, Chain> _eventChains;
-        private List<GUID> _markedForComplete;
+        private Dictionary<Guid, Chain> _eventChains;
+        private List<Guid> _markedForComplete;
         private bool _isExecuting;
         
         public override void Instantiate()
         {
-            _eventChains = new Dictionary<GUID, Chain>();
-            _markedForComplete = new List<GUID>();
+            _eventChains = new Dictionary<Guid, Chain>();
+            _markedForComplete = new List<Guid>();
         }
 
-        private void AddEvent(float duration, Action action, ExecutionOrder order, GUID guid)
+        private void AddEvent(float duration, Action action, ExecutionOrder order, Guid guid)
         {
+            
             _eventChains[guid].Add(duration, action, order);
         }
         
@@ -122,7 +121,7 @@ namespace Utility
             }
             
             var guidCount = _eventChains.Count;
-            var guids = stackalloc GUID[guidCount];
+            var guids = stackalloc Guid[guidCount];
             var index = 0;
             foreach (var guid in _eventChains.Keys)
             {

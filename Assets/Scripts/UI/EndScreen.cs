@@ -2,6 +2,7 @@
 using Gameplay;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace UI
@@ -12,6 +13,7 @@ namespace UI
         [SerializeField] private TMP_Text _scoreStat;
         [SerializeField] private TMP_Text _timeStat;
         [SerializeField] private Button _returnToMenu;
+        [SerializeField] private InputAction _menuAction;
         public Session Session { private get; set; }
         public IUIRoot Root { private get; set; }
 
@@ -19,6 +21,10 @@ namespace UI
 
         private void Start()
         {
+            _menuAction.performed += _ =>
+            {
+                Root.ReturnToMenu();
+            };
             _returnToMenu.onClick.AddListener(Root.ReturnToMenu);
         }
 
@@ -38,6 +44,19 @@ namespace UI
                 }
             };
 
+        }
+
+        public override void SetVisible(bool visible)
+        {
+            if (visible)
+            {
+                _menuAction.Enable();
+            }
+            else
+            {
+                _menuAction.Disable();
+            }
+            base.SetVisible(visible);
         }
     }
 }

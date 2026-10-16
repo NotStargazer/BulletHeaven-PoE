@@ -947,6 +947,24 @@ MonoBehaviour:
   _scoreStat: {fileID: 7402380666825328947}
   _timeStat: {fileID: 8375402942461436004}
   _returnToMenu: {fileID: 7496479844703793664}
+  _menuAction:
+    m_Name: Menu
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: a4da38b0-5c9e-4ac8-9b20-3a745162dedf
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 6d334d8f-9358-4be4-9bf5-991849e6cb24
+      m_Path: <Gamepad>/buttonSouth
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Menu
+      m_Flags: 0
+    m_Flags: 0
+    m_Priority: 0
 --- !u!222 &4541071640193962248
 CanvasRenderer:
   m_ObjectHideFlags: 0
