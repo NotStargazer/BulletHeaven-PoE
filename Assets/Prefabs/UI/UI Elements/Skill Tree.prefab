@@ -4256,6 +4256,7 @@ RectTransform:
   - {fileID: 1083822615387895394}
   - {fileID: 7259221762841146136}
   - {fileID: 6298884765455967201}
+  - {fileID: 5131220114796642452}
   - {fileID: 4983692548170924629}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4278,6 +4279,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _rootObject: {fileID: 2465924278950130491}
   _defaultVisibility: 0
+  _controllerCursor: {fileID: 5285374112773895004}
   _availablePoints: {fileID: 2003473162703074796}
   _applyButton: {fileID: 5221187379823833151}
   _cancelButton: {fileID: 6350381229508270110}
@@ -4299,7 +4301,95 @@ MonoBehaviour:
     m_Id: 33da4906-69de-483d-89c5-1167c9af0541
     m_Processors: 
     m_Interactions: 
-    m_SingletonActionBindings: []
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 114ed26a-3497-4862-b387-bd18ad30d96e
+      m_Path: <Keyboard>/escape
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Close
+      m_Flags: 0
+    m_Flags: 0
+    m_Priority: 0
+  _toggleAction:
+    m_Name: Toggle
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: d3773f26-3e4f-4c70-82d6-3ae84cce0a97
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 130feda4-b620-400e-844c-9a0cdc8bf0db
+      m_Path: <Gamepad>/start
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Toggle
+      m_Flags: 0
+    - m_Name: 
+      m_Id: e90d605b-7fd6-4d4c-aff8-24ca77039f32
+      m_Path: <Keyboard>/p
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Toggle
+      m_Flags: 0
+    m_Flags: 0
+    m_Priority: 0
+  _zoomAction:
+    m_Name: Zoom
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: ee821428-d10c-4d94-aa91-8a86e52f76a4
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: bb56a449-52c3-4ed2-b02b-71aeb0224f98
+      m_Path: <Gamepad>/rightStick
+      m_Interactions: 
+      m_Processors: StickDeadzone
+      m_Groups: 
+      m_Action: Zoom
+      m_Flags: 0
+    m_Flags: 0
+    m_Priority: 0
+  _scrollAction:
+    m_Name: Scroll
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 7a841629-ea86-4c85-b8b4-76d52097bb4b
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 9bea182e-38fb-4234-9c87-7c8f537ba54d
+      m_Path: <Gamepad>/leftStick
+      m_Interactions: 
+      m_Processors: StickDeadzone
+      m_Groups: 
+      m_Action: Scroll
+      m_Flags: 0
+    m_Flags: 0
+    m_Priority: 0
+  _allocateAction:
+    m_Name: Allocate
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 6cab7d47-f75f-42ac-8ae3-28f6fcf417f3
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings:
+    - m_Name: 
+      m_Id: 41f41382-61f2-48ff-8309-66eaa60b6c99
+      m_Path: <Gamepad>/buttonSouth
+      m_Interactions: 
+      m_Processors: 
+      m_Groups: 
+      m_Action: Allocate
+      m_Flags: 0
     m_Flags: 0
     m_Priority: 0
   _nodeParameters:
@@ -8921,6 +9011,81 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &5285374112773895004
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5131220114796642452}
+  - component: {fileID: 8832668931855666218}
+  - component: {fileID: 2612645156710586380}
+  m_Layer: 0
+  m_Name: Cursor
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &5131220114796642452
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5285374112773895004}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5979888902415931337}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &8832668931855666218
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5285374112773895004}
+  m_CullTransparentMesh: 1
+--- !u!114 &2612645156710586380
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5285374112773895004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: UnityEngine.UI::UnityEngine.UI.Image
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 8886402552776446044, guid: 33bab8908ca638549a3afde8b6e9bce8, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &5319468239149700604
 GameObject:
   m_ObjectHideFlags: 0

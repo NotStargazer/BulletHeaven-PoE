@@ -25,6 +25,16 @@ namespace UI.Components
                     _skill = value;
                     var description = LocalizationManager.GetSkillDescription(value.Skill);
                     _skillName.SetText(description.Name);
+                    var key = $"HighScores.{value.Skill}";
+                    if (PlayerPrefs.HasKey(key))
+                    {
+                        var score = PlayerPrefs.GetInt(key);
+                        description.Description += $"\nHigh Score: {score}";
+                    }
+                    else
+                    {
+                        description.Description += $"\nHigh Score: 0";
+                    }
                     _skillDescription.SetText(description.Description);
                     gameObject.SetActive(true);
                     Rebuild(_skillName.GetPreferredValues(description.Name),

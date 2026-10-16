@@ -115,6 +115,16 @@ namespace Input
                     ""priority"": 0
                 },
                 {
+                    ""name"": ""AimController"",
+                    ""type"": ""Value"",
+                    ""id"": ""387063ba-8ff2-4e2e-928f-385d634eb7e7"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true,
+                    ""priority"": 0
+                },
+                {
                     ""name"": ""Toggle Skills"",
                     ""type"": ""Button"",
                     ""id"": ""39934426-6dcd-4971-a366-a0480d0d7a6f"",
@@ -205,12 +215,12 @@ namespace Input
                 },
                 {
                     ""name"": """",
-                    ""id"": ""8d8dae39-4cdb-4495-8d4b-906619e4e35f"",
+                    ""id"": ""7a15ae0a-5b75-4d21-8cf0-c26b3b20ef1f"",
                     ""path"": ""<Gamepad>/rightStick"",
                     ""interactions"": """",
-                    ""processors"": """",
+                    ""processors"": ""StickDeadzone"",
                     ""groups"": "";Gamepad"",
-                    ""action"": ""Aim"",
+                    ""action"": ""AimController"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 },
@@ -799,6 +809,7 @@ namespace Input
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Aim = m_Player.FindAction("Aim", throwIfNotFound: true);
+            m_Player_AimController = m_Player.FindAction("AimController", throwIfNotFound: true);
             m_Player_ToggleSkills = m_Player.FindAction("Toggle Skills", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
@@ -895,6 +906,7 @@ namespace Input
         private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_Aim;
+        private readonly InputAction m_Player_AimController;
         private readonly InputAction m_Player_ToggleSkills;
         /// <summary>
         /// Provides access to input actions defined in input action map "Player".
@@ -915,6 +927,10 @@ namespace Input
             /// Provides access to the underlying input action "Player/Aim".
             /// </summary>
             public InputAction @Aim => m_Wrapper.m_Player_Aim;
+            /// <summary>
+            /// Provides access to the underlying input action "Player/AimController".
+            /// </summary>
+            public InputAction @AimController => m_Wrapper.m_Player_AimController;
             /// <summary>
             /// Provides access to the underlying input action "Player/ToggleSkills".
             /// </summary>
@@ -951,6 +967,9 @@ namespace Input
                 @Aim.started += instance.OnAim;
                 @Aim.performed += instance.OnAim;
                 @Aim.canceled += instance.OnAim;
+                @AimController.started += instance.OnAimController;
+                @AimController.performed += instance.OnAimController;
+                @AimController.canceled += instance.OnAimController;
                 @ToggleSkills.started += instance.OnToggleSkills;
                 @ToggleSkills.performed += instance.OnToggleSkills;
                 @ToggleSkills.canceled += instance.OnToggleSkills;
@@ -971,6 +990,9 @@ namespace Input
                 @Aim.started -= instance.OnAim;
                 @Aim.performed -= instance.OnAim;
                 @Aim.canceled -= instance.OnAim;
+                @AimController.started -= instance.OnAimController;
+                @AimController.performed -= instance.OnAimController;
+                @AimController.canceled -= instance.OnAimController;
                 @ToggleSkills.started -= instance.OnToggleSkills;
                 @ToggleSkills.performed -= instance.OnToggleSkills;
                 @ToggleSkills.canceled -= instance.OnToggleSkills;
@@ -1249,6 +1271,13 @@ namespace Input
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnAim(InputAction.CallbackContext context);
+            /// <summary>
+            /// Method invoked when associated input action "AimController" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// </summary>
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+            /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+            void OnAimController(InputAction.CallbackContext context);
             /// <summary>
             /// Method invoked when associated input action "Toggle Skills" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
             /// </summary>

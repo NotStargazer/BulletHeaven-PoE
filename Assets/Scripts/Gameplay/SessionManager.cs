@@ -55,6 +55,7 @@ namespace Gameplay
         public Session EndSession()
         {
             _currentSession.End();
+            PlayerPrefs.SetInt($"HighScores.{StartingSkill}", Mathf.FloorToInt(_player.Experience));
             return _currentSession;
         }
 

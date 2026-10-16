@@ -15,7 +15,6 @@ namespace Gameplay
 
         private ExperienceTracker _experienceTracker;
         private Vector2 _desiredDirection;
-        private Vector2 _lastScreenAimPosition;
         [SerializeField] private StatTracker _statTracker;
         [SerializeField] private HitPool _hitPool;
         [SerializeField] private SkillManager _skillManager;
@@ -63,7 +62,28 @@ namespace Gameplay
         {
             if (context.performed)
             {
-                _lastScreenAimPosition = context.ReadValue<Vector2>();
+                var aim = context.ReadValue<Vector2>();
+                var worldPosition = UIRoot.GameCamera.GetWorldFloor(aim);
+                if (!worldPosition.HasValue)
+                {
+                    return;
+                }
+
+                var direction = (worldPosition - transform.localPosition).Value.normalized;
+                Transform.rotation = Quaternion.LookRotation(direction, Vector3.up);
+            }
+            
+        }
+
+        public void OnAimController(InputAction.CallbackContext context)
+        {
+            if (context.performed)
+            {
+                var aim = context.ReadValue<Vector2>();
+                if (aim != Vector2.zero)
+                {
+                    Transform.rotation = Quaternion.LookRotation(UIRoot.GameCamera.WorldRotation * aim.ToXZ3(), Vector3.up);
+                }
             }
         }
 
@@ -117,17 +137,21 @@ namespace Gameplay
                     (_statTracker.GetMovementSpeed() * Time.deltaTime),
                     Space.World);
             }
-            
-            var worldPosition = UIRoot.GameCamera.GetWorldFloor(_lastScreenAimPosition);
-            if (!worldPosition.HasValue)
+
+            Vector3 aimPosition;
+            if (Physics.SphereCast(Transform.position, 4, Transform.forward, 
+                    out var hit, 20, _skillManager.TargetLayers))
             {
-                return;
+                aimPosition = hit.transform.position;
+            }
+            else
+            {
+                aimPosition = Transform.position + Transform.forward * 15;
             }
 
-            var direction = (worldPosition - transform.localPosition).Value.normalized;
-            transform.localRotation = Quaternion.LookRotation(direction, Vector3.up);
+            aimPosition.y = _skillManager.SkillSpawnPosition.y;
             
-            _skillManager.TryUseSkill(worldPosition.Value);
+            _skillManager.TryUseSkill(aimPosition);
         }
 
         public void GrantExperience(int experience)

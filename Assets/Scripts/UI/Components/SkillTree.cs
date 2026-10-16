@@ -4,6 +4,7 @@ using Gameplay.Modifiers;
 using TMPro;
 using UI.Elements.Skill_Tree;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
@@ -20,6 +21,7 @@ namespace UI.Components
             public float NodeSize;
         }
 
+        [SerializeField] private GameObject _controllerCursor;
         [SerializeField] private TMP_Text _availablePoints;
         [SerializeField] private Button _applyButton;
         [SerializeField] private Button _cancelButton;
@@ -32,11 +34,20 @@ namespace UI.Components
         [SerializeField] private SkillNode _skillNodePrefab;
         [SerializeField] private NodeConnection _connectionPrefab;
         [SerializeField] private InputAction _closeAction;
+        [SerializeField] private InputAction _toggleAction;
+        [SerializeField] private InputAction _zoomAction;
+        [SerializeField] private InputAction _scrollAction;
+        [SerializeField] private InputAction _allocateAction;
         [SerializeField] private NodeParameters[] _nodeParameters;
 
         private List<SkillNode> _selectedNodes;
         private int _allocatedPoints;
         private int _totalSkillPoints;
+        private float _ctrlZoom;
+        private Vector2 _ctrlScroll;
+        private List<RaycastResult> _raycasts;
+        private PointerEventData _eventData;
+        
 
         public SkillNode HoveredNode
         {
@@ -45,13 +56,63 @@ namespace UI.Components
         }
 
         public int Points => _totalSkillPoints - (_allocatedPoints + _selectedNodes.Count);
+
+        public void ResetSkillTree()
+        {
+            _totalSkillPoints = 0;
+            _availablePoints.SetText(Points.ToString());
+            HoveredNode = null;
+            foreach (var skillNode in _rootNodes)
+            {
+                skillNode.ResetState();
+            }
+        }
         
         protected override void MenuAwake()
         {
+            _raycasts = new List<RaycastResult>();
+            _eventData = new PointerEventData(EventSystem.current);
+            _toggleAction.performed += _ =>
+            {
+                if (Visible)
+                {
+                    SetVisible(false);
+                }
+                else if (Points > 0)
+                {
+                    SetVisible(true);
+                }
+            };
+            _toggleAction.Enable();
             _closeAction.performed += _ =>
             {
-                CloseMenu();
+                SetVisible(false);
             };
+            _zoomAction.performed += ctx =>
+            {
+                _ctrlZoom = ctx.ReadValue<Vector2>().y;
+            };
+            _zoomAction.canceled += _ =>
+            {
+                _ctrlZoom = 0;
+            };
+            _scrollAction.performed += ctx =>
+            {
+                _ctrlScroll = ctx.ReadValue<Vector2>();
+            };
+            _scrollAction.canceled += _ =>
+            {
+                _ctrlScroll = Vector2.zero;
+            };
+            _allocateAction.performed += _ =>
+            {
+                if (HoveredNode && HoveredNode.State is NodeState.Unlocked or NodeState.Selected)
+                {
+                    _selectedNodes.Add(HoveredNode);
+                    AllocateNodes();
+                }
+            };
+            _allocateAction.Enable();
             _selectedNodes = new List<SkillNode>();
             _applyButton.onClick.AddListener(AllocateNodes);
             _cancelButton.onClick.AddListener(Cancel);
@@ -180,12 +241,41 @@ namespace UI.Components
             if (visible)
             {
                 _closeAction.Enable();
+                _scrollAction.Enable();
+                _zoomAction.Enable();
             }
             else
             {
                 _closeAction.Disable();
+                _scrollAction.Disable();
+                _zoomAction.Disable();
             }
             base.SetVisible(visible);
+        }
+
+        private void Update()
+        {
+            if (_ctrlScroll != Vector2.zero)
+            {
+                _controllerCursor.SetActive(true);
+                _scrollView.Scroll(_ctrlScroll * Time.unscaledDeltaTime);
+                var screenCenter = new Vector2(Screen.width / 2f, Screen.height / 2f);
+                _eventData.position = screenCenter;
+                EventSystem.current.RaycastAll(_eventData, _raycasts);
+                HoveredNode = null;
+                foreach (var raycastResult in _raycasts)
+                {
+                    if (raycastResult.gameObject.TryGetComponent(out SkillNode node))
+                    {
+                        HoveredNode = node;
+                    }
+                }
+            }
+
+            if (_ctrlZoom != 0)
+            {
+                _scrollView.Zoom(_zoomAction.ReadValue<Vector2>().y * Time.unscaledDeltaTime * 20);
+            }
         }
 
         public Action<Modifier> AddModifier { get; set; }

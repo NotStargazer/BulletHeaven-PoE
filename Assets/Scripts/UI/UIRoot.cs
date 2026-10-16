@@ -46,6 +46,7 @@ namespace UI
         {
             _levelManager.LoadLevel(LevelIndex.Level, () =>
             {
+                _skillTree.ResetSkillTree();
                 var player = LevelRoot.Instance.StartLevel(_sessionManager.GetCharacter(0));
                 player.UIRoot = this;
                 IEntity playerEntity = player;

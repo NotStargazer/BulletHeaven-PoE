@@ -45,6 +45,7 @@ namespace UI.Elements.Skill_Tree
         public SkillType NodeType => _nodeType;
 
         private NodeState _state;
+        public NodeState State => _state;
         public Action<NodeState> OnStateUpdated { get; set; }
 
         public SkillTree Tree
@@ -252,6 +253,18 @@ namespace UI.Elements.Skill_Tree
                 Name = LocalizationManager.GetModifierName("TreeModifier", _treeModifier),
                 Description = _modifier.GetDescription()
             };
+        }
+
+        public void ResetState()
+        {
+            SetState(NodeState.Locked);
+            foreach (var node in AdjacentNodes)
+            {
+                if (node.State != NodeState.Locked)
+                {
+                    node.ResetState();
+                }
+            }
         }
     }
 }

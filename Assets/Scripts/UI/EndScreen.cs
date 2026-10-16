@@ -31,7 +31,7 @@ namespace UI
                 {
                     SetVisible(true);
                     _animation.Play("DeathAnimation");
-                    _scoreStat.SetText(player.Experience.ToString());
+                    _scoreStat.SetText(Mathf.FloorToInt(player.Experience).ToString());
                     var seconds = Mathf.FloorToInt(Session.TimePassed % 60);
                     var minutes = Mathf.FloorToInt(Session.TimePassed / 60);
                     _timeStat.SetText($"{minutes:00}:{seconds:00}");

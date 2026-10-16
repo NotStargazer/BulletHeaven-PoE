@@ -7,12 +7,21 @@ namespace UI.Components
     public class ZoomableScrollRect : ScrollRect
     {
         private float _zoom;
-    
+
+        public void Zoom(float amount)
+        {
+            _zoom = Mathf.Clamp(_zoom + amount * scrollSensitivity, 1, 6);
+            viewport.localScale = Vector3.one * _zoom;
+        }
+        
+        public void Scroll(Vector2 ctrlScroll)
+        {
+            normalizedPosition += ctrlScroll / Mathf.Max(_zoom, 1);
+        }
+
         public override void OnScroll(PointerEventData data)
         {
-            _zoom += data.scrollDelta.y * scrollSensitivity;
-            _zoom = Mathf.Clamp(_zoom, 1, 6);
-            viewport.localScale = Vector3.one * _zoom;
+            Zoom(data.scrollDelta.y);
         }
         
         public override void OnInitializePotentialDrag(PointerEventData eventData)

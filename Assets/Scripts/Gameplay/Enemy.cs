@@ -63,6 +63,8 @@ namespace Gameplay
             _stateMachine.Update();
         }
 
+        private static readonly int COLOR = Shader.PropertyToID("_Color");
+        
         public void Spawn(Player player, Vector3 position)
         {
             Player = player;
@@ -70,6 +72,7 @@ namespace Gameplay
             gameObject.SetActive(true);
             _hitPool.Restore();
             _skillManager.ResetCooldowns();
+            Renderer.SetProperty(COLOR, Color.white);
         }
 
         public void Kill()

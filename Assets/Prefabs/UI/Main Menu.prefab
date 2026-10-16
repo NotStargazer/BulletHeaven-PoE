@@ -1235,6 +1235,16 @@ MonoBehaviour:
   _skillDescription: {fileID: 897574917135985017}
   _skillTransform: {fileID: 6624208605279011473}
   _quitButton: {fileID: 7463930040153597756}
+  _scrollMenu:
+    m_Name: Scroll Menu
+    m_Type: 0
+    m_ExpectedControlType: 
+    m_Id: 53c93d48-9f48-49c9-b30b-c3bb1bea6721
+    m_Processors: 
+    m_Interactions: 
+    m_SingletonActionBindings: []
+    m_Flags: 0
+    m_Priority: 0
   _skills:
   - Sprite: {fileID: 1170301028611263252, guid: 134f1d50b56065c4b97a06c7b495ca05, type: 3}
     Skill: FireBall
